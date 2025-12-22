@@ -11,7 +11,7 @@
 	subclass_stats = list(
 		STATKEY_STR = 1,
 		STATKEY_WIL = 2,
-		STATKEY_CON = 1,
+		STATKEY_CON = 2,
 		STATKEY_SPD = 2,
 	)
 	subclass_skills = list(
@@ -77,7 +77,6 @@
 				H.change_stat(STATKEY_SPD, -3)
 				H.change_stat(STATKEY_PER, -1)
 				H.change_stat(STATKEY_INT, -1)
-				H.change_stat(STATKEY_CON, 1)
 				C.max_devotion = 100
 				C.passive_devotion_gain = CLERIC_REGEN_WEAK
 			if("Katar")
