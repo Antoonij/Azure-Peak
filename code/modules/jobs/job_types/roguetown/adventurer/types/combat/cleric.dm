@@ -9,7 +9,7 @@
 	class_select_category = CLASS_CAT_CLERIC
 	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN)
 	subclass_stats = list(
-		STATKEY_STR = 2,
+		STATKEY_STR = 1,
 		STATKEY_WIL = 2,
 		STATKEY_CON = 1,
 		STATKEY_SPD = 2,
