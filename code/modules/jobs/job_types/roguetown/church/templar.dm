@@ -147,7 +147,11 @@
 		if("Discipline - Unarmed")
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 5, TRUE)
 			gloves = /obj/item/clothing/gloves/roguetown/bandages/pugilist
-			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_NO_WEAPONS, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_NOGUNS, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
+			H.change_stat(STATKEY_SPD, -3)
+			H.change_stat(STATKEY_INT, -1)
 		if("Katar")
 			H.put_in_hands(new /obj/item/rogueweapon/katar(H), TRUE)
 			gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted

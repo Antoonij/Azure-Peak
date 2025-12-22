@@ -7,12 +7,12 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/cleric
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	class_select_category = CLASS_CAT_CLERIC
-	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_CIVILIZEDBARBARIAN)
+	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_WIL = 2,
-		STATKEY_CON = 2,
-		STATKEY_SPD = 1, //Base of +9, over the standard +7. Special clemency given to the Monk, as their playstyle is exceedingly lethal - light-to-no armor, while specializing in a dangerous melee style.
+		STATKEY_CON = 1,
+		STATKEY_SPD = 2,
 	)
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
@@ -69,11 +69,20 @@
 		switch(weapon_choice)
 			if("Discipline - Unarmed")
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 4, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 4, TRUE)
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
+				ADD_TRAIT(H, TRAIT_NO_WEAPONS, TRAIT_GENERIC)
+				ADD_TRAIT(H, TRAIT_NOGUNS, TRAIT_GENERIC)
+				ADD_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
+				H.change_stat(STATKEY_SPD, -3)
+				H.change_stat(STATKEY_PER, -1)
+				H.change_stat(STATKEY_INT, -1)
+				H.change_stat(STATKEY_CON, 1)
+				C.max_devotion = 100
+				C.passive_devotion_gain = CLERIC_REGEN_WEAK
 			if("Katar")
 				beltl = /obj/item/rogueweapon/katar/bronze
 				gloves = /obj/item/clothing/gloves/roguetown/bandages
+				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 			if("Knuckledusters")
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
 					beltl = /obj/item/rogueweapon/knuckles/psydon/old
@@ -81,11 +90,11 @@
 				else
 					beltl = /obj/item/rogueweapon/knuckles/bronzeknuckles
 					gloves = /obj/item/clothing/gloves/roguetown/bandages
+				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 			if("Quarterstaff")
 				H.adjust_skillrank_up_to(/datum/skill/combat/staves, 3, TRUE) //On par with the new Quarterstaff-centric virtue. A monk can take said-virtue if they want the best of both worlds.
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 2, TRUE) //Balance idea's pretty simple. A dedicated staff user can use polearms too - as both weapon types are fundamentally similar, but it'd always be a skill level lower than the staff.
 				H.change_stat(STATKEY_PER, 1) //Compliments the quarterstaff's precision-based mechanics.
-				REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 				r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/iron
 				l_hand = /obj/item/rogueweapon/scabbard/gwstrap
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy

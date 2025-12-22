@@ -255,6 +255,7 @@
 //TA TRAITS
 #define TRAIT_CLERGY "Decem Dii Vult"
 #define TRAIT_FIREARMS_MARKSMAN "Expert Gunslinger" // They keep saying firearms are too easy to level up. Unlocks Master and Legendary Firearms.
+#define TRAIT_NO_WEAPONS "No weapons"
 
 // If you want description to show up you gotta have the trait name defined BEFORE this lol
 

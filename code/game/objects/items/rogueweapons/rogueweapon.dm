@@ -49,6 +49,16 @@
 	if(ispath(special))
 		special = new special()
 
+/obj/item/rogueweapon/pre_attack(atom/atom, mob/living/user, params)
+	. = ..()
+	
+	if(.)
+		return .
+
+	if(isliving(atom) && HAS_TRAIT(user, TRAIT_NO_WEAPONS))
+		to_chat(user, span_notice("I can't use weapons to attack someone."))
+		return TRUE
+
 /obj/item/rogueweapon/ComponentInitialize()
 	if(is_silver) // By default, silver weapons are supposed to be blesseable.
 		AddComponent(\
