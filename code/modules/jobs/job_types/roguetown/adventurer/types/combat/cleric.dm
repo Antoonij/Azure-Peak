@@ -69,6 +69,7 @@
 		switch(weapon_choice)
 			if("Discipline - Unarmed")
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 4, TRUE)
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 				ADD_TRAIT(H, TRAIT_NO_WEAPONS, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_NOGUNS, TRAIT_GENERIC)
