@@ -243,6 +243,10 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	if(mortal && HAS_TRAIT(affected, TRAIT_CRITICAL_WEAKNESS))
 		affected.death()
 
+	if(HAS_TRAIT(affected, TRAIT_SUPERIOR_BLOODCLOTTING))
+		clotting_threshold = 0.01
+		clotting_rate += 0.03
+
 /// Removes this wound from a given, simpler than adding to a bodypart - No extra effects
 /datum/wound/proc/remove_from_mob()
 	if(!owner)
@@ -422,11 +426,15 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 				playsound(owner, 'sound/combat/wound_tear.ogg', 100, TRUE)
 				owner.visible_message(span_crit("The wound gushes open from [bodypart_owner.owner]'s <b>[bodyzone2readablezone(bodypart_to_zone(bodypart_owner))]</b>, nicking an artery!"))
 				is_maxed = TRUE
-			clotting_rate = CLOT_RATE_ARTERY
-			clotting_threshold = CLOT_THRESHOLD_ARTERY
-	if(!is_maxed)
+
+			if(!HAS_TRAIT(owner, TRAIT_SUPERIOR_BLOODCLOTTING))
+				clotting_rate = CLOT_RATE_ARTERY
+				clotting_threshold = CLOT_THRESHOLD_ARTERY
+
+	if(!is_maxed && !HAS_TRAIT(owner, TRAIT_SUPERIOR_BLOODCLOTTING))
 		clotting_rate = max(0.01, (clotting_rate - CLOT_DECREASE_PER_HIT))
 		clotting_threshold += CLOT_THRESHOLD_INCREASE_PER_HIT
+
 	..()
 
 #undef CLOT_THRESHOLD_INCREASE_PER_HIT
