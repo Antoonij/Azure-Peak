@@ -22,7 +22,7 @@
     return COMPONENT_OVERRIDE_SHOVE
 
 /datum/element/shove_wrestling/proc/shove(mob/living/carbon/human/source, mob/living/carbon/human/target)
-    target.stamina_add(source.get_skill_level(/datum/skill/combat/wrestling))
+    target.stamina_add(clamp(source.get_skill_level(/datum/skill/combat/wrestling) + (source.STASTR - target.STACON), 0, 8))
 
     target.visible_message(span_warning("[source] tries to shove [target] to the ground!"), \
 		span_danger("[source] tries to shove me to the ground!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE)
@@ -31,3 +31,5 @@
         return
     
     target.Knockdown(0.5 SECONDS)
+    target.visible_message(span_warning("[source] shoves [target] to the ground!"), \
+		span_danger("[source] shoved me to the ground!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE)
