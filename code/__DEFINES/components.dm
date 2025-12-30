@@ -406,8 +406,13 @@
 #define COMSIG_HUMAN_LIFE "human_life"
 
 // /datum/species signals
-#define COMSIG_SPECIES_GAIN "species_gain"						//from datum/species/on_species_gain(): (datum/species/new_species, datum/species/old_species)
-#define COMSIG_SPECIES_LOSS "species_loss"						//from datum/species/on_species_loss(): (datum/species/lost_species)
+/// from datum/species/on_species_gain(): (datum/species/new_species, datum/species/old_species)
+#define COMSIG_SPECIES_GAIN "species_gain"
+/// from datum/species/on_species_loss(): (datum/species/lost_species)
+#define COMSIG_SPECIES_LOSS "species_loss"
+/// /datum/species/disarm (mob/living/carbon/human/target)
+#define COMSIG_SPECIES_EARLY_SHOVE "species_early_shove"
+#define COMPONENT_OVERRIDE_SHOVE (1<<0)
 
 /*******Component Specific Signals*******/
 //Infestation miracle

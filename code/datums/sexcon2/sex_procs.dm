@@ -118,6 +118,7 @@
 /mob/living/carbon/human/Initialize()
 	. = ..()
 	AddComponent(/datum/component/arousal)
+	AddElement(/datum/element/shove_wrestling)
 
 /mob/living/proc/return_character_information()
 	var/list/data = list()

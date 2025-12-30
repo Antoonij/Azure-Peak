@@ -299,7 +299,7 @@
 				removeembeddeditem(user)
 			else
 				user.stop_pulling()
-		if(/datum/intent/grab/shove)
+		if(/datum/intent/grab/pin)
 			if(user.buckled)
 				to_chat(user, span_warning("I can't do this while buckled!"))
 				return FALSE
@@ -339,19 +339,6 @@
 						pincount += 2
 						M.visible_message(span_danger("[user] pins [M] to the ground!"), \
 							span_userdanger("[user] pins me to the ground!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE)
-			else
-				if(user.badluck(10))
-					badluckmessage(user)
-					user.stop_pulling()
-					return FALSE
-				user.stamina_add(rand(5,15))
-				if(M.compliance || prob(clamp((((4 + (((user.STASTR - M.STASTR)/2) + skill_diff)) * 10 + rand(-5, 5)) * combat_modifier), 5, 95)))
-					M.visible_message(span_danger("[user] shoves [M] to the ground!"), \
-									span_userdanger("[user] shoves me to the ground!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE)
-					M.Knockdown(max(10 + (skill_diff * 2), 1))
-				else
-					M.visible_message(span_warning("[user] tries to shove [M]!"), \
-									span_danger("[user] tries to shove me!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE)
 		if(/datum/intent/grab/disarm)
 			if(user.badluck(10))
 				badluckmessage(user)
@@ -649,8 +636,8 @@
 	desc = ""
 	icon_state = "inhostage"
 
-/datum/intent/grab/shove
-	name = "shove"
+/datum/intent/grab/pin
+	name = "pin"
 	desc = ""
 	icon_state = "intackle"
 

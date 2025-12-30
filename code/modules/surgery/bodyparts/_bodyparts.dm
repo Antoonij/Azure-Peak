@@ -167,8 +167,8 @@
 
 /obj/item/bodypart/chest/grabbedintents(mob/living/user, precise)
 	if(precise == BODY_ZONE_PRECISE_GROIN)
-		return list(/datum/intent/grab/move, /datum/intent/grab/twist, /datum/intent/grab/shove)
-	return list(/datum/intent/grab/move, /datum/intent/grab/shove)
+		return list(/datum/intent/grab/move, /datum/intent/grab/twist, /datum/intent/grab/pin)
+	return list(/datum/intent/grab/move, /datum/intent/grab/pin)
 
 /obj/item/bodypart/Destroy()
 	if(owner)
