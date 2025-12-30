@@ -16,7 +16,7 @@
     SIGNAL_HANDLER
 
     if(source.pulling != target || !(target.mobility_flags & MOBILITY_STAND))
-        return
+        return NONE
 
     INVOKE_ASYNC(src, PROC_REF(shove), source, target)
     return COMPONENT_OVERRIDE_SHOVE

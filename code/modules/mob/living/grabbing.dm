@@ -161,7 +161,7 @@
 		var/signal_result = SEND_SIGNAL(user, COMSIG_LIVING_GRAB_SELF_ATTEMPT, user, M, sublimb_grabbed, null)
 		if(signal_result & COMPONENT_CANCEL_GRAB_ATTACK)
 			return FALSE
-	user.changeNext_move(CLICK_CD_TRACKING)
+	user.changeNext_move(CLICK_CD_MELEE * 2 - user.STASPD)
 
 	var/skill_diff = 0
 	var/combat_modifier = 1
