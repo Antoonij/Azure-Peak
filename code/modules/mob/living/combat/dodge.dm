@@ -119,6 +119,7 @@
 		UH = user
 		I = UH.used_intent.masteritem
 	var/prob2defend = U.defprob
+	SEND_SIGNAL(src, COMSIG_MOB_EARLY_DO_DODGE, U, &prob2defend)
 	if(L.stamina >= L.max_stamina)
 		return FALSE
 	if(L)

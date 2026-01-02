@@ -577,3 +577,24 @@
 	to_chat(owner, span_warning("the strange power fades"))
 
 #undef ABYSSAL_FILTER
+
+/obj/effect/proc_holder/spell/self/slippery_skin
+	name = "Slippery skin"
+	desc = "Increases your dodge chance based on your holy skill level, but makes you unable to run."
+	overlay_state = "abyssal_infusion"
+	sound = 'sound/foley/bubb (1).ogg'
+	invocation_type = "none"
+	recharge_time = 10 SECONDS
+	miracle = TRUE
+	devotion_cost = 30
+
+/obj/effect/proc_holder/spell/self/slippery_skin/cast(list/targets, mob/living/user = usr)
+	. = ..()
+
+	if(user.has_status_effect(/datum/status_effect/slippery_skin))
+		user.remove_status_effect(/datum/status_effect/slippery_skin)
+		return TRUE
+
+	user.apply_status_effect(/datum/status_effect/slippery_skin)
+
+	return TRUE

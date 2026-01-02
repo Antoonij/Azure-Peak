@@ -35,10 +35,15 @@
 	if (patron.type == /datum/patron/inhumen/zizo || patron.type == /datum/patron/divine/necra)
 		ADD_TRAIT(holder, TRAIT_DEATHSIGHT, "devotion")
 
+	patron.on_devotion_gain(holder)
+
 /datum/devotion/Destroy(force)
 	. = ..()
 	if (patron.type == /datum/patron/inhumen/zizo || patron.type == /datum/patron/divine/necra)
 		REMOVE_TRAIT(holder, TRAIT_DEATHSIGHT, "devotion")
+	
+	patron.on_devotion_loss(holder)
+
 	holder?.hud_used?.shutdown_bloodpool()
 	holder?.devotion = null
 	holder = null

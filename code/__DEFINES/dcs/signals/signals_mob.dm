@@ -42,3 +42,5 @@
 
 /// From /obj/item/organ/proc/Remove() (mob/living/carbon/lost_organ, obj/item/organ/removed, special, drop_if_replaced)
 #define COMSIG_MOB_ORGAN_REMOVED "mob_organ_removed"
+/// From /mob/do_dodge (mob/living/attacker, &prob2defend)
+#define COMSIG_MOB_EARLY_DO_DODGE "mob_early_dodge"

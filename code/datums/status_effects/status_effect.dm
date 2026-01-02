@@ -53,8 +53,10 @@
 
 /datum/status_effect/proc/on_creation(mob/living/new_owner, ...)
 	testing("oncreation")
+
 	if(new_owner)
 		owner = new_owner
+	
 	if(owner)
 		// ass list
 		LAZYINITLIST(owner.status_effects)
@@ -79,17 +81,22 @@
 
 	if(duration != -1)
 		duration = world.time + duration
+	
 	tick_interval = world.time + tick_interval
+
 	if(alert_type)
 		var/atom/movable/screen/alert/status_effect/A = owner.throw_alert(id, alert_type)
 		A?.attached_effect = src //so the alert can reference us, if it needs to
 		linked_alert = A //so we can reference the alert, if we need to
+	
+	if(duration > world.time || tick_interval > world.time) // don't process if we don't care
+		START_PROCESSING(SSfastprocess, src)
 
-	START_PROCESSING(SSfastprocess, src)
 	return TRUE
 
 /datum/status_effect/Destroy()
 	STOP_PROCESSING(SSfastprocess, src)
+	
 	if(owner)
 		linked_alert = null
 		owner.clear_alert(id)

@@ -52,6 +52,12 @@ GLOBAL_LIST_EMPTY(prayers)
 	for(var/trait in mob_traits)
 		REMOVE_TRAIT(pious, trait, "[type]")
 
+/datum/patron/proc/on_devotion_gain(mob/living/user)
+	return
+
+/datum/patron/proc/on_devotion_loss(mob/living/user)
+	return
+
 /datum/patron/proc/post_equip(mob/living/pious)
 	return
 

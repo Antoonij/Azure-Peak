@@ -1955,8 +1955,43 @@
 
 		mob.apply_status_effect(/datum/status_effect/debuff/joybringer_druqks)
 
-#undef JOYBRINGER_FILTER
+#define SLIPPERY_SKIN_FILTER "slippery_skin_filter"
 
+/datum/status_effect/slippery_skin
+	id = "slippery_skin"
+	var/outline_colour = "#0097fc"
+	duration = -1
+	tick_interval = -1
+	alert_type = null
+	effectedstats = list(STATKEY_PER = -2)
+
+/datum/status_effect/slippery_skin/on_apply()
+	. = ..()
+
+	var/filter = owner.get_filter(SLIPPERY_SKIN_FILTER)
+	if(!filter)
+		owner.add_filter(SLIPPERY_SKIN_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 2))
+
+	RegisterSignal(owner, COMSIG_MOB_EARLY_DO_DODGE, PROC_REF(do_dodge))
+
+	ADD_TRAIT(owner, TRAIT_NORUN, src)
+
+/datum/status_effect/slippery_skin/on_remove()
+	. = ..()
+
+	owner.remove_filter(SLIPPERY_SKIN_FILTER)
+
+	UnregisterSignal(owner, COMSIG_MOB_EARLY_DO_DODGE)
+
+	REMOVE_TRAIT(owner, TRAIT_NORUN, src)
+
+/datum/status_effect/slippery_skin/proc/do_dodge(mob/living/user, mob/living/attacker, prob2defend)
+	SIGNAL_HANDLER
+
+	*prob2defend += (user.get_skill_level(/datum/skill/magic/holy) * 10)
+
+#undef SLIPPERY_SKIN_FILTER
+#undef JOYBRINGER_FILTER
 #undef MIRACLE_BLOODHEAL_FILTER
 #undef PSYDON_HEALING_FILTER
 #undef PSYDON_REVIVED_FILTER

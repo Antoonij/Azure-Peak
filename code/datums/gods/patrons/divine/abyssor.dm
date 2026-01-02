@@ -9,6 +9,7 @@
 					/obj/effect/proc_holder/spell/self/abyssor_wind				= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/abyssor_bends			= CLERIC_T1,
+					/obj/effect/proc_holder/spell/self/slippery_skin			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/abyssor_undertow		= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/abyssheal				= CLERIC_T2,
@@ -24,6 +25,12 @@
 	)
 
 	storyteller = /datum/storyteller/abyssor
+
+/datum/patron/divine/abyssor/on_devotion_gain(mob/living/user)
+	user.AddElement(/datum/element/salt_blood)
+
+/datum/patron/divine/abyssor/on_devotion_loss(mob/living/user)
+	user.RemoveElement(/datum/element/salt_blood)
 
 // Near water, cross, or within the church.
 /datum/patron/divine/abyssor/can_pray(mob/living/follower)
