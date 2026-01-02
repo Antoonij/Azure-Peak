@@ -345,7 +345,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_CRACKHEAD = span_love("I can use drugs as much as I want!"),
 	TRAIT_COMMIE = span_bloody("I can recognize other free men, and they can recognize me too."),
 	TRAIT_KNOWNCRIMINAL = span_bloody("I am a branded criminal. Nothing can change this."),
-	TRAIT_NORUN = span_warning("My body has atrophied in my state of decay; my leg joints just don't have the strength or durability for running anymore"),
+	TRAIT_NORUN = span_warning("My legs can't carry me fast enough to run."),
 	TRAIT_GOODLOVER = span_love("It's a lucky thing to share my bed."),
 	TRAIT_LIMPDICK = span_crit("My soldier refuses to rise to attention! Curses!"),
 	TRAIT_SEEDKNOW = span_info("I know which seeds grow which crops."),

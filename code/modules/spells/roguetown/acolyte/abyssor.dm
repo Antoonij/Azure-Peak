@@ -580,8 +580,7 @@
 
 /obj/effect/proc_holder/spell/self/slippery_skin
 	name = "Slippery skin"
-	desc = "Increases your dodge chance based on your holy skill level, but makes you unable to run."
-	overlay_state = "abyssal_infusion"
+	desc = "Boosts your dodge chance depending on your Holy skill level, but stops you from running."
 	sound = 'sound/foley/bubb (1).ogg'
 	invocation_type = "none"
 	recharge_time = 10 SECONDS

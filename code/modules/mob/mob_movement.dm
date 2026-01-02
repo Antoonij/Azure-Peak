@@ -563,7 +563,7 @@
 		if(!HAS_TRAIT(user, TRAIT_NORUN))
 			m_intent = MOVE_INTENT_RUN
 		else
-			to_chat(user, span_warning("My joints have decayed too much for running!"))
+			to_chat(user, span_warning("I can't run!"))
 	if(hud_used && hud_used.static_inventory)
 		for(var/atom/movable/screen/mov_intent/selector in hud_used.static_inventory)
 			selector.update_icon()

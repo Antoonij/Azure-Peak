@@ -17,6 +17,6 @@
 
     var/level = source.get_skill_level(/datum/skill/magic/holy)
     var/reduction_percent = level * 0.05
-    var/multiplier = 1 - reduction_percent
+    var/multiplier = max(0, 1 - reduction_percent)
 
     *amt *= multiplier
