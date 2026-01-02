@@ -1963,7 +1963,7 @@
 	duration = -1
 	tick_interval = -1
 	alert_type = null
-	effectedstats = list(STATKEY_PER = -2)
+	effectedstats = list(STATKEY_PER = -1)
 
 /datum/status_effect/slippery_skin/on_apply()
 	. = ..()
