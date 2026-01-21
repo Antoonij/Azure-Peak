@@ -418,17 +418,16 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	return TRUE
 
 /obj/effect/proc_holder/spell/proc/calculate_recharge_time()
-    var/final_time = initial(recharge_time)
+	var/final_time = initial(recharge_time)
 
-    if(ranged_ability_user && !is_cdr_exempt)
-        if(ranged_ability_user.STAINT > SPELL_SCALING_THRESHOLD)
-            var/diff = min(ranged_ability_user.STAINT, SPELL_POSITIVE_SCALING_THRESHOLD) - SPELL_SCALING_THRESHOLD
-            final_time -= (initial(recharge_time) * diff * COOLDOWN_REDUCTION_PER_INT)
-        else if(ranged_ability_user.STAINT < SPELL_SCALING_THRESHOLD)
-            var/diff2 = SPELL_SCALING_THRESHOLD - ranged_ability_user.STAINT
-            final_time += (initial(recharge_time) * (diff2 * COOLDOWN_REDUCTION_PER_INT))
+	if(ranged_ability_user && !is_cdr_exempt)
+		var/stain_diff = ranged_ability_user.STAINT - SPELL_SCALING_THRESHOLD
+		if(stain_diff > 0)
+			stain_diff = min(stain_diff, SPELL_POSITIVE_SCALING_THRESHOLD - SPELL_SCALING_THRESHOLD)
+		
+		final_time -= initial(recharge_time) * stain_diff * COOLDOWN_REDUCTION_PER_INT
 
-    return max(cooldown_min, round(final_time))
+	return max(cooldown_min, round(final_time))
 
 /obj/effect/proc_holder/spell/proc/start_recharge()
     var/final_time = calculate_recharge_time()
