@@ -276,7 +276,7 @@
 	return ..()
 
 /mob/living/simple_animal/hostile/boss/lich/Destroy()
-	for(var/datum/timedevent/timer in active_timers)
+	for(var/datum/timedevent/timer in _active_timers)
 		qdel(timer)
 	return ..() 
 
