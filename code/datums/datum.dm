@@ -52,6 +52,7 @@
 	*/
 	var/list/cooldowns
 	var/abstract_type = /datum
+	var/list/_active_timers
 
 #ifdef TESTING
 	var/running_find_references
