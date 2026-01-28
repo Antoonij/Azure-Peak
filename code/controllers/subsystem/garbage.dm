@@ -198,10 +198,12 @@ SUBSYSTEM_DEF(garbage)
 				continue
 				#endif
 				I.failures++
+			/*
 			if (GC_QUEUE_HARDDELETE)
 				HardDelete(D)
 				if (MC_TICK_CHECK)
 					break
+			*/
 				continue
 
 		Queue(D, level+1)
@@ -215,9 +217,11 @@ SUBSYSTEM_DEF(garbage)
 /datum/controller/subsystem/garbage/proc/Queue(datum/D, level = GC_QUEUE_CHECK)
 	if (isnull(D))
 		return
+	/*
 	if (level > GC_QUEUE_COUNT)
 		HardDelete(D)
 		return
+	*/
 	var/gctime = world.time
 	var/refid = "\ref[D]"
 
@@ -323,8 +327,10 @@ SUBSYSTEM_DEF(garbage)
 				SSgarbage.Queue(D)
 			if (QDEL_HINT_HARDDEL)		//qdel should assume this object won't gc, and queue a hard delete
 				SSgarbage.Queue(D, GC_QUEUE_HARDDELETE)
+			/*
 			if (QDEL_HINT_HARDDEL_NOW)	//qdel should assume this object won't gc, and hard del it post haste.
 				SSgarbage.HardDelete(D)
+			*/
 			#ifdef LEGACY_REFERENCE_TRACKING
 			if (QDEL_HINT_FINDREFERENCE) //qdel will, if LEGACY_REFERENCE_TRACKING is enabled, display all references to this object, then queue the object for deletion.
 				SSgarbage.Queue(D)
