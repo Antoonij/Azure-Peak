@@ -198,8 +198,9 @@ SUBSYSTEM_DEF(garbage)
 				continue
 				#endif
 				I.failures++
-			/*
+				
 			if (GC_QUEUE_HARDDELETE)
+			/*
 				HardDelete(D)
 				if (MC_TICK_CHECK)
 					break
@@ -217,11 +218,10 @@ SUBSYSTEM_DEF(garbage)
 /datum/controller/subsystem/garbage/proc/Queue(datum/D, level = GC_QUEUE_CHECK)
 	if (isnull(D))
 		return
-	/*
+
 	if (level > GC_QUEUE_COUNT)
-		HardDelete(D)
 		return
-	*/
+	
 	var/gctime = world.time
 	var/refid = "\ref[D]"
 
