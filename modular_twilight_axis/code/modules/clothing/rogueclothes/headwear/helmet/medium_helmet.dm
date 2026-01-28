@@ -37,14 +37,14 @@
 	body_parts_covered = HEAD|HAIR|EARS
 
 /obj/item/clothing/head/roguetown/helmet/raneshi_jarhelmet
-	name = "Raneshi jar helmet"
+	name = "raneshi jar helmet"
 	desc = "a jar-shaped helmet used by Empire light warriors."
 	icon = 'modular_twilight_axis/icons/roguetown/clothing/head.dmi'
 	mob_overlay_icon = 'modular_twilight_axis/icons/roguetown/clothing/onmob/32х48/helmets.dmi'
 	icon_state = "jar_helmet"
 	item_state = "jar_helmet"
 	smeltresult = /obj/item/ingot/steel
-	body_parts_covered = HEAD|EARS|HAIR|NOSE
+	body_parts_covered = HEAD|EARS|HAIR|NOSE|EYES
 	max_integrity = ARMOR_INT_HELMET_STEEL + 20 //В стандартном шлеме юзается ARMOR_INT_HELMET_STEEL, дающий 300 очков ХП, но поскольку тут крафт 1 сталь 1 бронза, то 20 интегрити сверху так же вряд-ли сильно повлияют на баланс.
 
 /obj/item/clothing/head/roguetown/helmet/raneshi_jarhelmet/attackby(obj/item/W, mob/living/user, params)

@@ -74,6 +74,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/gender = MALE					//gender of character (well duh) (LETHALSTONE EDIT: this no longer references anything but whether the masculine or feminine model is used)
 	var/pronouns = HE_HIM				// LETHALSTONE EDIT: character's pronouns (well duh)
 	var/voice_type = VOICE_TYPE_MASC	// LETHALSTONE EDIT: the type of soundpack the mob should use
+	var/voice_type_override = FALSE
 	var/datum/statpack/statpack	= new /datum/statpack/wildcard/fated // LETHALSTONE EDIT: the statpack we're giving our char instead of racial bonuses
 	var/datum/virtue/virtue = new /datum/virtue/none // LETHALSTONE EDIT: the virtue we get for not picking a statpack
 	var/datum/virtue/virtuetwo = new /datum/virtue/none
@@ -465,7 +466,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				dat += "<b>Taur Color:</b><span style='border: 1px solid #161616; background-color: #[taur_color];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=taur_color;task=input'>Change</a><BR>"
 
 			// LETHALSTONE EDIT BEGIN: add voice type prefs
-			dat += "<b>Voice Type</b>: <a href='?_src_=prefs;preference=voicetype;task=input'>[voice_type]</a><BR>"
+			dat += "<b>Voice Type</b>: <a href='?_src_=prefs;preference=voicetype;task=input'>[voice_type]</a> <b>Override:</b><a href='?_src_=prefs;preference=voicetype_override;task=input'>[voice_type_override ? "Yes" : "No"]</a><BR>"
 			// LETHALSTONE EDIT END
 
 			dat += "<b>Age:</b> <a href='?_src_=prefs;preference=age;task=input'>[age]</a><BR>"
@@ -893,7 +894,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	popup.open(FALSE)
 	onclose(user, "capturekeypress", src)
 
-/datum/preferences/proc/SetChoices(mob/user, limit = 14, list/splitJobs = list("Court Magician", "Knight Captain", "Bishop", "Merchant", "Archivist", "Towner", "Grenzelhoft Mercenary", "Beggar", "Prisoner", "Goblin King"), widthPerColumn = 295, height = 620) //295 620
+/datum/preferences/proc/SetChoices(mob/user, limit = 14, list/splitJobs = list("Court Magician", "Bishop", "Merchant", "Archivist", "Towner", "Grenzelhoft Mercenary", "Beggar", "Prisoner", "Goblin King"), widthPerColumn = 295, height = 620) //295 620
 	if(!SSjob)
 		return
 
@@ -1637,28 +1638,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						else
 							to_chat(user, "<font color='red'>Invalid name. Your name should be at least 2 and at most [MAX_NAME_LEN] characters long. It may only contain the characters A-Z, a-z, -, ', . and ,.</font>")
 
-				if("subclassoutfit")
-					var/list/choices = list("None")
-					var/datum/job/highest_pref
-					for(var/job in job_preferences)
-						if(job_preferences[job] > highest_pref)
-							highest_pref = SSjob.GetJob(job)
-					if(isnull(highest_pref))
-						to_chat(user, "<b>I don't have a Class set to High!</b>")
-					if(length(highest_pref.job_subclasses))
-						for(var/adv in highest_pref.job_subclasses)
-							var/datum/advclass/advpath = adv
-							var/datum/advclass/advref = SSrole_class_handler.get_advclass_by_name(initial(advpath.name))
-							choices[advref.name] = advref
-					if(length(choices))
-						var/new_choice = input(user, "Choose an outfit preview:", "Outfit Preview")  as anything in choices|null
-						if(new_choice && new_choice != "None")
-							preview_subclass = choices[new_choice]
-							update_preview_icon()
-						else
-							preview_subclass = null
-							update_preview_icon(jobOnly = TRUE)
-
 //				if("age")
 //					var/new_age = input(user, "Choose your character's age:\n([AGE_MIN]-[AGE_MAX])", "Years Dead") as num|null
 //					if(new_age)
@@ -1726,6 +1705,10 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					if(voicetype_input)
 						voice_type = voicetype_input
 						to_chat(user, "<font color='red'>Your character will now vocalize with a [lowertext(voice_type)] affect.</font>")
+
+				if ("voicetype_override")
+					voice_type_override = !voice_type_override
+					to_chat(user, span_notice("Your character's voice type will [voice_type_override ? "" : "NOT"] override any unique class / race voice packs."))
 
 				if("taur_type")
 					var/list/species_taur_list = pref_species.get_taur_list()
@@ -1969,7 +1952,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						rumour = null
 						ShowChoices(user)
 						return
-					if(length(new_rumour) > 400)
+					if(length(new_rumour) > 800)
 						to_chat(user, span_warning("Rumours cannot exceed 400 characters."))
 						ShowChoices(user)
 						return
@@ -1986,7 +1969,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						noble_gossip = null
 						ShowChoices(user)
 						return
-					if(length(new_gossip) > 400)
+					if(length(new_gossip) > 800)
 						to_chat(user, span_notice("Noble gossip cannot exceed 400 characters."))
 						ShowChoices(user)
 						return
