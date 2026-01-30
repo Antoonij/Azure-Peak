@@ -106,22 +106,7 @@ SUBSYSTEM_DEF(garbage)
 	log_qdel(dellog.Join("\n"))
 
 /datum/controller/subsystem/garbage/fire()
-	//the fact that this resets its processing each fire (rather then resume where it left off) is intentional.
-	var/queue = GC_QUEUE_CHECK
-
-	while (state == SS_RUNNING)
-		switch (queue)
-			if (GC_QUEUE_CHECK)
-				HandleQueue(GC_QUEUE_CHECK)
-				queue = GC_QUEUE_CHECK+1
-			if (GC_QUEUE_HARDDELETE)
-				HandleQueue(GC_QUEUE_HARDDELETE)
-				if (state == SS_PAUSED) //make us wait again before the next run.
-					state = SS_RUNNING
-				break
-
-
-
+	HandleQueue(GC_QUEUE_CHECK)
 
 /datum/controller/subsystem/garbage/proc/HandleQueue(level = GC_QUEUE_CHECK)
 	if (level == GC_QUEUE_CHECK)
@@ -198,16 +183,16 @@ SUBSYSTEM_DEF(garbage)
 				continue
 				#endif
 				I.failures++
-				
-			if (GC_QUEUE_HARDDELETE)
 			/*
+			if (GC_QUEUE_HARDDELETE)
 				HardDelete(D)
 				if (MC_TICK_CHECK)
 					break
-			*/
+			
 				continue
+			*/
 
-		Queue(D, level+1)
+		// Queue(D, level+1)
 
 		if (MC_TICK_CHECK)
 			break
@@ -325,9 +310,10 @@ SUBSYSTEM_DEF(garbage)
 				I.no_respect_force++
 
 				SSgarbage.Queue(D)
+			/*
 			if (QDEL_HINT_HARDDEL)		//qdel should assume this object won't gc, and queue a hard delete
 				SSgarbage.Queue(D, GC_QUEUE_HARDDELETE)
-			/*
+
 			if (QDEL_HINT_HARDDEL_NOW)	//qdel should assume this object won't gc, and hard del it post haste.
 				SSgarbage.HardDelete(D)
 			*/
