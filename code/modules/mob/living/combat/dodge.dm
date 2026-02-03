@@ -153,6 +153,7 @@
 
 		if(HAS_TRAIT(L, TRAIT_GUIDANCE))
 			prob2defend += 20
+			drained -= 5
 
 		if(HAS_TRAIT(U, TRAIT_GUIDANCE))
 			prob2defend -= 20
@@ -176,10 +177,10 @@
 				prob2defend -= 10
 				ignore_DE_bonus = TRUE
 
-		if(I)
+		if(I)	//Skilldiff applies extra stamloss, tentative
 			drained += (UH.get_skill_level(I.associated_skill) - H.get_skill_level(I.associated_skill))
 
-		if(U.STASPD > H.STASPD)
+		if(U.STASPD > H.STASPD)	//Speed diff applies extra stamloss, tentative
 			drained += (U.STASPD - H.STASPD)
 		
 		if(istype(U.rmb_intent, /datum/rmb_intent/swift) && I.wbalance != WBALANCE_HEAVY)
