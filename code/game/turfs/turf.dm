@@ -22,7 +22,8 @@
 	var/blocks_air = FALSE
 
 	flags_1 = CAN_BE_DIRTY_1
-
+	var/turf_flags = NONE
+	
 	var/list/image/blueprint_data //for the station blueprints, images of objects eg: pipes
 
 	var/explosion_level = 0	//for preventing explosion dodging
@@ -54,7 +55,7 @@
 	var/neighborlay_list = list()
 	var/neighborlay_override
 	var/teleport_restricted = FALSE //whether turf teleport spells are forbidden from teleporting to this turf
-
+	
 	vis_flags = VIS_INHERIT_PLANE|VIS_INHERIT_ID
 
 /turf/vv_edit_var(var_name, new_value)
@@ -409,6 +410,17 @@
 	// If an opaque movable atom moves around we need to potentially update visibility.
 	if (AM.opacity)
 		has_opaque_atom = TRUE // Make sure to do this before reconsider_lights(), incase we're on instant updates. Guaranteed to be on in this case.
+		reconsider_lights()
+
+/turf/Exited(atom/movable/Obj, atom/newloc)
+	. = ..()
+
+	if(istype(Obj))
+		SEND_SIGNAL(src, COMSIG_TURF_EXITED, Obj, newloc)
+		SEND_SIGNAL(Obj, COMSIG_MOVABLE_TURF_EXITED, src, newloc)
+
+	if (Obj && Obj.opacity)
+		recalc_atom_opacity() // Make sure to do this before reconsider_lights(), incase we're on instant updates.
 		reconsider_lights()
 
 /turf/open/Entered(atom/movable/AM)
