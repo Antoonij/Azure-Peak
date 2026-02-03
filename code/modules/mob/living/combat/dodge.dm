@@ -170,6 +170,15 @@
 			if(HAS_TRAIT(UH, TRAIT_FENCERDEXTERITY))
 				prob2defend -= 10
 
+		if(U.STASPD > H.STASPD)
+			drained += (U.STASPD - H.STASPD)
+		
+		if(istype(U.rmb_intent, /datum/rmb_intent/swift) && I.wbalance != WBALANCE_HEAVY)
+			drained += 3	//We drain extra stam if we're being attacked by swift stance
+
+		if(H?.check_dodge_skill() && H.mind)
+			prob2defend = 90	//We cap it out if we have Dodge Expert as a Player.
+
 		prob2defend = clamp(prob2defend, 5, 90)
 
 		//------------Dual Wielding Checks------------
