@@ -149,18 +149,23 @@
 					prob2defend = prob2defend - (UH.get_skill_level(/datum/skill/combat/unarmed) * 10)
 					prob2defend = prob2defend + (H.get_skill_level(/datum/skill/combat/unarmed) * 10)
 
+		var/ignore_DE_bonus = FALSE
+
 		if(HAS_TRAIT(L, TRAIT_GUIDANCE))
 			prob2defend += 20
 
 		if(HAS_TRAIT(U, TRAIT_GUIDANCE))
 			prob2defend -= 20
+			ignore_DE_bonus = TRUE
 		
 		if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 			prob2defend -= 40
+			ignore_DE_bonus = TRUE
 
 		// dodging while knocked down sucks ass
 		if(!(L.mobility_flags & MOBILITY_STAND))
 			prob2defend *= 0.25
+			ignore_DE_bonus = TRUE
 
 		if(H && HAS_TRAIT(H, TRAIT_SENTINELOFWITS))
 			var/sentinel = H.calculate_sentinel_bonus()
@@ -169,6 +174,10 @@
 		if(UH && HAS_TRAIT(UH, TRAIT_ARMOUR_LIKED))
 			if(HAS_TRAIT(UH, TRAIT_FENCERDEXTERITY))
 				prob2defend -= 10
+				ignore_DE_bonus = TRUE
+
+		if(I)
+			drained += (UH.get_skill_level(I.associated_skill) - H.get_skill_level(I.associated_skill))
 
 		if(U.STASPD > H.STASPD)
 			drained += (U.STASPD - H.STASPD)
@@ -176,7 +185,7 @@
 		if(istype(U.rmb_intent, /datum/rmb_intent/swift) && I.wbalance != WBALANCE_HEAVY)
 			drained += 3	//We drain extra stam if we're being attacked by swift stance
 
-		if(H?.check_dodge_skill() && H.mind)
+		if(H?.check_dodge_skill() && H.mind && !ignore_DE_bonus)
 			prob2defend = 90	//We cap it out if we have Dodge Expert as a Player.
 
 		prob2defend = clamp(prob2defend, 5, 90)
