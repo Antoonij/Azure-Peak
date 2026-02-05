@@ -374,11 +374,11 @@
 		//How much stamloss we take away from dodging. Flat number.
 		if(TEMPO_TAG_STAMLOSS_DODGE)
 			if(has_status_effect(/datum/status_effect/buff/tempo_one))
-				return 2
+				return 3
 			if(has_status_effect(/datum/status_effect/buff/tempo_two))
-				return 4
+				return 5
 			if(has_status_effect(/datum/status_effect/buff/tempo_three))
-				return 6
+				return 7
 		//How much stamloss we take away from parrying. Flat number.
 		if(TEMPO_TAG_STAMLOSS_PARRY)
 			if(has_status_effect(/datum/status_effect/buff/tempo_one))

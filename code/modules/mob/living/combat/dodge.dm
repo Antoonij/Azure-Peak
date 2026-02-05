@@ -111,7 +111,7 @@
 	var/mob/living/carbon/human/H
 	var/mob/living/carbon/human/UH
 	var/obj/item/I
-	var/drained = 10
+	var/drained = 8
 	var/drained_npc = 5
 	if(ishuman(src))
 		H = src
@@ -186,7 +186,7 @@
 		if(istype(U.rmb_intent, /datum/rmb_intent/swift) && I.wbalance != WBALANCE_HEAVY)
 			drained += 3	//We drain extra stam if we're being attacked by swift stance
 
-		if(H?.check_dodge_skill() && H.mind && !ignore_DE_bonus)
+		if(H?.check_dodge_skill() && H.mind && !ignore_DE_bonus && H.STASPD >= 10)
 			prob2defend = 90	//We cap it out if we have Dodge Expert as a Player.
 
 		prob2defend = clamp(prob2defend, 5, 90)
