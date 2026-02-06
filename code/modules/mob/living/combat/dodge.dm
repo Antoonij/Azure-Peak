@@ -180,11 +180,11 @@
 		if(I)	//Skilldiff applies extra stamloss, tentative
 			drained += (UH.get_skill_level(I.associated_skill) - H.get_skill_level(I.associated_skill))
 
+			if(istype(U.rmb_intent, /datum/rmb_intent/swift) && I.wbalance != WBALANCE_HEAVY)
+				drained += 3	//We drain extra stam if we're being attacked by swift stance
+
 		if(U.STASPD > H.STASPD)	//Speed diff applies extra stamloss, tentative
 			drained += (U.STASPD - H.STASPD)
-		
-		if(istype(U.rmb_intent, /datum/rmb_intent/swift) && I.wbalance != WBALANCE_HEAVY)
-			drained += 3	//We drain extra stam if we're being attacked by swift stance
 
 		if(H?.check_dodge_skill() && H.mind && !ignore_DE_bonus && H.STASPD >= 10)
 			prob2defend = 90	//We cap it out if we have Dodge Expert as a Player.
