@@ -5,10 +5,41 @@
 #define BOLT_PENETRATION	50
 #define BULLET_PENETRATION	100
 
+#define MIN_ARROW_RANGE		3
+#define MAX_ARROW_RANGE		14
+#define MIN_BOLT_RANGE		2
+#define MAX_BOLT_RANGE		9
+#define MIN_BULLET_RANGE	2
+#define MAX_BULLET_RANGE	7
+
+#define AP_FALLOFF_ARROW	0.75
+#define DAM_FALLOFF_ARROW	0.5
+#define AP_FALLOFF_BOLT		0.5
+#define DAM_FALLOFF_BOLT	0.75
+#define AP_FALLOFF_BULLET	0.5
+#define DAM_FALLOFF_BULLET	0.5
+
+
+/**
+	GENERAL NOTE FOR BALANCING PROJECTILES:
+	Damage and armor penetration both factor into whether a projectile will pierce a given
+	set of armour! Additionally, unlike armor penetration, damage is subject to multiplication
+	from PER + damfactor modifiers. As such, always value damage much higher than armor penetration.
+	If you add 5 damage in return for taking away 5 AP, you haven't given the projectile a
+	mechanical trade-off, you've made it worse in an entirely linear way. It may be wiser to
+	deduct 10 or 15 armor penetration in return for adding 5 damage if you want a trade-off.
+*/
+
 //parent of all bolts and arrows ฅ^•ﻌ•^ฅ
-/obj/item/ammo_casing/caseless/rogue/
+/obj/item/ammo_casing/caseless/rogue
 	firing_effect_type = null
 	icon = 'icons/roguetown/weapons/ammo.dmi'
+	var/ammo_weight = 1 // Weight cost in a quiver. Default 1, heavy ammo costs more.
+
+/obj/item/ammo_casing/caseless/rogue/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Projectiles have maximum and minimum falloff ranges, with particular falloff factors for damage and armour penetration.")
+	. += span_info("If the target is hit between the maximum and minimum tile range, then the full force and AP is delivered.")
 
 //bolts ฅ^•ﻌ•^ฅ
 
@@ -22,6 +53,23 @@
 	dropshrink = 0.6
 	max_integrity = 10
 	force = 10
+	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH
+
+/obj/item/ammo_casing/caseless/rogue/bolt/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.5,"sx" = -10,"sy" = -6,"nx" = 11,"ny" = -6,"wx" = -4,"wy" = -6,"ex" = 2,"ey" = -6,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
+/obj/item/ammo_casing/caseless/rogue/bolt/light
+	name = "light bolt"
+	desc = "A lighter, far less sturdier bolt. Made for smaller crossbows."
+	icon_state = "light_bolt"
+	caliber = "lightbolt"
+	projectile_type = /obj/projectile/bullet/reusable/bolt/light
 
 /obj/item/ammo_casing/caseless/rogue/bolt/aalloy
 	name = "decrepit bolt"
@@ -32,13 +80,15 @@
 
 /obj/item/ammo_casing/caseless/rogue/bolt/paalloy
 	name = "ancient bolt"
-	desc = "An ancient bolt, tipped with polished gilbranze. The razor-thin tip resembles a sabot more than an arrowhead; something that most alloys cannot reliably withstand."
+	desc = "An ancient bolt, tipped with polished gilbranze. The razor-thin tip \
+	resembles a sabot more than an arrowhead; something that most alloys cannot reliably withstand."
 	icon_state = "ancientbolt"
 	projectile_type = /obj/projectile/bullet/reusable/bolt/paalloy
 
 /obj/item/ammo_casing/caseless/rogue/bolt/bronze
 	name = "bronze bolt"
-	desc = "Bronze and wood, fitted by-hand to fashion a bolt's fuselage. The design, perfected over a millennium of trial-and-error, sails with tremendous haste."
+	desc = "Bronze and wood, fitted by-hand to fashion a bolt's fuselage. The \
+	design, perfected over a millennium of trial-and-error, sails with tremendous haste."
 	icon_state = "bronzebolt"
 	projectile_type = /obj/projectile/bullet/reusable/bolt/bronze
 
@@ -72,6 +122,19 @@
 	flag = "piercing"
 	speed = 0.4
 	npc_simple_damage_mult = 2
+	min_range = MIN_BOLT_RANGE
+	max_range = MAX_BOLT_RANGE
+	dam_falloff_factor = DAM_FALLOFF_BOLT
+	ap_falloff_factor = AP_FALLOFF_BOLT
+
+/obj/item/ammo_casing/caseless/rogue/arrow/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.5,"sx" = -10,"sy" = -7,"nx" = 13,"ny" = -7,"wx" = -8,"wy" = -7,"ex" = 5,"ey" = -7,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -80,"eturn" = 81,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/projectile/bullet/reusable/bolt/on_hit(atom/target)
 	. = ..()
@@ -85,6 +148,15 @@
 			skill_multiplier = 4
 	if(skill_multiplier && can_train_combat_skill(L, /datum/skill/combat/crossbows, SKILL_LEVEL_EXPERT))
 		L.mind.add_sleep_experience(/datum/skill/combat/crossbows, L.STAINT * skill_multiplier)
+
+/obj/projectile/bullet/reusable/bolt/light
+	name = "light bolt"
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/light
+	speed = 0.8
+	min_range = MIN_BOLT_RANGE - 1 // pointblank
+	max_range = MAX_BOLT_RANGE - 1
+	dam_falloff_factor = DAM_FALLOFF_BOLT 
+	ap_falloff_factor = AP_FALLOFF_BOLT * 1.2 // 0.75
 
 /obj/projectile/bullet/reusable/bolt/aalloy
 	damage = 40
@@ -129,7 +201,8 @@
 
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt
 	name = "heavy bolt"
-	desc = "A massive steel bolt that is designed to pulverize the defenses of another, whether it be a castle's parapit or a knight's plate."
+	desc = "A massive steel bolt that is designed to pulverize the defenses of \
+	another, whether it be a castle's parapit or a knight's plate."
 	projectile_type = /obj/projectile/bullet/reusable/heavy_bolt
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
 	caliber = "heabolt"
@@ -141,16 +214,18 @@
 	grid_height = 96 //Effectively as large as a shortsword. Two in a belt, four in a satchel. Unideal for carrying without a purpose-made pouch.
 	grid_width = 32
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH //Carry it on the hip or bite down like a carrot, if you're out of options.
-	equip_delay_self = 1 SECONDS //Girth. Pack a siege bolt pouch if you want to circumvent it.
-	unequip_delay_self = 1 SECONDS
+	equip_delay_self = 2 SECONDS //Girth. Pack a siege bolt pouch if you want to circumvent it.
+	unequip_delay_self = 2 SECONDS
 	inv_storage_delay = 1 SECONDS
 
 /obj/projectile/bullet/reusable/heavy_bolt
 	name = "heavy bolt"
-	damage = 120 //+50% the damage of a regular crossbow bolt.
+	damage = BOLT_DAMAGE + 20 // +33% the damage.
 	damage_type = BRUTE
-	armor_penetration = 0 //No penetration.
-	demolition_mod = 10 //Should destroy wooden barricades and doors in one shot, stone-and-iron doors in two, and The Gate in four.
+	armor_penetration = BOLT_PENETRATION + 25 // +50% the penetrative power.
+	object_damage_multiplier = 14 //Determines the multiplier that's applied to the bolt's damage value, when striking a structure. By default, it can destroy any wooden defense - a door, barricade, wall - in one shot.
+	wall_impact_break_probability = 100 //Determines the chance that a bolt will destroy itself, when striking a structure. By default, it will always destroy itself after successfully impacting a wall.
+	damages_turf_walls = TRUE //Determines whether the bolt can damage turfs or not. By default, yes.
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "heavybolt_proj"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt
@@ -159,8 +234,36 @@
 	embedchance = 100
 	woundclass = BCLASS_PIERCE
 	flag = "piercing"
-	speed = 0.8 //Half the speed of a traditional bolt. Between crossbows and NPC-fired projectiles, in terms of speed - evadable by PCs at longer ranges.
-	npc_simple_damage_mult = 3 //..or 360 damage against mindless opponents. Run them through!
+	speed = 1.2
+	npc_simple_damage_mult = 5 //..or 350 damage against mindless opponents. Run them through!
+	min_range = MIN_BOLT_RANGE + 2
+	max_range = MAX_BOLT_RANGE + 3
+
+/obj/item/ammo_casing/caseless/rogue/heavy_bolt/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.5,"sx" = -10,"sy" = -6,"nx" = 11,"ny" = -6,"wx" = -4,"wy" = -6,"ex" = 2,"ey" = -6,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
+/obj/projectile/bullet/reusable/heavy_bolt/on_hit(target)
+	. = ..()
+	var/mob/living/M = target
+	if(ismob(target))
+		M.visible_message(span_warning("[M] staggers back from the tremendous impact!"))
+		M.apply_status_effect(/datum/status_effect/debuff/staggered, 6 SECONDS)
+		M.apply_status_effect(/datum/status_effect/debuff/exposed, 6 SECONDS) //Done in conjunction with the new Feint testmerge - opens up for a single integrity-destroying attack.
+		M.Slowdown(6 SECONDS)
+		M.OffBalance(1 SECONDS)
+		M.Immobilize(1 SECONDS)
+		return
+
+	var/turf/T = target
+	if(isturf(target))
+		explosion(T, heavy_impact_range = 0, light_impact_range = 1, flame_range = 0, smoke = FALSE, soundin = pick('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg'))
+		return
 
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/blunt
 	name = "blunt heavy bolt"
@@ -171,30 +274,31 @@
 
 /obj/projectile/bullet/reusable/heavy_bolt/blunt
 	name = "blunt heavy bolt"
-	damage = 90
-	embedchance = 50 //'If you're reading this, duck!'
-	demolition_mod = 12 //Ensures the bolt can still, at a minimum, destroy most wooden barricades and doors in one shot.
+	armor_penetration = 0
+	embedchance = 0 //'If you're reading this, duck!'
 	woundclass = BCLASS_BLUNT
+	flag = "blunt"
 	icon_state = "heavybolt_proj"
 
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/aalloy
 	name = "decrepit heavy bolt"
-	desc = "A length of frayed bronze, quilled to take flight and tear down the living. Metal flakes occassionally peel off from its core, mysteriously hovering about - tolerable by the undying, but unbearibly noxious to the living."
+	desc = "A length of frayed bronze, quilled to take flight and tear down the living. \
+	Metal flakes occassionally peel off from its core, mysteriously hovering about - \
+	tolerable by the undying, but unbearibly noxious to the living."
 	icon_state = "ancientheavybolt"
 	projectile_type = /obj/projectile/bullet/reusable/heavy_bolt/aalloy
 	color = "#bb9696"
 
 /obj/projectile/bullet/reusable/heavy_bolt/aalloy
 	name = "decrepit heavy bolt"
-	damage = 90 
-	embedchance = 50
-	demolition_mod = 12 //Ensures the bolt can still, at a minimum, destroy most wooden barricades and doors in one shot.
+	damage = BOLT_DAMAGE - 10
+	object_damage_multiplier = 20 //Ensures the bolt can still, at a minimum, destroy most wooden barricades and doors in one shot.
 	icon_state = "ancientbolt_proj"
 	poisontype = /datum/reagent/stampoison
-	poisonamount = 2 //You are, in essence, giving them tenantus.
-	slur = 7
-	eyeblur = 7
-	drowsy = 3
+	poisonamount = 1 //You are, in essence, giving them tenantus.
+	slur = 2
+	eyeblur = 2
+	drowsy = 2
 
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/paalloy
 	name = "ancient heavy bolt"
@@ -204,14 +308,13 @@
 
 /obj/projectile/bullet/reusable/heavy_bolt/paalloy
 	name = "ancient heavy bolt"
-	damage = 100
-	embedchance = 100
 	icon_state = "ancientbolt_proj"
+	object_damage_multiplier = 16
 	poisontype = /datum/reagent/stampoison
-	poisonamount = 4 //You are, in essence, giving them tenantus. Roughly 50% stronger than a poisoned iron arrow.
-	slur = 10
-	eyeblur = 10
-	drowsy = 6
+	poisonamount = 1 //You are, in essence, giving them tenantus. Roughly 50% stronger than a poisoned iron arrow.
+	slur = 3
+	eyeblur = 3
+	drowsy = 3
 
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/bronze
 	name = "bronze heavy bolt"
@@ -221,10 +324,8 @@
 
 /obj/projectile/bullet/reusable/heavy_bolt/bronze
 	name = "bronze heavy bolt"
-	damage = 100
-	embedchance = 100
 	icon_state = "bronzebolt_proj"
-	speed = 0.3 // Exchanges damage for being far quicker than its compatriots - roughly a little better than a regular crossbow bolt.
+	speed = 0.8
 
 //
 
@@ -242,6 +343,7 @@
 	dropshrink = 0.6
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
 	max_integrity = 10
+	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH
 
 /obj/item/ammo_casing/caseless/rogue/arrow/blunt
 	name = "blunt arrow"
@@ -276,7 +378,9 @@
 
 /obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy
 	name = "decrepit broadhead arrow"
-	desc = "An arrow; one end, tipped with flattened and frayed bronze - the other, inlaid with decayed feathers. The alloy's decrepity forces it to burst into shrapnel upon impact, shredding flesh."
+	desc = "An arrow; one end, tipped with flattened and frayed bronze - the other, \
+	inlaid with decayed feathers. The alloy's decrepity forces it to burst into \
+	shrapnel upon impact, shredding flesh."
 	icon_state = "ancientarrow"
 	projectile_type = /obj/projectile/bullet/reusable/arrow/iron/aalloy
 	color = "#bb9696"
@@ -290,7 +394,9 @@
 
 /obj/item/ammo_casing/caseless/rogue/arrow/steel/paalloy
 	name = "ancient bodkin arrow"
-	desc = "An arrow; one end, tipped with a sharpened rod of polished gilbranze - the other, inlaid with feathers. The razor-thin tip resembles a sabot; an alloyed sliver that can punch straight through steel."
+	desc = "An arrow; one end, tipped with a sharpened rod of polished gilbranze - \
+	the other, inlaid with feathers. The razor-thin tip resembles a sabot; an alloyed \
+	sliver that can punch straight through steel."
 	icon_state = "ancientarrow"
 	projectile_type = /obj/projectile/bullet/reusable/arrow/steel/paalloy
 
@@ -335,47 +441,62 @@
 	name = "stone arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/stone
 	accuracy = 60
+	min_range = MIN_ARROW_RANGE
+	max_range = MAX_ARROW_RANGE
+	dam_falloff_factor = DAM_FALLOFF_ARROW
+	ap_falloff_factor = AP_FALLOFF_ARROW
 
+// Broadheads are high damage, low AP. Shouldn't be penetrating 80 pierce armor (padded gambesons)
+// short of either being used in a longbow, or by an incredibly high perception character!
+// At 15PER with a recurve, penetrates just short of 70 pierce armour, and cannot realistically allpen.
 /obj/projectile/bullet/reusable/arrow/iron
 	name = "broadhead arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron
-	damage = 40
-	armor_penetration = 20
+	damage = 35
+	armor_penetration = 15 // Pierces 80 (padded gambesons) at 19PER, 16PER with a longbow.
 	embedchance = 30
 	npc_simple_damage_mult = 2
 
+// Gains 5 damage, loses 10 AP.
 /obj/projectile/bullet/reusable/arrow/iron/aalloy
 	name = "decrepit broadhead arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy
 	icon_state = "ancientarrow_proj"
-	damage = 45
-	armor_penetration = 15
+	damage = 40
+	armor_penetration = 5 // Pierces 80 (padded gambesons) at 19PER, 16PER with a longbow.
 	embedchance = 40
 
+// Bodkins should penetrate essentially any armour in the game with decent perception, as
+// recompense for their very low damage. Better for lower perception characters without
+// enough raw damage to consistently penetrate armour.
 /obj/projectile/bullet/reusable/arrow/steel
 	name = "bodkin arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/steel
 	accuracy = 75
 	damage = 25
-	armor_penetration = 45
-	embedchance = 80
+	armor_penetration = 55 // Pierces 80 (padded gambesons) with a recurve at 11PER.
+	embedchance = 80 // Easy embeds!
 	npc_simple_damage_mult = 3
 
+// Significantly worse armour-piercing, slightly more damage. Should still penetrate most things.
+// Note that it's pretty likely the skeleton using these has a longbow, which penetrates more stuff.
 /obj/projectile/bullet/reusable/arrow/steel/paalloy
 	name = "ancient bodkin arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/steel/paalloy
 	icon_state = "ancientarrow_proj"
-	damage = 35
-	armor_penetration = 35
-	embedchance = 60 
+	damage = 30
+	armor_penetration = 35 // Pierces 80 (padded gambesons) with a recurve at 15PER.
+	embedchance = 60
 
+// Non-existent AP, but strong damage, a high embed chance, and very fast projectiles.
+// Will have to see how this one plays out - may be a utility pick for chasedowns?
 /obj/projectile/bullet/reusable/arrow/bronze
 	name = "bronze arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/bronze
 	icon_state = "bronzearrow_proj"
-	damage = 60
-	armor_penetration = 10
-	embedchance = 60 //+20 damage and embedding, -50% AP. 
+	damage = 40
+	armor_penetration = 0 // Cannot pierce 80 (padded gambesons) with a recurve, does so at 17PER with a longbow.
+	embedchance = 70
 	npc_simple_damage_mult = 3 //More damage over simplemobs!
 	speed = 0.15 // Faster!
 
@@ -426,7 +547,7 @@
 	armor_penetration = 60
 	embedchance = 100
 	poisontype = /datum/reagent/water/blessed
-	poisonamount = 10
+	poisonamount = 7
 	npc_simple_damage_mult = 7 //..or 420 damage against a mindless mob. Strike true; reduce if these become craftable or more easily acquirable, through any means.
 
 /obj/item/ammo_casing/caseless/rogue/bolt/silver
@@ -447,7 +568,7 @@
 	embedchance = 100
 	npc_simple_damage_mult = 6 //..or 480 damage against a mindless mob. Only if you're desperate.
 	poisontype = /datum/reagent/water/blessed
-	poisonamount = 10
+	poisonamount = 7
 
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/silver
 	name = "heavy silver bolt"
@@ -460,15 +581,15 @@
 
 /obj/projectile/bullet/reusable/heavy_bolt/silver
 	name = "heavy silver bolt"
-	damage = 120
-	armor_penetration = 100 //Same damage, but with absolute penetration. 
+	damage = BOLT_DAMAGE + 30
+	armor_penetration = 777 //Same damage, but with absolute penetration. 
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/silver
 	icon_state = "silvheavybolt_proj"
 	hitsound = 'sound/combat/hits/hi_bolt (3).ogg'
-	speed = 0.4 //Same speed as a crossbow bolt. 
+	speed = 0.8 //Same speed as a crossbow bolt. 
 	poisontype = /datum/reagent/water/blessed
-	poisonamount = 20
-	npc_simple_damage_mult = 10 //..or 1200 damage against a mindless mob. If you're using this against one, you're either a fool or have no other choice left. Godspeed.
+	poisonamount = 10
+	npc_simple_damage_mult = 10 //..or 1000 damage against a mindless mob. If you're using this against one, you're either a fool or have no other choice left. Godspeed.
 
 // PYRO AMMO
 /obj/item/ammo_casing/caseless/rogue/bolt/pyro
@@ -685,7 +806,7 @@
 	. = ..()
 	if(ismob(target))
 		var/mob/living/M = target
-		M.apply_status_effect(/datum/status_effect/debuff/exposed)
+		M.apply_status_effect(/datum/status_effect/debuff/vulnerable)
 		M.Immobilize(15)
 	var/turf/T
 	if(isturf(target))
@@ -700,7 +821,7 @@
 	. = ..()
 	if(ismob(target))
 		var/mob/living/M = target
-		M.apply_status_effect(/datum/status_effect/debuff/exposed)
+		M.apply_status_effect(/datum/status_effect/debuff/vulnerable)
 		M.apply_status_effect(/datum/status_effect/buff/druqks)
 	var/turf/T
 	if(isturf(target))
@@ -730,7 +851,8 @@
 //Only ammo casing, no 'projectiles'. You throw the casing, as weird as it is.
 /obj/item/ammo_casing/caseless/rogue/javelin
 	force = 14
-	throw_speed = 4	
+	throw_speed = 4
+	ammo_weight = 5 // Javelins are bulky — 5 weight each in a javelinbag
 	name = "iron javelin"
 	desc = "A tool used for centuries, as early as recorded history. This one is tipped with a iron head; standard among militiamen and irregulars alike."
 	icon_state = "ijavelin"
@@ -838,7 +960,18 @@
 	throwforce = 20 //you can still throw them
 	dropshrink = 0.6
 	possible_item_intents = list(INTENT_GENERIC) //not intended to attack with them
+	slot_flags = ITEM_SLOT_MOUTH
 	max_integrity = 20
+	charge_time_mult = 0.75 // Sling shoots faster than bows, but is in exchange, weaker.
+
+/obj/item/ammo_casing/caseless/rogue/sling_bullet/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.5,"sx" = -7,"sy" = -5,"nx" = 7,"ny" = -5,"wx" = -3,"wy" = -5,"ex" = 5,"ey" = -5,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -80,"eturn" = 81,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/item/ammo_casing/caseless/rogue/sling_bullet/stone //these should be seen
 	name = "stone sling bullet"
@@ -921,13 +1054,17 @@
 	flag = "piercing"
 	speed = 0.4
 	npc_simple_damage_mult = 2.5 // Deals roughly ~75-95 damage against a simplemob, compared to the ~140 damage of a crossbolt or arrow.
-	ricochets_max = 4
+	ricochets_max = 2
 	ricochet_chance = 80
 	ricochet_auto_aim_angle = 40
 	ricochet_auto_aim_range = 5
 	ricochet_incidence_leeway = 40
 	ricochet_decay_chance = 1
-	ricochet_decay_damage = 2 /// stronger with every bounce, fuck it
+	ricochet_decay_damage = 1.5 /// stronger with every bounce. Limited to 1.5 to stop edge case
+	min_range = MIN_BULLET_RANGE
+	max_range = MAX_BULLET_RANGE
+	dam_falloff_factor = DAM_FALLOFF_BULLET
+	ap_falloff_factor = AP_FALLOFF_BULLET
 
 /obj/projectile/bullet/reusable/sling_bullet/on_hit(atom/target)
 	. = ..()
@@ -943,7 +1080,7 @@
 
 /obj/projectile/bullet/reusable/sling_bullet/stone
 	name = "stone sling bullet"
-	damage = 30 //proper stones are better
+	damage = 25 //proper stones are better
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/stone
 
 /obj/projectile/bullet/reusable/sling_bullet/aalloy
@@ -953,27 +1090,27 @@
 
 /obj/projectile/bullet/reusable/sling_bullet/bronze
 	name = "bronze sling bullet"
-	damage = 35
-	armor_penetration = 20 //Slightly more damage, but with -33% AP.
+	damage = 30
+	armor_penetration = 25 //Slightly more damage, but with -33% AP.
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/bronze
-	speed = 0.15 // Faster!
+	speed = 0.25 // Faster!
 
 /obj/projectile/bullet/reusable/sling_bullet/iron
 	name = "iron sling bullet"
-	damage = 30
-	armor_penetration = 30
+	damage = 25
+	armor_penetration = 35
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/iron
 
 /obj/projectile/bullet/reusable/sling_bullet/steel
 	name = "steel sling bullet"
-	damage = 40 //Best-of-the-best. Harder to mass-produce, however.
-	armor_penetration = 40
+	damage = 35 //Best-of-the-best. Harder to mass-produce, however.
+	armor_penetration = 45
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/steel
 
 /obj/projectile/bullet/reusable/sling_bullet/paalloy
 	name = "ancient sling bullet"
-	damage = 35 // Best of both worlds 'cuz why not
-	armor_penetration = 30
+	damage = 30 // Best of both worlds 'cuz why not
+	armor_penetration = 35
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/paalloy
 	ricochets_max = 6
 
@@ -983,3 +1120,17 @@
 #undef ARROW_PENETRATION
 #undef BOLT_PENETRATION
 #undef BULLET_PENETRATION
+
+#undef MIN_ARROW_RANGE
+#undef MAX_ARROW_RANGE
+#undef MIN_BOLT_RANGE
+#undef MAX_BOLT_RANGE
+#undef MIN_BULLET_RANGE
+#undef MAX_BULLET_RANGE
+
+#undef AP_FALLOFF_ARROW
+#undef DAM_FALLOFF_ARROW
+#undef AP_FALLOFF_BOLT
+#undef DAM_FALLOFF_BOLT
+#undef AP_FALLOFF_BULLET
+#undef DAM_FALLOFF_BULLET

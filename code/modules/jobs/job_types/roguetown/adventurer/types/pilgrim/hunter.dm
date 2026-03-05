@@ -33,6 +33,7 @@
 		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 	)
+	maximum_possible_slots = 20 // Should not fill, just a hack to make it shows what types of towners are in round
 
 /datum/outfit/job/roguetown/adventurer/hunter/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -70,7 +71,7 @@
 			if("Crossbow")
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_EXPERT, TRUE)
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-				beltl = /obj/item/quiver/bolts
+				beltl = /obj/item/quiver/bolt/standard
 
 /datum/advclass/hunter/spear
 	name = "Spear-Hunter"

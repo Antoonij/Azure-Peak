@@ -15,7 +15,9 @@
 
 /obj/item/cooking/platter/examine()
 	. = ..()
+	. += span_info("Left-click a platter with food to 'plate' it up. This will also effectively prevent the food from rotting, while plated.")
 	. += span_info("Can be renamed with a feather. Name will be overridden by plating or finishing food.")
+	. += span_info("Plated food is preferred by nobility. Left-clicking plated food with a fork will allow you to eat it more elegantly.")
 
 /*
 NEW SYSTEM
@@ -145,3 +147,59 @@ What it does:
 	resistance_flags = FIRE_PROOF
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
 	sellprice = 25
+
+/obj/item/cooking/platter/carved
+	name = "carved platter"
+	desc = "You shouldn't be seeing this."
+	icon_state = "aplatter"
+	resistance_flags = FIRE_PROOF
+	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
+	sellprice = 0
+
+/obj/item/cooking/platter/carved/jade
+	name = "jade platter"
+	desc = "A fancy platter carved out of jade."
+	icon_state = "platter_jade"
+	sellprice = 60
+
+/obj/item/cooking/platter/carved/onyxa
+	name = "onyxa platter"
+	desc = "A fancy platter carved out of onyxa."
+	icon_state = "platter_onyxa"
+	sellprice = 40
+
+/obj/item/cooking/platter/carved/shell
+	name = "shell platter"
+	desc = "A fancy platter carved out of shell."
+	icon_state = "platter_shell"
+	sellprice = 20
+
+/obj/item/cooking/platter/carved/rose
+	name = "rosestone platter"
+	desc = "A fancy platter carved out of rosestone."
+	icon_state = "platter_rose"
+	sellprice = 25
+
+/obj/item/cooking/platter/carved/amber
+	name = "amber platter"
+	desc = "A fancy platter carved out of amber."
+	icon_state = "platter_amber"
+	sellprice = 60
+
+/obj/item/cooking/platter/carved/opal
+	name = "opal platter"
+	desc = "A fancy platter carved out of opal."
+	icon_state = "platter_opal"
+	sellprice = 90
+
+/obj/item/cooking/platter/carved/coral
+	name = "heartstone platter"
+	desc = "A fancy platter carved out of heartstone."
+	icon_state = "platter_coral"
+	sellprice = 70
+
+/obj/item/cooking/platter/carved/turq
+	name = "cerulite platter"
+	desc = "A fancy platter carved out of cerulite."
+	icon_state = "platter_turq"
+	sellprice = 85

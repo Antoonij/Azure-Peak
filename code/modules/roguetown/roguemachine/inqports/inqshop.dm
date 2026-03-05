@@ -293,7 +293,7 @@
 	name = "1 Silver Arrow"
 	item_type = /obj/item/ammo_casing/caseless/rogue/arrow/silver
 	maximum = 3
-	marquescost = 4
+	marquescost = 6
 
 /datum/inqports/equipment/silvbolt
 	name = "1 Silver Bolt"
@@ -309,13 +309,13 @@
 
 /datum/inqports/equipment/silverstake
 	name = "1 Silver-Tipped Stake"
-	item_type = /obj/item/rogueweapon/huntingknife/idagger/silver/stake
+	item_type = /obj/item/rogueweapon/huntingknife/idagger/silver/stake/psy
 	maximum = 5
 	marquescost = 8
 
 /datum/inqports/supplies/blessedbolts
 	name = "1 Quiver of Sunderbolts"
-	item_type = /obj/item/quiver/holybolts
+	item_type = /obj/item/quiver/bolt/holy
 	marquescost = 6
 
 /datum/inqports/equipment/nocshades
@@ -445,7 +445,7 @@
 	new /obj/item/clothing/head/roguetown/helmet/heavy/psysallet(src)
 	new /obj/item/clothing/head/roguetown/helmet/heavy/psybucket(src)
 	new /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm(src)
-	new /obj/item/clothing/head/roguetown/helmet/heavy/absolver(src)
+	new /obj/item/clothing/head/roguetown/helmet/heavy/absolver/unblessed(src)
 
 /datum/inqports/wardrobe/fencerset
 	name = "The 'Otavan Fencer's Padded Wardrobe' Crate"

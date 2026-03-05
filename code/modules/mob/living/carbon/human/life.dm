@@ -70,10 +70,11 @@
 				leprosy = 3
 	//heart attack stuff
 	handle_heart()
-	update_stamina()
 	update_energy()
-	if(charflaw && !charflaw.ephemeral && mind)
-		charflaw.flaw_on_life(src)
+	update_stamina()
+	for(var/datum/charflaw/cf in charflaws)
+		if(!cf.ephemeral && mind)
+			cf.flaw_on_life(src)
 	if(health <= 0)
 		adjustOxyLoss(0.5)
 	if(mode == NPC_AI_OFF && !client && !HAS_TRAIT(src, TRAIT_NOSLEEP))

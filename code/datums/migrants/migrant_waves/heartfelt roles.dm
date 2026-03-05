@@ -40,7 +40,7 @@
 	var/prev_real_name = H.real_name
 	var/prev_name = H.name
 	var/honorary = "Ser"
-	if(should_wear_femme_clothes(H))
+	if(H.titles_pref == TITLES_F)
 		honorary = "Dame"
 	// check if they already have it to avoid stacking titles
 	if(findtextEx(H.real_name, "[honorary] ") == 0)
@@ -48,7 +48,7 @@
 		H.name = "[honorary] [prev_name]"
 
 /datum/migrant_role/heartfelt/retinue
-	name = "Heartfeltian Retinue"
+	name = "Heartfelt Retinue"
 	advclass_cat_rolls = list(CTAG_HFT_RETINUE = 20)
 	allowed_races = ACCEPTED_RACES
 	grant_lit_torch = FALSE

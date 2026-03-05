@@ -28,19 +28,21 @@
 		/datum/skill/craft/engineering = SKILL_LEVEL_NOVICE,
 		/datum/skill/labor/farming = SKILL_LEVEL_NOVICE,
 	)
-
+	subclass_stashed_items = list(
+        "Armor Plates" =  /obj/item/repair_kit/metal,
+    )
 /datum/outfit/job/roguetown/wretch/pyromaniac/pre_equip(mob/living/carbon/human/H)
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/sheriff //wear protection :) 
 	mask = /obj/item/clothing/mask/rogue/facemask/
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/full //Protect your head!
-	pants = /obj/item/clothing/under/roguetown/splintlegs
+	pants = /obj/item/clothing/under/roguetown/brigandinelegs
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather
 	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
-	wrists = /obj/item/clothing/wrists/roguetown/splintarms
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
 	r_hand = /obj/item/bomb
 	l_hand = /obj/item/bomb
 	backpack_contents = list(
@@ -63,7 +65,7 @@
 			if("Crossbows")
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 4, TRUE)
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-				beltl = /obj/item/quiver/pyrobolts
+				beltl = /obj/item/quiver/bolt/pyro
 			if("BOMBS") //30 bombs. 18 fire, 4 tnt, 4 impacts, 4 firegas.
 				ADD_TRAIT(H, TRAIT_BOMBER_EXPERT, TRAIT_GENERIC)
 				H.adjust_skillrank_up_to(/datum/skill/craft/engineering, 4, TRUE)

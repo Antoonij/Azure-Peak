@@ -3,7 +3,7 @@
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	name = "haubergeon"
 	desc = "A maille shirt fashioned from hundreds of interlinked steel rings. This blouse covers all the little nooks-and-crannies that're neglected by a standard cuirass, and - when paired with a gambeson - offers superb protection from most worldly strikes."
-	body_parts_covered = COVERAGE_ALL_BUT_LEGS
+	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
 	icon_state = "haubergeon"
 	armor = ARMOR_MAILLE
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL
@@ -14,6 +14,7 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/steel
 	armor_class = ARMOR_CLASS_MEDIUM
+	material_category = ARMOR_MAT_CHAINMAIL
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/ComponentInitialize()
 	. = ..()
@@ -37,6 +38,7 @@
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_DECREPIT
 	color = "#bb9696"
 	chunkcolor = "#532e25"
+	material_category = ARMOR_MAT_CHAINMAIL
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 	prevent_crits = PREVENT_CRITS_NONE
@@ -90,6 +92,7 @@
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_DECREPIT
 	color = "#bb9696"
 	chunkcolor = "#532e25"
+	material_category = ARMOR_MAT_CHAINMAIL
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 	prevent_crits = PREVENT_CRITS_NONE
@@ -156,6 +159,11 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_PSYDON
 	smeltresult = /obj/item/ingot/silverblessed
 
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("With more blessed silver and an armorsmith's hammer, this armor can be further upgraded.")
+	. += span_info("If a character has the 'Maille Training' trait and has Psydon as their selected patron, they can comfortably wear Psydonic plate armor without suffering any downsides.")
+
 ///////// CRAFTING DATUMS FOR MAILLED HAUBERK /////////
 
 /datum/crafting_recipe/roguetown/survival/mailledhauberk
@@ -220,7 +228,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios/Initialize()
 	. = ..()
-	AddComponent(/datum/component/cursed_item, TRAIT_COMMIE, "ARMOR")
+	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
 
 //
 
@@ -229,6 +237,7 @@
 	desc = "The rings crackle with unkempt magicka, yearning to enamor the enlightened with avantynic might."
 	color = "#c1b18d"
 	chunkcolor = "#363030"
+	material_category = ARMOR_MAT_CHAINMAIL
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/Initialize()
 	. = ..()

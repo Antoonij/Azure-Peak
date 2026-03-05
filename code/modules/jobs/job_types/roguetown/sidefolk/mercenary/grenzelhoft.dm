@@ -132,7 +132,7 @@
 	name = "Armbrustschutze"
 	tutorial = "You're a proved marksman with a crossbow, and learned how to set up camp and defenses in the wild. The guild needs you."
 	outfit = /datum/outfit/job/roguetown/mercenary/grenzelhoft_crossbowman
-	traits_applied = list(TRAIT_STEELHEARTED)
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_DODGEEXPERT)
 	subclass_stats = list(
 		STATKEY_SPD = 2,
 		STATKEY_WIL = 2,
@@ -176,7 +176,7 @@
 		var/weapon_choice = input(H, "Choose your weapon.", "RENOCK AND REBOLT") as anything in weapons
 		switch(weapon_choice)
 			if("Crossbow & 20 Bolts")
-				beltr = /obj/item/quiver/bolts
+				beltr = /obj/item/quiver/bolt/standard
 				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 			if("Heavy Crossbow & 8 Heavy Bolts")
 				beltr = /obj/item/quiver/bolt/heavy/standard/ //Eight bolts. More than enough to kill anything that moves.

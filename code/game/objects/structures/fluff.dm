@@ -586,22 +586,7 @@
 	. = ..()
 	if(obj_broken)
 		return
-	var/day = "... actually, WHAT dae is it?"
-	switch(GLOB.dayspassed)
-		if(1)
-			day = "Moon's dae."
-		if(2)
-			day = "Tiw's dae."
-		if(3)
-			day = "Wedding's dae."
-		if(4)
-			day = "Toll's dae."
-		if(5)
-			day = "Freyja's dae."
-		if(6)
-			day = "Saturn's dae."
-		if(7)
-			day = "Sun's dae."
+	var/day = lowertext(get_current_day_of_week_name())
 	. += "Oh no, it's [station_time_timestamp("hh:mm")] on a [day]"
 //		if(SSshuttle.emergency.mode == SHUTTLE_DOCKED)
 //			if(SSshuttle.emergency.timeLeft() < 30 MINUTES)
@@ -653,22 +638,7 @@
 	. = ..()
 	if(obj_broken)
 		return
-	var/day = "... actually, WHAT dae is it?"
-	switch(GLOB.dayspassed)
-		if(1)
-			day = "Moon's dae."
-		if(2)
-			day = "Tiw's dae."
-		if(3)
-			day = "Wedding's dae."
-		if(4)
-			day = "Toll's dae."
-		if(5)
-			day = "Freyja's dae."
-		if(6)
-			day = "Saturn's dae."
-		if(7)
-			day = "Sun's dae."
+	var/day = lowertext(get_current_day_of_week_name())
 	. += "Oh no, it's [station_time_timestamp("hh:mm")] on a [day]"
 
 /obj/structure/fluff/wallclock/Initialize()
@@ -840,6 +810,10 @@
 	max_integrity = 300
 	dir = SOUTH
 
+/obj/structure/fluff/statue/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right-click to access your personal stash. This not only contains the loadout you might've asseembled in the character creation menu, but virtue- and role-specific items as well.")
+
 /obj/structure/fluff/statue/Initialize()
 	. = ..()
 	var/static/list/loc_connections = list(COMSIG_ATOM_EXIT = PROC_REF(on_exit))
@@ -914,7 +888,9 @@
 
 /obj/structure/fluff/statue/abyssor/dolomite
 	name = "abyssor statue"
-	desc = "A rare dolomite statue of the ancient god Abyssor. Hewn from bleached rock as if the shimmer makes his faceless gaze any less terrifying."
+	desc = "A rare dolomite statue of the ancient god Abyssor, the Dreamer, He Who Slumbers, \
+	patron of the seas and all those that travel by them. He is asleep, and his followers pray \
+	fervently that he remains so for a very long time yet."
 	icon_state = "abyssor_dolomite"
 
 /obj/structure/fluff/statue/knight/r
@@ -1097,11 +1073,26 @@
 		/obj/item/clothing/head/roguetown/crown/serpcrown,
 		/obj/item/clothing/head/roguetown/vampire,
 		/obj/item/scomstone,
+		/obj/item/rogueweapon/greatsword/psygsword,
+		/obj/item/clothing/head/roguetown/circlet,
+		/obj/item/carvedgem,  //Some of these aren't particularly worth much, but it'd be REALLY unintuitive for "valuables" to not actually be offerings
+		/obj/item/rogueweapon/huntingknife/stoneknife/kukri,
+		/obj/item/rogueweapon/huntingknife/stoneknife/opalknife,
+		/obj/item/rogueweapon/mace/cudgel/shellrungu,
+		/obj/item/clothing/mask/rogue/facemask/carved,
+		/obj/item/clothing/neck/roguetown/carved,
+		/obj/item/kitchen/fork/carved,
+		/obj/item/kitchen/spoon/carved,
+		/obj/item/clothing/wrists/roguetown/gem,
+		/obj/item/reagent_containers/glass/bowl/carved,
+		/obj/item/reagent_containers/glass/bucket/pot/carved,
+		/obj/item/clothing/mask/rogue/facemask/carved,
+		/obj/item/cooking/platter/carved,
 		/obj/item/reagent_containers/lux
 	)
 
 /obj/structure/fluff/statue/evil/attackby(obj/item/W, mob/user, params)
-	if(!HAS_TRAIT(user, TRAIT_COMMIE))
+	if(!HAS_TRAIT(user, TRAIT_FREEMAN))
 		return
 	var/donatedamnt = W.get_real_price()
 	if(user.mind)
@@ -1235,6 +1226,62 @@
 	desc = "An unholy symbol. Blasphemy for most, reverence for few."
 	icon_state = "invertedcross"
 	divine = FALSE
+
+/obj/structure/fluff/psycross/zizo
+	name = "stone inverted cross"
+	desc = "An unholy symbol, the knowledge that something so sturdy was able to be put up in reverence of the dark star, completely unattended... is a difficult anchovy to swallow for many."
+	icon_state = "cross_zizo"
+	divine = FALSE
+	max_integrity = 200
+
+/obj/structure/fluff/psycross/zizo/golden
+	name = "golden inverted cross"
+	desc = "An unholy symbol meticilously plated with leaf gold. It stands in defiance to order. The dead will rise."
+	icon_state = "cross_zizo_u"
+	divine = FALSE
+	max_integrity = 350
+
+/obj/structure/fluff/psycross/graggar
+	name = "vicious cross"
+	desc = "An unholy symbol wrought from stone. It promises glory to the conqueror and chains to the conquered."
+	icon_state = "cross_graggar"
+	divine = FALSE
+	max_integrity = 200
+
+/obj/structure/fluff/psycross/graggar/decorated
+	name = "revered vicious cross"
+	desc = "An unholy symbol wrought from stone. Meat impaled on spikes and flesh dangling like ribbons off hooks, an offering, proof of conquest, but does he listen?"
+	icon_state = "cross_graggar_u"
+	divine = FALSE
+	max_integrity = 350
+
+/obj/structure/fluff/psycross/matthios
+	name = "grinning cross"
+	desc = "An unholy stone cross bearing the likeness of drawn daggers and a grinning visage."
+	icon_state = "cross_matthios"
+	divine = FALSE
+	max_integrity = 200
+
+/obj/structure/fluff/psycross/matthios/decorated
+	name = "ornate cross"
+	desc = "Golden scales dangle from rags and balance the scales. A monument to wealth."
+	icon_state = "cross_matthios_u"
+	divine = FALSE
+	max_integrity = 350
+
+/obj/structure/fluff/psycross/baotha
+	name = "spider cross"
+	desc = "A gnarled stone cross from which carved spider legs unfurl. You feel like you're being beckoned faintly, like a whisper in your ear."
+	icon_state = "cross_baotha"
+	divine = FALSE
+	max_integrity = 200
+
+/obj/structure/fluff/psycross/baotha/decorated
+	name = "webbed spider cross"
+	desc = "The spider spreads its legs, the web unfurls. Just looking at it makes bad memories surface."
+	icon_state = "cross_baotha_u"
+	divine = FALSE
+	max_integrity = 350
 
 /obj/structure/fluff/psycross/attackby(obj/item/W, mob/user, params)
 	if(user.mind)

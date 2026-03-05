@@ -131,6 +131,14 @@
 			if(SKILL_LEVEL_MASTER to SKILL_LEVEL_LEGENDARY) // Magus has this
 				success_chance = 100
 
+	// fairly rarely, if you look into a telescope at night w/ an arcyne tier, you can get this buff.
+	// ensures your orb doesnt break and gives you a teensy boost. 
+	if(user.has_status_effect(/datum/status_effect/buff/transparent_eyeball))
+		break_on_fail = FALSE
+		if(success_chance < 100)
+			success_chance += 10
+			success_chance = clamp(success_chance, 0, 100) // dont go over 100 cause that might break shit
+
 	if (debugseverity)
 		success_chance = 0
 
@@ -194,7 +202,7 @@
 	target.throw_alert("scryingeye", /atom/movable/screen/alert/scryingeye, override = TRUE)
 	addtimer(CALLBACK(S, TYPE_PROC_REF(/mob/dead/observer, reenter_corpse)), 8 SECONDS)
 	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/, clear_alert), "scryingeye", TRUE), 8 SECONDS)
-	if(!target.stat)
+	if(target.stat != DEAD && target.stat != UNCONSCIOUS)
 		if(target.STAPER >= 15)
 			if(target.mind)
 				if(target.mind.do_i_know(name=user.real_name))
