@@ -769,23 +769,32 @@
 /mob/living/carbon/updatehealth()
 	if(status_flags & GODMODE)
 		return
-	var/total_burn	= 0
 //	var/total_brute	= 0
 	var/total_stamina = 0
+	var/total_burn_percent = 0
 	var/total_tox = getToxLoss()
 	var/total_oxy = getOxyLoss()
 	var/used_damage = 0
+
 	var/static/list/lethal_zones = list(
 		BODY_ZONE_HEAD,
 		BODY_ZONE_CHEST,
 	)
-	for(var/obj/item/bodypart/bodypart as anything in bodyparts) //hardcoded to streamline things a bit
+	var/checked_lethal_zones = 0
+
+	for(var/obj/item/bodypart/bodypart as anything in bodyparts)
 		if(!(bodypart.body_zone in lethal_zones))
 			continue
+		
+		total_burn_percent += (bodypart.burn_dam / bodypart.max_damage)
+		checked_lethal_zones++
+
+	if(checked_lethal_zones)
+		var/avg_burn_factor = total_burn_percent / checked_lethal_zones
 		var/hardcrit_divisor = !mind ? FIRE_HARDCRIT_DIVISOR_MINDLESS : FIRE_HARDCRIT_DIVISOR
-		var/my_burn = abs((bodypart.burn_dam / bodypart.max_damage) * hardcrit_divisor)
-		total_burn = max(total_burn, my_burn)
-		used_damage = max(used_damage, my_burn)
+		
+		used_damage = avg_burn_factor * hardcrit_divisor
+	
 	if(used_damage < total_tox)
 		used_damage = total_tox
 	if(used_damage < total_oxy)
