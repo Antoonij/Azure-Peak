@@ -786,7 +786,7 @@
 		if(!(bodypart.body_zone in lethal_zones))
 			continue
 		
-		total_burn_percent += (bodypart.burn_dam / bodypart.max_damage)
+		total_burn_percent += max(0, bodypart.burn_dam / bodypart.max_damage)
 		checked_lethal_zones++
 
 	if(checked_lethal_zones)
