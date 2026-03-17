@@ -14,3 +14,7 @@
 		return 0
 
 	return trophy_hunter.get_armor_bonus_for_zone(def_zone, d_type)
+
+/mob/living/carbon/human/ComponentInitialize()
+	. = ..()
+	AddElement(/datum/element/damage_spread, list(BURN), 90)
