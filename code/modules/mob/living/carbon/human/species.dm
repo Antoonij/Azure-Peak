@@ -1952,7 +1952,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	return TRUE
 
 /datum/species/proc/apply_damage(damage, damagetype = BRUTE, def_zone = null, blocked, mob/living/carbon/human/H, forced = FALSE, spread_damage = FALSE)
-	SEND_SIGNAL(H, COMSIG_MOB_APPLY_DAMGE, damage, damagetype, def_zone)
+	SEND_SIGNAL(H, COMSIG_MOB_APPLY_DAMGE, damage, damagetype, def_zone, &spread_damage)
 	var/hit_percent = 1
 	damage = max(damage-blocked+armor,0)
 //	var/hit_percent =  (100-(blocked+armor))/100

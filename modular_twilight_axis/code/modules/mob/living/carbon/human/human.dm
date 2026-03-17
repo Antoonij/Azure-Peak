@@ -17,4 +17,4 @@
 
 /mob/living/carbon/human/ComponentInitialize()
 	. = ..()
-	AddElement(/datum/element/damage_spread, list(BURN), 90)
+	AddElement(/datum/element/damage_spread, null, 100, 50)
