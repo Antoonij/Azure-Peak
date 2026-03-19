@@ -12,7 +12,10 @@
 					/obj/effect/proc_holder/spell/self/psydonrespite			= CLERIC_T2, //Ditto, but stronger. The original variant, intended for dedicated - non-Adventuring - combat classes.
 					/obj/effect/proc_holder/spell/self/psydonpersist			= CLERIC_T3, //Ditto-ditto. Intended for non-combative devotee classes, such as the Missionary and Absolver.
 	)
-	traits_tier = list(TRAIT_PSYDONITE = CLERIC_T0) //Requires a minimal holy skill or the 'Devotee' virtue to unlock. Offers passive wound regeneration, but prevents healing from most miracles.
+	traits_tier = list(
+		TRAIT_PSYDONITE = CLERIC_T0,
+		TRAIT_PSYDONITE_2 = CLERIC_T1,
+		)
 	confess_lines = list(
 		"THERE IS ONLY ONE TRUE GOD!",
 		"PSYDON YET LYVES! PSYDON YET ENDURES!",

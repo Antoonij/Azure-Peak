@@ -272,16 +272,21 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 		set_bleed_rate(max(clotting_threshold, bleed_rate - clotting_rate))
 		if(!owner || QDELETED(owner) || QDELETED(src))
 			return FALSE
-
-	if(HAS_TRAIT(owner, TRAIT_PSYDONITE) && !passive_healing)
-		heal_wound(0.6)
-		if(!owner || QDELETED(owner) || QDELETED(src))
-			return FALSE
-
-	if(passive_healing && owner && owner.stat != DEAD)
-		heal_wound(passive_healing)
-
+	
+	heal_wound(calculate_passive_healing_on_life())
+	
 	return TRUE
+
+/datum/wound/proc/calculate_passive_healing_on_life()
+	. = 0
+
+	if(HAS_TRAIT(owner, TRAIT_PSYDONITE))
+		. += 0.2
+
+	if(HAS_TRAIT(owner, TRAIT_PSYDONITE_2) && !HAS_TRAIT(owner, TRAIT_PARALYSIS) && owner.blood_volume > BLOOD_VOLUME_SURVIVE)
+		. += owner.STAWIL * 0.1
+
+	. += passive_healing
 
 /// Called on handle_wounds(), on the life() proc
 /datum/wound/proc/on_death()
@@ -316,7 +321,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 /// Heals this wound by the given amount, and deletes it if it's healed completely
 /datum/wound/proc/heal_wound(heal_amount)
 	// Wound cannot be healed normally, whp is null
-	if(isnull(whp))
+	if(isnull(whp) || heal_amount <= 0)
 		return 0
 	var/amount_healed = min(whp, round(heal_amount, DAMAGE_PRECISION))
 	var/pain_healed = min(woundpain, round(heal_amount / 2, DAMAGE_PRECISION))
