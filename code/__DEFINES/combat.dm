@@ -67,6 +67,7 @@
 #define CLICK_CD_GLACIAL 20	// Tier: Glacial
 #define CLICK_CD_MASSIVE 18	// Tier: Extremely Sluggish
 #define CLICK_CD_HEAVY 16		// Tier: Very Sluggish
+#define CLICK_CD_DODGE 16
 #define CLICK_CD_CHARGED 14	// Tier: Sluggish
 #define CLICK_CD_MELEE 12		// Tier: Normal (baseline)
 #define CLICK_CD_QUICK 10		// Tier: Quick

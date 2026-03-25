@@ -13,6 +13,7 @@
 	if(!cmode)	//We just toggled it off.
 		addtimer(CALLBACK(src, PROC_REF(purge_bait)), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 		addtimer(CALLBACK(src, PROC_REF(clear_tempo_all)), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+		addtimer(CALLBACK(src, PROC_REF(reset_dodgetime), 20 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE))
 	if(!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 		filtered_balloon_alert(TRAIT_COMBAT_AWARE, (cmode ? ("<i><font color = '#831414'>Tense</font></i>") : ("<i><font color = '#c7c6c6'>Relaxed</font></i>")), y_offset = 32)
 
@@ -82,6 +83,8 @@
 	HT.apply_status_effect(/datum/status_effect/debuff/baited)
 	HT.apply_status_effect(/datum/status_effect/debuff/exposed)
 	HT.apply_status_effect(/datum/status_effect/debuff/clickcd, 5 SECONDS)
+	HT.dodgetime = clamp(HT.dodgetime + 5, 0, CLICK_CD_DODGE)
+	HU.dodgetime = clamp(HU.dodgetime - 5, 0, CLICK_CD_DODGE)
 	HT.bait_stacks++
 	HT.reset_desert_rider_momentum_tier()
 
@@ -242,6 +245,8 @@
 	L.Immobilize(0.5 SECONDS)
 	L.stamina_add(L.stamina * 0.1)
 	L.Slowdown(2)
+	L.dodgetime = clamp(L.dodgetime + 5, 0, CLICK_CD_DODGE)
+	user.dodgetime = clamp((user.dodgetime - 3), 0, CLICK_CD_DODGE)
 
 	user.changeNext_move(CLICK_CD_FAST)	//We don't want the feint effect to be popped instantly.
 	user.apply_status_effect(/datum/status_effect/debuff/feintcd, newcd)

@@ -3,8 +3,7 @@
 	if(pulledby || pulling)
 		return FALSE
 	if(world.time < last_dodge + dodgetime)
-		if(!istype(rmb_intent, /datum/rmb_intent/riposte))
-			return FALSE
+		return FALSE
 	if(has_status_effect(/datum/status_effect/debuff/riposted))
 		return FALSE
 	if(has_status_effect(/datum/status_effect/debuff/exposed) || has_status_effect(/datum/status_effect/debuff/vulnerable))
@@ -43,18 +42,16 @@
 		if(fixedeye)
 			var/dodgedir = turn(dir, 180)
 			var/turf/turfcheck = get_step(src, dodgedir)
-			if(turfcheck && !turfcheck.density)
-				turfy = turfcheck
+			if(turfcheck)
+				if(check_dodge_turf(turfcheck))
+					turfy = turfcheck
 		if(!turfy)
 			for(var/x in shuffle(dirry.Copy()))
-				turfy = get_step(src,x)
-				if(turfy)
-					if(turfy.density)
-						continue
-					for(var/atom/movable/AM in turfy)
-						if(AM.density)
-							continue
-					break
+				var/turf/turfcheck = turfy = get_step(src,x)
+				if(turfcheck)
+					if(check_dodge_turf(turfcheck))
+						turfy = turfcheck
+						break
 		if(pulledby)
 			return FALSE
 		if(!turfy)
@@ -78,6 +75,16 @@
 					return FALSE
 	else
 		return FALSE
+
+/mob/living/proc/check_dodge_turf(turf/check_turf)
+	if(!check_turf)
+		return FALSE
+	if(check_turf.density)
+		return FALSE
+	for(var/atom/movable/AM in check_turf.contents)
+		if(AM.density)
+			return FALSE
+	return TRUE
 
 // origin is used for multi-step dodges like jukes
 /mob/living/proc/get_dodge_destinations(mob/living/attacker, atom/origin = src)
@@ -119,12 +126,14 @@
 		UH = user
 		I = UH.used_intent.masteritem
 	var/prob2defend = U.defprob
+	var/is_in_cone = L.can_see_cone(user)
+	var/has_trait = H?.check_dodge_skill()
 	if(L.stamina >= L.max_stamina)
 		return FALSE
 	if(src.client)
 		log_combat(src, user, "dodged against")
 	if(L)
-		if(H?.check_dodge_skill())
+		if(has_trait && is_in_cone)
 			prob2defend = prob2defend + (L.STASPD * 15)
 		else
 			prob2defend = prob2defend + (L.STASPD * 10)
@@ -185,6 +194,9 @@
 			if(HAS_TRAIT(UH, TRAIT_FENCERDEXTERITY))
 				prob2defend -= 10
 				ignore_DE_bonus = TRUE
+		
+		if(!is_in_cone)
+			ignore_DE_bonus = TRUE
 
 		if(I)	//Skilldiff applies extra stamloss, tentative
 			drained += (UH.get_skill_level(I.associated_skill) - H.get_skill_level(I.associated_skill))
@@ -192,13 +204,13 @@
 			if(istype(U.rmb_intent, /datum/rmb_intent/swift) && I.wbalance != WBALANCE_HEAVY)
 				drained += 3	//We drain extra stam if we're being attacked by swift stance
 
-		if(U.STASPD > H.STASPD)	//Speed diff applies extra stamloss, tentative
-			drained += (U.STASPD - H.STASPD)
-
 		if(H?.check_dodge_skill() && H.mind && !ignore_DE_bonus && H.STASPD >= 10)
 			prob2defend = 90	//We cap it out if we have Dodge Expert as a Player.
 
-		prob2defend = clamp(prob2defend, 5, 90)
+		var/max_dodge = 0
+		if(dodgetime <= CLICK_CD_DODGE && !ignore_DE_bonus && has_trait)
+			max_dodge = (CLICK_CD_DODGE / 2) - dodgetime
+		prob2defend = clamp((prob2defend + max_dodge), 5, (90 + max_dodge))
 
 		//------------Dual Wielding Checks------------
 		var/attacker_dualw
@@ -302,6 +314,7 @@
 			user.visible_message(span_warning("<b>[user]</b> clips [src]'s weapon!"))
 			playsound(user, 'sound/misc/weapon_clip.ogg', 100)
 	dodgecd = FALSE
+	dodgetime = clamp(dodgetime + 1, 0, CLICK_CD_HEAVY)
 //		if(H)
 //			if(H.IsOffBalanced())
 //				H.Knockdown(1)

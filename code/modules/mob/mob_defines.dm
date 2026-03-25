@@ -273,7 +273,7 @@
 	var/dodgecd = FALSE
 
 	var/setparrytime = 12
-	var/dodgetime = 12
+	var/dodgetime = 0
 	var/magearmor = 0
 
 	var/last_dodge = 0

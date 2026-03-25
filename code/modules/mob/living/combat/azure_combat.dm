@@ -26,6 +26,7 @@
 		playsound(src, 'sound/combat/clash_struck.ogg', 100)
 		H.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 		H.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
+		H.dodgetime = clamp(H.dodgetime + 5, 0, CLICK_CD_HEAVY)
 		H.Slowdown(3)
 		to_chat(src, span_notice("[capitalize(H.p_theyre())] exposed!"))
 		remove_status_effect(/datum/status_effect/buff/clash)
@@ -48,6 +49,8 @@
 		playsound(src, 'sound/combat/clash_struck.ogg', 100)
 		H.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 		H.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
+		H.dodgetime = clamp(H.dodgetime + 5, 0, CLICK_CD_HEAVY)
+		dodgetime = clamp(dodgetime - 5, 0, CLICK_CD_DODGE)
 		H.Slowdown(3)
 		to_chat(src, span_notice("[capitalize(H.p_theyre())] exposed!"))
 		remove_status_effect(/datum/status_effect/buff/clash)
@@ -209,6 +212,10 @@
 		if(bait_stacks > 0)
 			bait_stacks = 0
 			to_chat(src, span_info("My focus and balance returns. I won't lose my footing if I am baited again."))
+
+/mob/living/carbon/human/proc/reset_dodgetime()
+	if(!cmode)
+		dodgetime = 0
 
 ///A Unique Stat comparison between src and HT.
 ///It takes the highest stats up to 14 and lowest stats 'up to' 14.
