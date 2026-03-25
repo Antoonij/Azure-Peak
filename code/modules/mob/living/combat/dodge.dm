@@ -127,6 +127,10 @@
 		I = UH.used_intent.masteritem
 	var/prob2defend = U.defprob
 	var/is_in_cone = L.can_see_cone(user)
+	if(!is_in_cone && H)
+		is_in_cone = H?.get_tempo_bonus(TEMPO_TAG_NOLOS_DODGE)
+	if(!is_in_cone)
+		dodgetime = CLAMP(dodgetime + 2, 0, CLICK_CD_DODGE)
 	var/has_trait = H?.check_dodge_skill()
 	if(L.stamina >= L.max_stamina)
 		return FALSE
@@ -210,6 +214,13 @@
 		var/max_dodge = 0
 		if(dodgetime <= CLICK_CD_DODGE && !ignore_DE_bonus && has_trait)
 			max_dodge = (CLICK_CD_DODGE / 2) - dodgetime
+
+			var/mainh = get_active_held_item()
+			var/offh = get_inactive_held_item()
+			if(istype(mainh, /obj/item/rogueweapon/shield) || istype(offh, /obj/item/rogueweapon/shield))	//why do I have to pre-empt the worst of you
+				max_dodge = -CLICK_CD_DODGE
+				dodgetime = CLICK_CD_DODGE
+			//!max_dodge = max(max_dodge, ??) not sure what this could be, yet, hard to say.
 		prob2defend = clamp((prob2defend + max_dodge), 5, (90 + max_dodge))
 
 		//------------Dual Wielding Checks------------

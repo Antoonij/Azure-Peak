@@ -390,6 +390,16 @@
 				return TRUE
 			else
 				return FALSE
+		//Whether we care about our attacker being in our FOV when dodging.
+		if(TEMPO_TAG_NOLOS_DODGE)
+			if(has_status_effect(/datum/status_effect/buff/tempo_one))
+				return FALSE
+			if(has_status_effect(/datum/status_effect/buff/tempo_two))
+				return TRUE
+			if(has_status_effect(/datum/status_effect/buff/tempo_three))
+				return TRUE
+			else
+				return FALSE
 		//How much less armor integ we lose on hit. Multiplier. (0 to 1)
 		if(TEMPO_TAG_ARMOR_INTEGFACTOR)
 			if(has_status_effect(/datum/status_effect/buff/tempo_one))

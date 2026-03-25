@@ -357,6 +357,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define TEMPO_TAG_STAMLOSS_DODGE "dodge"
 #define TEMPO_TAG_ARMOR_INTEGFACTOR "integ"
 #define TEMPO_TAG_NOLOS_PARRY "nolosparry"
+#define TEMPO_TAG_NOLOS_DODGE "nolosdodge"
 #define TEMPO_TAG_DEF_SHARPNESSFACTOR "sharpness"
 #define TEMPO_TAG_DEF_INTEGFACTOR "parryinteg"
 #define TEMPO_TAG_PARRYCD_BONUS	"parrycd"
