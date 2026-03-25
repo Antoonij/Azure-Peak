@@ -4,6 +4,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/wretch/deserter
+	class_select_category = CLASS_CAT_WARRIOR
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_NOBLE)
 	maximum_possible_slots = 2 //Ideal role for fraggers. Better to limit it.
@@ -15,7 +16,7 @@
 		STATKEY_CON = 2,
 		STATKEY_STR = 2,
 		STATKEY_PER = 2,
-		STATKEY_FOR = 1
+		STATKEY_LCK = 1
 	)
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
