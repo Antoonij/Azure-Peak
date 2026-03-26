@@ -320,7 +320,8 @@
 				if(istype(used_weapon, /obj/item/rogueweapon/shield) && intenty)
 					intdam *= intenty.intent_intdamage_factor
 				used_weapon.take_damage(intdam, BRUTE, used_weapon.d_type)
-			dodgetime = CLAMP(dodgetime - 2, 0, CLICK_CD_DODGE)
+			if(mind)
+				dodgetime = CLAMP(dodgetime - 2, 0, CLICK_CD_DODGE)
 			return TRUE
 		else
 			return FALSE
@@ -345,7 +346,8 @@
 			else if(unarmed_bandages)
 				unarmed_bandages.take_damage(INTEG_PARRY_DECAY_NOSHARP, "slash", armor_penetration = 100)
 			flash_fullscreen("blackflash2")
-			dodgetime = CLAMP(dodgetime - 2, 0, CLICK_CD_DODGE)
+			if(mind)
+				dodgetime = CLAMP(dodgetime - 2, 0, CLICK_CD_DODGE)
 			return TRUE
 		else
 

@@ -208,11 +208,11 @@
 			if(istype(U.rmb_intent, /datum/rmb_intent/swift) && I.wbalance != WBALANCE_HEAVY)
 				drained += 3	//We drain extra stam if we're being attacked by swift stance
 
-		if(H?.check_dodge_skill() && H.mind && !ignore_DE_bonus && H.STASPD >= 10)
+		if(has_trait && H.mind && !ignore_DE_bonus && H.STASPD > 10)
 			prob2defend = 90	//We cap it out if we have Dodge Expert as a Player.
 
 		var/max_dodge = 0
-		if(dodgetime <= CLICK_CD_DODGE && !ignore_DE_bonus && has_trait)
+		if(dodgetime <= CLICK_CD_DODGE && !ignore_DE_bonus && has_trait && H.mind)
 			max_dodge = (CLICK_CD_DODGE / 2) - dodgetime
 
 			var/mainh = get_active_held_item()
