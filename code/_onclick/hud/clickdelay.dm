@@ -54,10 +54,11 @@
 	return TRUE
 
 /atom/movable/screen/action_bar/defensedelay
-	name = "defense delay"
+	name = "defense readiness"
+	desc = "My readiness to defend. If the light is gone, I cannot dodge or parry."
 	icon = 'icons/mob/roguehud.dmi'
 	icon_state = "defdelay0"
-	mouse_opacity = 0
+	mouse_opacity = TRUE
 	layer = ABOVE_HUD_LAYER
 	plane = HUD_PLANE
 	alpha = 230
