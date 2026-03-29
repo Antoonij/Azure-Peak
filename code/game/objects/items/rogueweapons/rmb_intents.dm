@@ -83,8 +83,12 @@
 	HT.apply_status_effect(/datum/status_effect/debuff/baited)
 	HT.apply_status_effect(/datum/status_effect/debuff/exposed)
 	HT.apply_status_effect(/datum/status_effect/debuff/clickcd, 5 SECONDS)
-	HT.dodgetime = clamp(HT.dodgetime + 5, 0, CLICK_CD_DODGE)
-	HU.dodgetime = clamp(HU.dodgetime - 5, 0, CLICK_CD_DODGE)
+	if(HT.d_intent == INTENT_DODGE)
+		HT.changeNext_def(clamp(HT.dodgetime + 5, 0, CLICK_CD_DODGE))
+		HT.changeMaxDodge(-5)
+	if(HU.d_intent == INTENT_DODGE)
+		HU.changeNext_def(clamp(HU.dodgetime - 5, 0, CLICK_CD_DODGE))
+		HU.changeMaxDodge(5)
 	HT.bait_stacks++
 	HT.reset_desert_rider_momentum_tier()
 
@@ -245,8 +249,12 @@
 	L.Immobilize(0.5 SECONDS)
 	L.stamina_add(L.stamina * 0.1)
 	L.Slowdown(2)
-	L.dodgetime = clamp(L.dodgetime + 5, 0, CLICK_CD_DODGE)
-	user.dodgetime = clamp((user.dodgetime - 3), 0, CLICK_CD_DODGE)
+	if(L.d_intent == INTENT_DODGE)
+		L.changeNext_def(clamp(L.dodgetime + 5, 0, CLICK_CD_DODGE))
+		L.changeMaxDodge(-3)
+	if(user.d_intent == INTENT_DODGE)
+		user.changeNext_def(clamp((user.dodgetime - 3), 0, CLICK_CD_DODGE))
+		user.changeMaxDodge(2)
 
 	user.changeNext_move(CLICK_CD_FAST)	//We don't want the feint effect to be popped instantly.
 	user.apply_status_effect(/datum/status_effect/debuff/feintcd, newcd)

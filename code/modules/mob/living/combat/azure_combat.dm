@@ -218,6 +218,7 @@
 /mob/living/carbon/human/proc/reset_dodgetime()
 	if(!cmode && mind)
 		dodgetime = 0
+		max_dodge = MAX_DODGE_CEIL
 
 ///A Unique Stat comparison between src and HT.
 ///It takes the highest stats up to 14 and lowest stats 'up to' 14.
@@ -366,6 +367,8 @@
 				return 0.4 SECONDS
 			if(has_status_effect(/datum/status_effect/buff/tempo_three))
 				return 0.6 SECONDS
+			else
+				return 0
 		//Modifier for how much integ damage the weapon we parry with takes. Multiplier.
 		if(TEMPO_TAG_DEF_INTEGFACTOR)
 			if(has_status_effect(/datum/status_effect/buff/tempo_one))

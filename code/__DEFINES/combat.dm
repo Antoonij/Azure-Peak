@@ -420,3 +420,6 @@ Medical defines
 
 #define PROB_ATTACK_EMOTE_PLAYER 10
 #define PROB_ATTACK_EMOTE_NPC 10
+
+#define MAX_DODGE_CEIL 5
+#define MAX_DODGE_FLOOR -15

@@ -130,7 +130,8 @@
 	if(!is_in_cone && H)
 		is_in_cone = H?.get_tempo_bonus(TEMPO_TAG_NOLOS_DODGE)
 	if(!is_in_cone)
-		dodgetime = CLAMP(dodgetime + 2, 0, CLICK_CD_DODGE)
+		L.changeNext_def(CLAMP(dodgetime + 2, 0, CLICK_CD_DODGE))
+		L.changeMaxDodge(-2)
 	var/has_trait = H?.check_dodge_skill()
 	if(L.stamina >= L.max_stamina)
 		return FALSE
@@ -211,16 +212,13 @@
 		if(has_trait && H.mind && !ignore_DE_bonus && H.STASPD > 10)
 			prob2defend = 90	//We cap it out if we have Dodge Expert as a Player.
 
-		var/max_dodge = 0
 		if(dodgetime <= CLICK_CD_DODGE && !ignore_DE_bonus && has_trait && H.mind)
-			max_dodge = (CLICK_CD_DODGE / 2) - dodgetime
 
 			var/mainh = get_active_held_item()
 			var/offh = get_inactive_held_item()
 			if(istype(mainh, /obj/item/rogueweapon/shield) || istype(offh, /obj/item/rogueweapon/shield))	//why do I have to pre-empt the worst of you
-				max_dodge = -CLICK_CD_DODGE
-				dodgetime = CLICK_CD_DODGE
-			//!max_dodge = max(max_dodge, ??) not sure what this could be, yet, hard to say.
+				max_dodge = MAX_DODGE_FLOOR
+				L.changeNext_def(CLICK_CD_DODGE)
 		prob2defend = clamp((prob2defend + max_dodge), 5, (90 + max_dodge))
 
 		//------------Dual Wielding Checks------------
@@ -325,7 +323,8 @@
 			user.visible_message(span_warning("<b>[user]</b> clips [src]'s weapon!"))
 			playsound(user, 'sound/misc/weapon_clip.ogg', 100)
 	dodgecd = FALSE
-	dodgetime = clamp(dodgetime + 1, 0, CLICK_CD_HEAVY)
+	L.changeNext_def(clamp(dodgetime + 1, 0, CLICK_CD_HEAVY))
+	L.changeMaxDodge(-1)
 //		if(H)
 //			if(H.IsOffBalanced())
 //				H.Knockdown(1)
