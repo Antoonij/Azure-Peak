@@ -69,7 +69,6 @@
 				icon_state = "defdelay1"
 				return TRUE
 		if(INTENT_PARRY)
-			to_chat(world, "we're checking [(L.last_parry + L.parrydelay)] against [world.time]")
 			if((L.last_parry + L.parrydelay) > world.time)
 				icon_state = "defdelay1"
 				return TRUE
