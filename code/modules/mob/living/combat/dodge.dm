@@ -242,6 +242,9 @@
 				else//If we're defending against or as a dual wielder, we roll disadv. But if we're both dual wielding it cancels out.
 					text += " Twice! Disadvantage! ([(prob2defend / 100) * (prob2defend / 100) * 100]%)"
 			to_chat(src, span_info("[text]"))
+			
+		if(user.client?.prefs.showrolls && !HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) && client)
+			to_chat(user, span_info("Their roll to dodge was... [prob2defend]%"))
 
 		var/dodge_status = FALSE
 		if((!defender_dualw && !attacker_dualw) || (defender_dualw && attacker_dualw)) //They cancel each other out
