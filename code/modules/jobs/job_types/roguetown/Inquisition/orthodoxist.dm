@@ -25,7 +25,8 @@
 		/datum/advclass/disciple,
 		/datum/advclass/sojourner,
 		/datum/advclass/confessor,
-		/datum/advclass/psyaltrist
+		/datum/advclass/psyaltrist,
+		/datum/advclass/arbalist,
 	)
 	same_job_respawn_delay = 30 MINUTES
 

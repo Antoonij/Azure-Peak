@@ -25,7 +25,7 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT, 
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN, //Ensures that captured individuals are less likely to die, if subdued with harsher force.
+		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE, // TA EDIT
 		/datum/skill/misc/sneaking = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/stealing = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_MASTER,
@@ -61,34 +61,12 @@
 			if("Psydonic Flanged Mace - Heavy-Balanced")
 				l_hand = /obj/item/rogueweapon/mace/cudgel/psy
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)	
-		var/armors = list("Confessor - Slurbow, Leather Maillecoat", "Arbalist - Crossbow, Psydonic Chestplate, Pushup Armour")
-		var/armor_choice = input(H, "Choose your ARCHETYPE.", "TAKE UP PSYDON'S DUTY.") as anything in armors
-		switch(armor_choice)
-			if("Confessor - Slurbow, Leather Maillecoat")
-				head = /obj/item/clothing/head/roguetown/roguehood/psydon/confessor
-				armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/confessor
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
-				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
-				beltl = /obj/item/quiver/bolt/light
-			if("Arbalist - Crossbow, Psydonic Chestplate, Pushup Armour")
-				head = /obj/item/clothing/head/roguetown/headband/bloodied
-				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/psydon
-				shirt = /obj/item/clothing/suit/roguetown/armor/manual/sewable/confessor
-				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-				REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 5, TRUE)
-				H.change_stat(STATKEY_CON, 1)
-				H.change_stat(STATKEY_STR, 2)
-				H.change_stat(STATKEY_PER, 1) //Applies a base statblock of 11/11/11/13 to CON, STR, SPD and PER - compared to the standard 10/9/13/12 + DODGE EXPERT. Physically adept and capable of higher ranged damage..
-				H.change_stat(STATKEY_SPD, -2) //..but with a massive loss to mobility and damage evasion, alongside the naturally low defense of their sidearms.
-				var/quivers = list("Bolts - Steel-Tipped", "Sunderbolts - Silver-Tipped, Halved Damage")
-				var/boltchoice = input(H,"Choose your MUNITIONS.", "TAKE UP PSYDON'S MISSILES.") as anything in quivers
-				switch(boltchoice)
-					if("Bolts - Steel-Tipped")
-						beltl = /obj/item/quiver/bolt/standard
-					if("Sunderbolts - Silver-Tipped, Halved Damage")
-						beltl = /obj/item/quiver/bolt/holy
-
+	
+	head = /obj/item/clothing/head/roguetown/roguehood/psydon/confessor
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/confessor
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
+	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
+	beltl = /obj/item/quiver/bolt/light
 	cloak = /obj/item/storage/backpack/rogue/satchel/beltpack
 	wrists = /obj/item/clothing/neck/roguetown/psicross/silver
 	gloves = /obj/item/clothing/gloves/roguetown/otavan/psygloves
@@ -100,6 +78,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
 	mask = /obj/item/clothing/mask/rogue/facemask/steel/confessor
 	id = /obj/item/clothing/ring/signet/psy
+
 	backpack_contents = list(
 		/obj/item/roguekey/inquisitionmanor = 1,
 		/obj/item/rope/inqarticles/inquirycord = 1,
@@ -111,3 +90,6 @@
 		/obj/item/rogueweapon/huntingknife/idagger/silver/psydagger = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
+	
+	var/datum/devotion/C = new /datum/devotion(H, H.patron)
+	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1)

@@ -1012,3 +1012,120 @@
 // ("#..our father above, hallowed be thy name..","#..thy kingdom come, thy will be done..","#..I fear no evil, for thou art with me..")
 // ("#..with every broken bone, I swore I lyved..","#..thou shalt ward me within the valleys o' evil..","#..the fires of Syon, everburning with thine vigor..")
 // ("#..in Psydon's glory, all malaises shall melt away..","#..thine holy spirit lies within all our hearts, weeping forevermore..","#..thou shalt know all, for enduring begets enlightenment..")
+
+/obj/effect/proc_holder/spell/self/psydonic_lux_bolt
+	name = "SYONACRUM"
+	desc = "A miracle of an ancient order, allowing one to form portions of their lux into suitable implements. \
+	In your case, projectiles, for your beloved sauterelle. The effects of such are only felt shortly after use, so be swift."
+	recharge_time = 3 MINUTES
+	movement_interrupt = FALSE
+	chargedrain = 0
+	chargetime = 1 SECONDS
+	charging_slowdown = 2
+	chargedloop = null
+	associated_skill = /datum/skill/magic/holy
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	sound = 'sound/magic/woundheal_crunch.ogg'
+	invocations = list("*scream")
+	invocation_type = "shout"
+	antimagic_allowed = TRUE
+	miracle = TRUE
+	devotion_cost = 75
+	var/obj/item/rogueweapon/conjured_lux_bolt
+
+/obj/effect/proc_holder/spell/self/psydonic_lux_bolt/cast(mob/living/carbon/human/user)
+	if(!isliving(user))
+		return FALSE
+
+	if(conjured_lux_bolt)
+		qdel(conjured_lux_bolt)
+	
+	var/obj/item/ammo_casing/caseless/rogue/heavy_bolt/R = new /obj/item/ammo_casing/caseless/rogue/heavy_bolt/lux(user.drop_location())
+	R.AddComponent(/datum/component/conjured_item)
+	
+	user.put_in_hands(R)
+	conjured_lux_bolt = R
+	addtimer(CALLBACK(src, PROC_REF(lux_punish), user), wait = 12 SECONDS)
+
+	return TRUE
+
+/obj/effect/proc_holder/spell/self/psydonic_lux_bolt/proc/lux_punish(mob/living/carbon/target)
+	target.visible_message(span_notice("[target] shimmers, as if they're to fade away entirely, before snapping back to reality."), \
+		span_userdanger("My own spark, my <b>lyfe</b>, flashes afore me. What have I done?"))
+	
+	target.blood_volume = max(target.blood_volume-125, 0)
+	target.handle_blood()
+
+	new /obj/effect/decal/cleanable/blood/puddle(target.loc)
+
+	target.apply_damage(50, BRUTE, spread_damage = TRUE)
+	playsound(target.loc, 'sound/magic/woundheal_crunch.ogg', 100, FALSE)
+
+/obj/effect/proc_holder/spell/self/psydonic_lux_bolt/Destroy()
+	if(conjured_lux_bolt)
+		conjured_lux_bolt.visible_message(span_warning("The [conjured_lux_bolt]'s borders begin to buckle and warp, before it disperses entirely!"))
+		QDEL_NULL(conjured_lux_bolt)
+	
+	return ..()
+
+/obj/item/ammo_casing/caseless/rogue/heavy_bolt/lux
+	name = "lux bolt"
+	desc = "A bolt, formed of pure, unfettered <b>lux</b>. Your own, likely, if you're holding this. \
+	Surely you can understand what's meant to be done?"
+	projectile_type = /obj/projectile/bullet/reusable/heavy_bolt/lux
+	icon_state = "lux_bolt"
+	max_integrity = 0.1
+	force = 20
+	is_silver = TRUE
+
+/obj/projectile/bullet/reusable/heavy_bolt/lux
+	name = "lux projectile"
+	damage = 10
+	damage_type = BURN
+	armor_penetration = PEN_BSTEEL
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/lux
+	hitsound = 'sound/combat/hits/hi_bolt (1).ogg'
+	speed = 0.3
+	npc_simple_damage_mult = 7
+	poisontype = /datum/reagent/water/blessed
+	poisonamount = 15
+	var/probably_not_friendly = MOB_UNDEAD
+
+/obj/projectile/bullet/reusable/heavy_bolt/lux/on_hit(mob/living/target)
+	. = ..()
+
+	if(istype(target))
+		if(target.mob_biotypes & probably_not_friendly)
+			target.adjust_fire_stacks(12, /datum/status_effect/fire_handler/fire_stacks/sunder)
+			target.apply_damage(50, BRUTE, spread_damage = TRUE)
+			target.apply_damage(50, BURN, spread_damage = TRUE)
+		else
+			target.adjust_fire_stacks(6)
+			target.apply_damage(50, BRUTE, spread_damage = TRUE)
+			target.apply_damage(25, BURN, spread_damage = TRUE)
+
+		target.ignite_mob()
+		visible_message(span_warning("[target] erupts in divine flames upon being struck by [src]!"))
+	
+	var/turf/fallzone = get_turf(target)
+	if(!fallzone)
+		return
+	var/const/damage = 300
+	var/const/radius = 1
+	for(var/turf/open/visual in view(radius, fallzone))
+		var/obj/effect/temp_visual/luxturf/luxspread = new /obj/effect/temp_visual/luxturf(visual)
+		var/datum/effect_system/smoke_spread/S = new /datum/effect_system/smoke_spread/fast
+		animate(luxspread, alpha = 255, time = 8)
+		S.set_up(radius, fallzone)
+		S.start()
+	
+	for(var/obj/structure/damaged in view(radius, fallzone))
+		if(!istype(damaged, /obj/structure/flora/newbranch))
+			damaged.take_damage(damage, BRUTE, "blunt", 1)
+	for(var/turf/closed/wall/damagedwalls in view(radius, fallzone))
+		damagedwalls.take_damage(damage, BRUTE, "blunt", 1)
+	qdel(src)
+
+/obj/effect/temp_visual/luxturf
+	icon_state = "emppulse"
+	duration = 8
