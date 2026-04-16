@@ -336,67 +336,86 @@
 	icon_state = "knife"
 	item_state = "knife"
 	strip_delay = 20
-	var/max_storage = 5			//Javelin bag is 4 and they can't hold items. So, more fair having it like this since these are pretty decent weapons.
-	var/list/knives = list()
 	sewrepair = TRUE
+
+	var/max_storage = 5
+	var/list/items = list()
+	var/allowed_type = /obj/item/rogueweapon/huntingknife/throwingknife
+	var/pickup_delay = 5 DECISECONDS
+
 	component_type = /datum/component/storage/concrete/roguetown/belt/knife_belt
 
-/obj/item/storage/belt/rogue/leather/knifebelt/attack_turf(turf/T, mob/living/user)
-	if(knives.len >= max_storage)
+/obj/item/storage/belt/rogue/leather/knifebelt/proc/can_accept(obj/A)
+    return allowed_type && istype(A, allowed_type)
+
+/obj/item/storage/belt/rogue/leather/knifebelt/proc/add_item(obj/A, mob/user)
+    if(items.len >= max_storage)
+        to_chat(user, span_warning("[name] is full!"))
+        return FALSE
+
+    if(ismob(A.loc))
+        var/mob/M = A.loc
+        M.doUnEquip(A, TRUE, src, TRUE, silent = TRUE)
+    else
+        A.forceMove(src)
+
+    items += A
+    update_icon()
+
+    return TRUE
+
+/obj/item/storage/belt/rogue/leather/knifebelt/proc/pickup_from_turf(turf/T, mob/user)
+	if(items.len >= max_storage)
 		to_chat(user, span_warning("Your [src.name] is full!"))
 		return
+
 	to_chat(user, span_notice("You begin to gather the ammunition..."))
-	for(var/obj/item/rogueweapon/huntingknife/throwingknife/K in T.contents)
-		if(do_after(user, 5))
-			if(!eatknife(K))
-				break
 
-/obj/item/storage/belt/rogue/leather/knifebelt/proc/eatknife(obj/A)
-	if(A.type in typesof(/obj/item/rogueweapon/huntingknife/throwingknife))
-		if(knives.len < max_storage)
-			A.forceMove(src)
-			knives += A
-			update_icon()
-			return TRUE
-		else
-			return FALSE
+	for(var/obj/obj in T.contents)
+		if(!can_accept(obj))
+			continue
 
-/obj/item/storage/belt/rogue/leather/knifebelt/attackby(obj/A, loc, params)
-	if(A.type in typesof(/obj/item/rogueweapon/huntingknife/throwingknife))
-		if(knives.len < max_storage)
-			if(ismob(loc))
-				var/mob/M = loc
-				M.doUnEquip(A, TRUE, src, TRUE, silent = TRUE)
-			else
-				A.forceMove(src)
-			knives += A
-			update_icon()
-			to_chat(usr, span_notice("I discreetly slip [A] into [src]."))
-		else
-			to_chat(loc, span_warning("Full!"))
-		return
-	..()
+		if(!do_after(user, pickup_delay))
+			break
+
+		if(!add_item(obj, user))
+			break
+
+/obj/item/storage/belt/rogue/leather/knifebelt/attack_turf(turf/T, mob/living/user)
+    pickup_from_turf(T, user)
+
+/obj/item/storage/belt/rogue/leather/knifebelt/attackby(obj/A, mob/user, params)
+	if(!can_accept(A))
+		return ..()
+
+	if(!add_item(A, user))
+		return ..()
+
+	to_chat(user, span_notice("I discreetly slip [A] into [src]."))
 
 /obj/item/storage/belt/rogue/leather/knifebelt/attack_right(mob/user)
-	if(knives.len)
-		var/obj/O = knives[knives.len]
-		knives -= O
-		O.forceMove(user.loc)
-		user.put_in_hands(O)
-		update_icon()
-		return TRUE
+	if(!items.len)
+		return FALSE
+
+	var/obj/O = items[items.len]
+	items -= O
+	O.forceMove(user.loc)
+	user.put_in_hands(O)
+	update_icon()
+
+	return TRUE
 
 /obj/item/storage/belt/rogue/leather/knifebelt/examine(mob/user)
-	. = ..()
-	if(knives.len)
-		. += span_notice("[knives.len] inside.")
+    . = ..()
+    if(items.len)
+        . += span_notice("[items.len] inside.")
 
 /obj/item/storage/belt/rogue/leather/knifebelt/ai_get_custom_inventory()
-	return knives
+	return items
 
 /obj/item/storage/belt/rogue/leather/knifebelt/ai_withdraw_item(obj/item/it, mob/living/user)
-	if(it in knives)
-		knives -= it
+	if(it in items)
+		items -= it
 		update_icon()
 		return TRUE
 	return FALSE
@@ -405,7 +424,7 @@
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/rogueweapon/huntingknife/throwingknife/K = new()
-		knives += K
+		items += K
 	update_icon()
 
 /obj/item/storage/belt/rogue/leather/knifebelt/black
@@ -416,35 +435,35 @@
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/rogueweapon/huntingknife/throwingknife/K = new()
-		knives += K
+		items += K
 	update_icon()
 
 /obj/item/storage/belt/rogue/leather/knifebelt/black/steel/Initialize()
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/rogueweapon/huntingknife/throwingknife/steel/K = new()
-		knives += K
+		items += K
 	update_icon()
 
 /obj/item/storage/belt/rogue/leather/knifebelt/black/silver/Initialize()
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/rogueweapon/huntingknife/throwingknife/silver/K = new()
-		knives += K
+		items += K
 	update_icon()
 
 /obj/item/storage/belt/rogue/leather/knifebelt/black/psydon/Initialize()
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/rogueweapon/huntingknife/throwingknife/psydon/K = new()
-		knives += K
+		items += K
 	update_icon()
 
 /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun/Initialize()
 	. = ..()
 	for(var/i in 1 to max_storage)
 		var/obj/item/rogueweapon/huntingknife/throwingknife/kazengun/K = new()
-		knives += K
+		items += K
 	update_icon()
 
 /obj/item/storage/belt/rogue/leather/silkbelt
@@ -661,3 +680,20 @@
 	desc = "This belt has been sewn out of cloth, as opposed to tied. Which makes it superior. Obviously."
 	icon_state = "clothsash"
 	salvage_result = /obj/item/natural/cloth
+
+/obj/item/storage/belt/rogue/leather/knifebelt/stakebelt
+	name = "stake bolt belt"
+	desc = "A fifteen-slotted belt meant for stake bolts. Little room left over."
+	icon_state = "blackknife"
+	item_state = "blackknife"
+	max_storage = 15
+	allowed_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/holy
+
+/obj/item/storage/belt/rogue/leather/knifebelt/stakebelt/Initialize(mapload)
+	. = ..()
+
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/heavy_bolt/holy/K = new()
+		items += K
+
+	update_icon()

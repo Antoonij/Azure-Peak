@@ -385,4 +385,21 @@
 	item_state = "ancientheavybow"
 	max_integrity = 130
 
-//
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/arbalest
+	name = "sauterelle"
+	desc = "An incredibly heavy crossbow, designed for a dedicated arbalist to wield. \
+	Modified to be loaded by hand. A tedious affair."
+	icon = 'icons/roguetown/weapons/misc32.dmi'
+	icon_state = "staker0"
+	item_state = "staker"
+	fire_sound = 'sound/combat/Ranged/firebow-shot-02.ogg'
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/heavy_xbow
+	chargingspeed = 60
+	reloadtime = 8 SECONDS
+	penfactor = 1
+
+/obj/item/ammo_box/magazine/internal/shot/heavy_xbow
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt
+	caliber = "heabolt"
+	max_ammo = 1
+	start_empty = TRUE

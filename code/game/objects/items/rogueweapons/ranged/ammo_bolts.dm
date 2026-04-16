@@ -385,6 +385,24 @@
 	for(var/obj/O in T)
 		O.extinguish()
 
+/obj/item/ammo_casing/caseless/rogue/heavy_bolt/holy
+	name = "stake bolt"
+	desc = "A silver stake, affixed with fins. Drive back the darkness!"
+	projectile_type = /obj/projectile/bullet/reusable/heavy_bolt/holy
+	icon_state = "heavy_stake"
+	max_integrity = 30
+	force = 12
+	is_silver = TRUE
+
+/obj/projectile/bullet/reusable/heavy_bolt/holy
+	name = "stake bolt"
+	damage = 50
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt/holy
+	hitsound = 'sound/combat/hits/hi_bolt (3).ogg'
+	speed = 0.5
+	poisontype = /datum/reagent/water/blessed
+	poisonamount = 5
+	npc_simple_damage_mult = 5
 
 #undef MIN_BOLT_RANGE
 #undef MAX_BOLT_RANGE
