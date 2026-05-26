@@ -22,11 +22,22 @@
 	if(hud_used?.stressies)
 		hud_used.stressies.update_icon()
 
+	if(!stat && HAS_TRAIT(src, TRAIT_LYCANRESILENCE) && !HAS_TRAIT(src, TRAIT_PARALYSIS) && blood_volume > BLOOD_VOLUME_SURVIVE)
+		if(has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
+			return
+
+		heal_wounds(3)
+
+	if(blood_volume <= BLOOD_VOLUME_SURVIVE && stat)
+		handle_passive_blood()
+	
+	handle_random_events()
 	handle_wounds()
 	handle_embedded_objects()
 	handle_blood()
 	handle_roguebreath()
 	handle_swimming()
+	check_drowning()
 	
 	
 	var/bprv = handle_bodyparts()

@@ -46,7 +46,7 @@ SUBSYSTEM_DEF(mobs)
 /datum/controller/subsystem/mobs/fire(resumed = 0)
 	var/seconds = wait * 0.1
 	if (!resumed)
-		src.currentrun = GLOB.mob_living_list.Copy()
+		src.currentrun = GLOB.alive_mob_list.Copy()
 		alive_mobs = 0
 
 	//cache for sanic speed (lists are references anyways)
@@ -56,11 +56,12 @@ SUBSYSTEM_DEF(mobs)
 		var/mob/living/L = currentrun[currentrun.len]
 		currentrun.len--
 		if(!L || QDELETED(L))
-			GLOB.mob_living_list.Remove(L)
+			GLOB.alive_mob_list.Remove(L)
 			continue
-		if(L.stat != DEAD)
-			L.Life(seconds, times_fired)
-			alive_mobs++
+		
+		L.Life(seconds, times_fired)
+		alive_mobs++
+
 		if (MC_TICK_CHECK)
 			return
 
@@ -76,7 +77,7 @@ SUBSYSTEM_DEF(mobs_dead)
 
 /datum/controller/subsystem/mobs_dead/fire(resumed = 0)
 	if (!resumed)
-		src.currentrun = GLOB.mob_living_list.Copy()
+		src.currentrun = GLOB.dead_mob_list.Copy()
 		dead_mobs = 0
 	
 	//cache for sanic speed (lists are references anyways)
@@ -85,11 +86,12 @@ SUBSYSTEM_DEF(mobs_dead)
 		var/mob/living/L = currentrun[currentrun.len]
 		currentrun.len--
 		if(!L || QDELETED(L))
-			GLOB.mob_living_list.Remove(L)
+			GLOB.dead_mob_list.Remove(L)
 			continue
-		if (L.stat == DEAD)
-			L.DeadLife()
-			dead_mobs++
+		
+		L.DeadLife()
+		dead_mobs++
+
 		if (MC_TICK_CHECK)
 			return
 		
