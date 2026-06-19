@@ -19,6 +19,10 @@
 	icon_state = "arcaneeye"
 	see_in_dark = 2
 	hud_type = /datum/hud/eye
+	/// The central turf we are restricted to scrying around
+	var/turf/scry_center_turf
+	/// The maximum tile distance from the center turf allowed
+	var/scry_range = 2
 
 /mob/dead/observer/eye/arcane/proc/scry_tele()
 	set category = "RoleUnique.Arcane Eye"
@@ -92,3 +96,33 @@
 	if(zMove(DOWN, TRUE))
 		to_chat(src, span_notice("I move down."))
 
+/mob/dead/observer/rogue/arcaneeye/Move(NewLoc, direct)
+	if(scry_center_turf)
+		var/turf/destination = NewLoc ? get_turf(NewLoc) : get_step(src, direct)
+		if(destination && get_dist(destination, scry_center_turf) > scry_range)
+			to_chat(src, span_warning("The vision's power binds you to this area!"))
+			return FALSE
+	if(updatedir)
+		setDir(direct)//only update dir if we actually need it, so overlays won't spin on base sprites that don't have directions of their own
+	if(NewLoc)
+		var/turf/target_turf = get_turf(NewLoc)
+		if(target_turf)
+			return forceMove(target_turf)
+		return FALSE
+	var/turf/current_turf = get_turf(src)
+	if(!current_turf)
+		return FALSE
+	var/turf/step_turf = get_step(current_turf, direct)
+	if(step_turf)
+		return forceMove(step_turf)
+	return FALSE
+
+/mob/proc/scry(can_reenter_corpse = 1, force_respawn = FALSE, drawskip)
+	stop_sound_channel(CHANNEL_HEARTBEAT) //Stop heartbeat sounds because You Are A Ghost Now
+	var/mob/dead/observer/rogue/arcaneeye/eye = new(src)	// Transfer safety to observer spawning proc.
+	SStgui.on_transfer(src, eye) // Transfer NanoUIs.
+	eye.can_reenter_corpse = can_reenter_corpse
+	eye.vampirelord = src
+	eye.ghostize_time = world.time
+	eye.key = key
+	return eye
