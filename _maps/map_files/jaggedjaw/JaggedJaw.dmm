@@ -4408,6 +4408,15 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/beach/forest/south)
+"aOQ" = (
+/obj/structure/flora/rock/pile,
+/obj/item/paper{
+	name = "Windswept, forgotten Note";
+	info = "I lost the key again sir, my mistake.";
+	desc = "It's faded and only just legible."
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave)
 "aOR" = (
 /obj/structure/fluff/railing/border/west{
 	dir = 4
@@ -6996,6 +7005,17 @@
 /area/rogue/outdoors/town)
 "bme" = (
 /obj/effect/decal/remains/human,
+/obj/effect/decal/cleanable/blood,
+/obj/effect/decal/cleanable/blood/gibs,
+/obj/item/roguekey/bandit{
+	lockid = "Badmanor";
+	name = "Grim key";
+	layer = 2.8
+	},
+/obj/item/paper{
+	name = "Note";
+	info = "Do not lose this Key too- you incompetent, I'm sick of having to replace them every week."
+	},
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/shelter)
 "bmg" = (
@@ -8787,6 +8807,7 @@
 "bDd" = (
 /obj/structure/bed/rogue/inn/wool,
 /obj/item/bedsheet/rogue/fabric,
+/obj/effect/decal/cleanable/blood,
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/shelter)
 "bDi" = (
@@ -24191,7 +24212,7 @@
 /area/rogue/under/underdark/north)
 "esN" = (
 /obj/item/natural/stone,
-/turf/open/floor/rogue/cobblerock,
+/turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave)
 "esP" = (
 /obj/structure/closet/crate/chest/crate,
@@ -59379,11 +59400,9 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cavewet/bogcaves/south)
 "kMv" = (
-/obj/structure/mineral_door/bars{
-	locked = 1
-	},
-/turf/open/floor/rogue/cobble/mossy,
-/area/rogue/under/cave)
+/obj/effect/decal/cleanable/blood/splatter/walls,
+/turf/closed/wall/mineral/rogue/stone,
+/area/rogue/indoors/shelter)
 "kMD" = (
 /obj/structure/fluff/railing/border{
 	dir = 9
@@ -86987,8 +87006,8 @@
 /obj/structure/table/wood,
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/item/rogueweapon/sword/rapier/lord,
-/obj/effect/spawner/lootdrop/cheap_jewelry_spawner,
-/obj/effect/spawner/lootdrop/general_loot_mid,
+/obj/effect/spawner/lootdrop/valuable_jewelry_spawner,
+/obj/effect/spawner/lootdrop/general_loot_hi,
 /turf/open/floor/rogue/carpet/lord/right,
 /area/rogue/under/cave/dukecourt)
 "pJa" = (
@@ -92660,6 +92679,10 @@
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/southeast)
+"qIi" = (
+/obj/effect/decal/cleanable/blood,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/shelter)
 "qIj" = (
 /obj/structure/table/wood/poor,
 /obj/item/reagent_containers/glass/bowl,
@@ -95002,6 +95025,7 @@
 /area/rogue/indoors/town)
 "rfv" = (
 /mob/living/simple_animal/hostile/rogue/dragger,
+/obj/effect/decal/cleanable/blood,
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/shelter)
 "rfz" = (
@@ -98355,6 +98379,7 @@
 /area/rogue/under/cave/scarymaze)
 "rOj" = (
 /obj/structure/closet/crate/chest/loot_chest/locked,
+/obj/effect/decal/cleanable/blood,
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/shelter)
 "rOk" = (
@@ -112599,7 +112624,10 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/druidsgrove)
 "uoq" = (
-/obj/structure/mineral_door/bars,
+/obj/structure/mineral_door/bars{
+	locked = 1;
+	lockid = "Badmanor"
+	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave)
 "uot" = (
@@ -114604,6 +114632,7 @@
 /area/rogue/indoors/town/church/chapel)
 "uGF" = (
 /obj/structure/mineral_door/wood/violet,
+/obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/shelter)
 "uGH" = (
@@ -119464,6 +119493,10 @@
 /obj/item/rogueweapon/hammer/steel,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
+"vxX" = (
+/obj/effect/decal/cleanable/blood/splatter/walls,
+/turf/closed/wall/mineral/rogue/stone/red_moss,
+/area/rogue/indoors/shelter)
 "vyc" = (
 /obj/structure/flora/mushroomcluster,
 /turf/open/floor/rogue/cobble/mossy,
@@ -128853,6 +128886,7 @@
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town)
 "xgH" = (
+/obj/effect/decal/cleanable/blood,
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/shelter)
 "xgI" = (
@@ -617743,7 +617777,7 @@ fhE
 mDq
 oKF
 oKF
-oKF
+qIi
 tOV
 jwO
 dgM
@@ -618127,7 +618161,7 @@ oKF
 lUP
 mDq
 oKF
-oKF
+qIi
 dgM
 qrO
 qrO
@@ -618889,10 +618923,10 @@ oGw
 npg
 oze
 oze
-skt
+vxX
 rOj
 xgH
-dgM
+kMv
 qrO
 qrO
 qrO
@@ -619274,7 +619308,7 @@ duT
 skt
 bme
 rfv
-dgM
+kMv
 qrO
 qrO
 qrO
@@ -619653,7 +619687,7 @@ wru
 fml
 duT
 duT
-dgM
+kMv
 bDd
 skt
 skt
@@ -620036,7 +620070,7 @@ jTr
 wru
 wru
 dgM
-dgM
+kMv
 skt
 qrO
 qrO
@@ -685374,11 +685408,11 @@ xTQ
 sxO
 iDP
 sxO
-sxO
+pCB
 iDP
 qNY
 iDP
-sxO
+pCB
 oRw
 dnQ
 sxO
@@ -685752,7 +685786,7 @@ tBp
 pCB
 giJ
 sJh
-kMv
+uoq
 seu
 sJh
 dPW
@@ -686134,7 +686168,7 @@ gXS
 svt
 oVr
 mUj
-kMv
+uoq
 sJh
 dbe
 eOF
@@ -686519,7 +686553,7 @@ eRj
 fAh
 hMq
 ojs
-ojs
+vhb
 hMA
 lSJ
 hOj
@@ -694934,8 +694968,8 @@ sQN
 sQN
 sQN
 sQN
-pZf
-pZf
+aak
+aak
 pCB
 oLc
 aak
@@ -695315,7 +695349,7 @@ sQN
 sQN
 sQN
 sQN
-pZf
+aak
 esN
 pCB
 pCB
@@ -696079,7 +696113,7 @@ sQN
 sQN
 sQN
 sQN
-osb
+aOQ
 sQN
 sQN
 pwo
