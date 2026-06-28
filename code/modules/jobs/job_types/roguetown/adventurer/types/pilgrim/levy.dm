@@ -139,7 +139,7 @@
 				beltr = /obj/item/rogueweapon/pick/bronze
 
 			if ("THE MINER'S PICKAXE (Pickaxe)")
-				H.adjust_skillrank_up_to(/datum/skill/labor/mining, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/obj/item/rogueweapon/pick/militia::associated_skill, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/pick/militia
 				gloves = /obj/item/clothing/gloves/roguetown/leather
 				beltr = /obj/item/rogueweapon/pick/bronze
