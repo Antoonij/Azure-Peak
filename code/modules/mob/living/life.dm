@@ -56,16 +56,6 @@
 					if(!istype(wound, /datum/wound/slash/incision))
 						wound.heal_wound(0.4)
 
-	if(!stat && HAS_TRAIT(src, TRAIT_BLACKBLOOD) && !HAS_TRAIT(src, TRAIT_PARALYSIS))
-		if(src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
-			return
-		handle_wounds()
-		if(blood_volume > BLOOD_VOLUME_SURVIVE && nutrition > NUTRITION_LEVEL_STARVING) // only hunger dictates here, thirst isn't relevant for regen but it is penalized too. Furthermore, after tests, lmfao, starving mid combat is a death sentence, holy shit.
-			for(var/datum/wound/wound as anything in get_wounds())
-				if(!istype(wound, /datum/wound/slash/incision))
-					wound.heal_wound(1.2)
-					nutrition = max(0, nutrition - (NUTRITION_LEVEL_FULL * 0.005)) // drains 0.5% of your hunger per tick of wound healed. After some testing, holy shit, this drains fast, for being percent-based. Thirst drain was too much to slap on top. Maybe it'll be back after the bite adjustments get polished a lil more.
-
 	if(!stat && HAS_TRAIT(src, TRAIT_LYCANRESILENCE) && !HAS_TRAIT(src, TRAIT_PARALYSIS))
 		if(src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || src.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
 			return
