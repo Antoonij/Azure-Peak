@@ -3,7 +3,7 @@
 	loot_budget = LOOT_BUDGET_WATER_TEMPLE
 	icon_state = "under"
 	first_time_text = "FORGOTTEN TEMPLE"
-	droning_sound = 'sound/music/area/dungeon.ogg'
+	droning_sound = 'sound/music/area/sewers.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
 	ceiling_protected = TRUE
