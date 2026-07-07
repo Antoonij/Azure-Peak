@@ -21015,8 +21015,13 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cavewet/bogcaves/west)
 "dpU" = (
-/obj/structure/dungeon_entry/center,
-/turf/closed/mineral/rogue/bedrock,
+/obj/effect/decal/cobbleedge{
+	dir = 10
+	},
+/obj/effect/decal/cobbleedge{
+	dir = 9
+	},
+/turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap)
 "dpV" = (
 /obj/machinery/light/rogue/candle,
@@ -36945,6 +36950,11 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
+"fUt" = (
+/obj/structure/underworld/barrier,
+/obj/structure/trap/rock_fall,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/mountains/decap)
 "fUy" = (
 /obj/structure/fluff/railing/wood{
 	pixel_y = -8
@@ -60841,8 +60851,11 @@
 /turf/open/floor/rogue/metal,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
 "jIv" = (
-/obj/machinery/light/rogue/firebowl/standing/blue,
-/turf/open/floor/rogue/cobble,
+/obj/effect/decal/cobbleedge{
+	dir = 6
+	},
+/obj/structure/flora/rock/pile,
+/turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/mountains/decap)
 "jIy" = (
 /obj/structure/fluff/walldeco/church/line{
@@ -63260,6 +63273,10 @@
 /obj/item/clothing/under/roguetown/tights/black,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
+"kcr" = (
+/obj/structure/underworld/barrier,
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/mountains/decap)
 "kct" = (
 /turf/open/floor/rogue/woodturned/nosmooth,
 /area/rogue/outdoors/beach/forest/north)
@@ -74001,6 +74018,11 @@
 	},
 /turf/open/floor/rogue/metal,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
+"lRr" = (
+/obj/structure/underworld/barrier,
+/obj/structure/flora/rock/pile,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/mountains/decap)
 "lRs" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -97256,14 +97278,12 @@
 /area/rogue/indoors/town)
 "pyf" = (
 /obj/effect/decal/cobbleedge{
-	dir = 10
-	},
-/obj/effect/decal/cobbleedge{
 	dir = 6;
 	pixel_x = -7;
 	pixel_y = 1
 	},
-/turf/open/floor/rogue/snow,
+/obj/structure/flora/rock/pile,
+/turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap)
 "pyh" = (
 /obj/structure/table/wood/long_table{
@@ -98676,6 +98696,10 @@
 	dir = 4
 	},
 /area/rogue/outdoors/mountains)
+"pIF" = (
+/obj/structure/underworld/barrier,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/mountains/decap)
 "pIH" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/mole,
 /turf/open/floor/rogue/dirt/road,
@@ -103467,6 +103491,8 @@
 /obj/effect/decal/cobbleedge{
 	dir = 10
 	},
+/obj/structure/trap/rock_fall,
+/obj/structure/flora/rock/pile,
 /turf/open/floor/rogue/snow,
 /area/rogue/outdoors/mountains/decap)
 "qtK" = (
@@ -116609,6 +116635,10 @@
 	},
 /turf/open/floor/rogue/carpet/lord/left,
 /area/rogue/under/cave/licharena)
+"sAk" = (
+/obj/structure/underworld/barrier,
+/turf/closed/mineral/rogue/bedrock,
+/area/rogue/outdoors/mountains/decap)
 "sAn" = (
 /obj/effect/decal/edge{
 	color = "#371A14"
@@ -677421,7 +677451,7 @@ tqG
 tqG
 tqG
 tqG
-oyw
+tqG
 oyw
 gDv
 gDv
@@ -677801,8 +677831,8 @@ tqG
 tqG
 tqG
 tqG
-oyw
-oyw
+tqG
+tqG
 oyw
 gDv
 pro
@@ -678182,8 +678212,8 @@ tqG
 tqG
 tqG
 tqG
-oyw
-oyw
+tqG
+tqG
 oyw
 oyw
 gDv
@@ -678562,11 +678592,11 @@ qrO
 tqG
 tqG
 tqG
+ntz
+ntz
 tqG
-tqG
+ntz
 jIv
-cjj
-eGR
 gDv
 pro
 eTW
@@ -678943,12 +678973,12 @@ qrO
 (97,1,5) = {"
 tqG
 tqG
-tqG
-tqG
-tqG
+fUt
+pIF
+kcr
+bSn
 cjj
-cjj
-ixD
+dpU
 cGR
 ixD
 cjj
@@ -679326,11 +679356,11 @@ qrO
 tqG
 tqG
 tqG
+bSn
 tqG
-dpU
 cjj
 cjj
-cjj
+tqG
 cjj
 cjj
 cjj
@@ -679707,11 +679737,11 @@ qrO
 (99,1,5) = {"
 tqG
 tqG
-tqG
-tqG
-tqG
+sAk
+lRr
+pIF
 qtI
-cjj
+tqG
 qGa
 cjj
 juX
@@ -680089,11 +680119,11 @@ qrO
 (100,1,5) = {"
 tqG
 tqG
+ntz
+ntz
 tqG
-tqG
-tqG
-jIv
-cjj
+ntz
+bSn
 pyf
 gDv
 gDv
@@ -680474,7 +680504,7 @@ tqG
 tqG
 tqG
 tqG
-oyw
+tqG
 oyw
 oyw
 oyw
@@ -680857,7 +680887,7 @@ tqG
 tqG
 tqG
 tqG
-oyw
+tqG
 oyw
 oyw
 oyw
@@ -681622,7 +681652,7 @@ tqG
 tqG
 tqG
 tqG
-oyw
+tqG
 oyw
 oyw
 oyw
