@@ -63,21 +63,21 @@ SUBSYSTEM_DEF(mapping)
 	// After assigning a config datum to var/config, we check which map ajudstment fits the current config
 	for(var/datum/map_adjustment/each_adjust as anything in subtypesof(/datum/map_adjustment))
 		var/adj_name = initial(each_adjust.map_file_name) //TA EDIT
-		
+
 		if(!config.map_file)
 			continue
 
-		
+
 		if(islist(config.map_file))
-			
+
 			if(!(adj_name in config.map_file))
 				continue
 		else
-			
+
 			if(adj_name != config.map_file)
 				continue
 
-		map_adjustment = new each_adjust() 
+		map_adjustment = new each_adjust()
 		log_world("Loaded '[adj_name]' map adjustment.") //TA EDIT END
 		break
 	return ..()
@@ -234,6 +234,11 @@ SUBSYSTEM_DEF(mapping)
 	LoadGroup(FailedZs, "Station", config.map_path, config.map_file, config.traits, ZTRAITS_STATION)
 
 	var/list/otherZ = list()
+
+	#ifndef NO_DUNGEON
+	if(config.load_dungeon)
+		otherZ += load_map_config("_maps/map_files/otherz/dungeon.json")
+	#endif
 
 	for(var/map_json in config.other_z)
 		otherZ += load_map_config(map_json)
