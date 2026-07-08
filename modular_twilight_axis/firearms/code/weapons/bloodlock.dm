@@ -1,7 +1,7 @@
 /obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock
 	name = "bloodlock rifle"
 	desc = "Крайне смертоностное оружие. Использует....."
-	icon = 'modular_twilight_axis/firearms/icons/Zizolick.dmi'
+	icon = 'modular_twilight_axis/firearms/icons/Zizolock.dmi'
 	icon_state = "zizolockoff"
 	var/icon_state_ready = "zizolockon"
 	var/default_icon_state = "zizolockoff"
@@ -9,7 +9,7 @@
 	associated_skill = /datum/skill/combat/staves
 	possible_item_intents = list(/datum/intent/mace/strike/wood)
 	gripped_intents = list(/datum/intent/shoot/twilight_runelock, /datum/intent/arc/twilight_runelock, INTENT_GENERIC)
-	mag_type = /obj/item/ammo_box/magazine/internal/shot/twilight_firearm
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/twilight_bloodlock
 	pixel_y = -16
 	pixel_x = -16
 	inhand_x_dimension = 64
@@ -35,8 +35,8 @@
 	var/misfire_chance = 0
 	/// Reload time, in SECONDS
 	var/reload_time = 8
-	reload_blood_cost = 15
-	var/damfactor = 1.4
+	var/reload_blood_cost = 15
+	damfactor = 1.4
 	var/critfactor = 1
 	var/npcdamfactor = 4
 
@@ -75,7 +75,7 @@
 					if(skill)
 						adj_reload_time = reload_time / skill
 				if(move_after(H, adj_reload_time SECONDS, target = H))
-					H.blood_add(reload_blood_cost)
+					H.blood_volume = max(H.blood_volume-125, 0))
 					playsound(H, 'modular_twilight_axis/firearms/sound/musketcock.ogg', 100, FALSE)
 					cocked = TRUE
 			else
@@ -160,7 +160,7 @@
 	. = ..()
 	if(ishuman(user))
 		var/mob/living/carbon/human/u = user
-		if(HAS_TRAIT(u, TRAIT_INQUISITION) || (u.STAINT >= 15) || (u.merctype == 10))
+		if(HAS_TRAIT(u, TRAIT_ARCYNE) || (u.STAINT >= 15) || (u.merctype == 10))
 			. += span_info("Это оружие оснащено арканным замком — для стрельбы достаточно взвести курок, но зарядить его можно лишь своей кровью и знаниями.")
 			if(cocked)
 				if(chambered)
@@ -193,7 +193,7 @@
 	..()
 
 /obj/item/ammo_box/magazine/internal/shot/twilight_bloodlock
-	ammo_type = /obj/item/ammo_casing/caseless/rogue/twilight_lead/bloodlock
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/twilight_lead
 	caliber = "bullet"
 	max_ammo = 1
 	start_empty = TRUE
@@ -234,5 +234,3 @@
 		else
 			return 1
 	return chargetime
-
-
