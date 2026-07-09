@@ -1,0 +1,104 @@
+/datum/advclass/wretch/twilight_blood_raider
+	name = "Blood Raider"
+	tutorial = "Having obtained the weapon through honest or not-so-honest means, you carry the consequences of your actions across the surface of Grimoria, showcasing the true might of drow craftsmanship"
+	allowed_sexes = list(MALE, FEMALE)
+	outfit = /datum/outfit/job/roguetown/wretch/twilight_blood_raider
+	category_tags = list(CTAG_WRETCH)
+	class_select_category = CLASS_CAT_RANGER
+	traits_applied = list(TRAIT_FIREARMS_MARKSMAN, TRAIT_DODGEEXPERT, TRAIT_ARCYNE)
+	maximum_possible_slots = 1
+
+	cmode_music = 'modular_twilight_axis/firearms/sound/music/combat_corsair.ogg'
+	subclass_stats = list(
+		STATKEY_WIL = 2,
+		STATKEY_SPD = 2,
+		STATKEY_PER = 2,
+		STATKEY_INT = 2
+	)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 4)
+	subclass_skills = list(
+		/datum/skill/combat/twilight_firearms = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/staves = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
+	)
+
+/datum/outfit/job/roguetown/wretch/twilight_blood_raider/pre_equip(mob/living/carbon/human/H)
+	..()
+	H.adjust_blindness(-3)
+	var/crimes = list("I'm nobody", "They fear me")
+	var/crimeschoice = input(H, "Who is me", "How much have I done?") as anything in crimes
+	if(istype(H.dna.species, /datum/species/elf/dark))
+		H.set_blindness(0)
+		wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
+		belt = /obj/item/storage/belt/rogue/leather/double
+		beltl = /obj/item/quiver/twilight_bullet/lead
+		beltr = /obj/item/rogueweapon/scabbard/sword
+		backl = /obj/item/storage/backpack/rogue/satchel/black
+		neck = /obj/item/clothing/neck/roguetown/gorget
+		shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft
+		head = /obj/item/clothing/head/roguetown/helmet/tricorn/grenzel
+		armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor/grenzelhoft
+		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants
+		shoes = /obj/item/clothing/shoes/roguetown/grenzelhoft
+		gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves
+		r_hand = /obj/item/rogueweapon/sword/sabre/stalker
+		mask = /obj/item/clothing/mask/rogue/facemask/steel
+		l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock
+		backpack_contents = list(/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1, /obj/item/rogueweapon/huntingknife/idagger/steel/stalker = 1, /obj/item/rope/chain = 1, /obj/item/storage/belt/rogue/pouch/coins/poor = 1, /obj/item/chalk = 1, /obj/item/rogueweapon/spellbook = 1)
+		H.grant_language(/datum/language/undead)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/recall_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
+		switch(crimeschoice)
+			if("I'm nobody")
+				H.change_stat(STATKEY_PER, -1)
+				H.change_stat(STATKEY_SPD, -1)
+				to_chat(H, span_warning("Моя прошлая жизнь не даёт мне покоя по ночам. Кошмары заставляют меня оглядываться назад чаще..."))
+			if("They fear me")
+				wretch_select_bounty(H)
+				ADD_TRAIT(H, TRAIT_ANTHRAXI, TRAIT_DARKVISION)
+				H.change_stat(STATKEY_SPD, 1)
+				H.change_stat(STATKEY_PER, 1)
+				to_chat(H, span_warning("Они боятся меня. Моя ловкость и зоркость не подводили ни разу на рейдах мерзких Н'вах"))
+	else
+		H.set_blindness(0)
+		H.set_patron(/datum/patron/divine/zizo)
+		wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
+		belt = /obj/item/storage/belt/rogue/leather
+		beltl = /obj/item/quiver/twilight_bullet/lead
+		beltr = /obj/item/rogueweapon/scabbard/sword
+		backl = /obj/item/storage/backpack/rogue/satchel
+		neck = /obj/item/clothing/neck/roguetown/gorget
+		shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft
+		head = /obj/item/clothing/head/roguetown/helmet/tricorn/grenzel
+		armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor/grenzelhoft
+		pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants
+		shoes = /obj/item/clothing/shoes/roguetown/grenzelhoft
+		gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves
+		r_hand = /obj/item/rogueweapon/sword/sabre
+		mask = /obj/item/clothing/mask/rogue/facemask/steel
+		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock
+		backpack_contents = list(/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1, /obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rope/chain = 1, /obj/item/storage/belt/rogue/pouch/coins/poor = 1, /obj/item/chalk = 1, /obj/item/rogueweapon/spellbook = 1)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/recall_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
+		switch(crimeschoice)
+			if("I'm nobody")
+				H.change_stat(STATKEY_WIL, -1)
+				H.change_stat(STATKEY_SPD, -1)
+				H.change_stat(STATKEY_PER, -1)
+				to_chat(H, span_warning("Антракси идут по мою душу, я не могу быть уверенным в завтрашнем дне..."))
+			if("They fear me")
+				wretch_select_bounty(H)
+				H.change_stat(STATKEY_WIL, 1)
+				H.change_stat(STATKEY_CON, 1)
+				to_chat(H, span_warning("Приспособившись к новому оружию, мне стало легче избегать охотников за головой"))

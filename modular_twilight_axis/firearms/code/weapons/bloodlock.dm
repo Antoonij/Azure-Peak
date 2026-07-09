@@ -1,6 +1,6 @@
 /obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock
 	name = "bloodlock rifle"
-	desc = "Крайне смертоностное оружие. Использует....."
+	desc = "Оружие скованное тёмными эльфами, глубоко во тьме Подземий. Заряжается жизненной энергией владельца"
 	icon = 'modular_twilight_axis/firearms/icons/Zizolock.dmi'
 	icon_state = "zizolockoff"
 	var/icon_state_ready = "zizolockon"
@@ -34,9 +34,8 @@
 	/// Chance for the weapon to misfire
 	var/misfire_chance = 0
 	/// Reload time, in SECONDS
-	var/reload_time = 8
-	var/reload_blood_cost = 15
-	damfactor = 1.4
+	var/reload_time = 10
+	damfactor = 1.3
 	var/critfactor = 1
 	var/npcdamfactor = 4
 
@@ -67,7 +66,10 @@
 	if(!cocked)
 		if(ishuman(user))
 			var/mob/living/carbon/human/H = user
-			if(HAS_TRAIT(H, TRAIT_ARCYNE) || (H.STAINT >= 15) || (H.merctype == 10))
+			if(HAS_TRAIT(H, TRAIT_ARCYNE))
+				if(NOBLOOD in H.dna.species.species_traits)
+					to_chat(H, span_warning("I can't use it, I have no blood to spare!"))
+					return
 				to_chat(H, span_info("I ready the bloodlock to be fired..."))
 				var/adj_reload_time = reload_time
 				if(H.mind)
@@ -75,7 +77,7 @@
 					if(skill)
 						adj_reload_time = reload_time / skill
 				if(move_after(H, adj_reload_time SECONDS, target = H))
-					H.blood_volume = max(H.blood_volume-125, 0))
+					H.blood_volume = max(H.blood_volume-50, 0)
 					playsound(H, 'modular_twilight_axis/firearms/sound/musketcock.ogg', 100, FALSE)
 					cocked = TRUE
 			else
@@ -194,7 +196,7 @@
 
 /obj/item/ammo_box/magazine/internal/shot/twilight_bloodlock
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/twilight_lead
-	caliber = "bullet"
+	caliber = "lead_sphere"
 	max_ammo = 1
 	start_empty = TRUE
 
