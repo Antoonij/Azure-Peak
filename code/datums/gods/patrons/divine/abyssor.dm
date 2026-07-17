@@ -36,7 +36,7 @@
 	titles = list(
 		"Dreamer",
 		"Forgotten One",
-		"Abysawa"
+		"Abysawa",
 		"Deepfather",
 		"Siren",
 	)
