@@ -940,6 +940,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define POULTICE_TRAIT "poultice"
 #define XYLIX_LUCK_TRAIT "xylixluck"
 #define NOCTITE_SPELLBLADE_TRAIT "noctitespellblade"
+#define TRAIT_INFUSION "infusion"
 
 // unique trait sources, still defines
 #define TRAIT_FORTITUDE "Fortitude"
