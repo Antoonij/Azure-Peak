@@ -72,7 +72,7 @@
 				to_chat(H, span_warning("Они боятся меня. Моя ловкость и зоркость не подводили ни разу на рейдах мерзких Н'вах"))
 	else
 		H.set_blindness(0)
-		H.set_patron(/datum/patron/divine/zizo)
+		H.set_patron(/datum/patron/inhumen/zizo)
 		wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 		belt = /obj/item/storage/belt/rogue/leather
 		beltl = /obj/item/quiver/twilight_bullet/lead

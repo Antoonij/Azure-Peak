@@ -27,6 +27,10 @@
 	cartridge_wording = "bullet"
 	load_sound = 'modular_twilight_axis/firearms/sound/musketload.ogg'
 	fire_sound = 'modular_twilight_axis/firearms/sound/musketfire2.ogg'
+	var/list/fire_sound_variations = list(
+		'modular_twilight_axis/firearms/sound/musketfire2.ogg' = 99.99,
+		'modular_twilight_axis/firearms/sound/musketfire11.ogg' = 0.1, //little secret
+	)
 	vary_fire_sound = TRUE
 	fire_sound_volume = 200
 	anvilrepair = null
@@ -35,7 +39,7 @@
 	var/misfire_chance = 0
 	/// Reload time, in SECONDS
 	var/reload_time = 10
-	damfactor = 1.3
+	damfactor = 1.2
 	var/critfactor = 1
 	var/npcdamfactor = 4
 
@@ -77,7 +81,7 @@
 					if(skill)
 						adj_reload_time = reload_time / skill
 				if(move_after(H, adj_reload_time SECONDS, target = H))
-					H.blood_volume = max(H.blood_volume-50, 0)
+					H.blood_volume = max(H.blood_volume-50, 0) // 2 loads already 1 stage debuff
 					playsound(H, 'modular_twilight_axis/firearms/sound/musketcock.ogg', 100, FALSE)
 					cocked = TRUE
 			else
@@ -162,7 +166,7 @@
 	. = ..()
 	if(ishuman(user))
 		var/mob/living/carbon/human/u = user
-		if(HAS_TRAIT(u, TRAIT_ARCYNE) || (u.STAINT >= 15) || (u.merctype == 10))
+		if(HAS_TRAIT(u, TRAIT_ARCYNE))
 			. += span_info("Это оружие оснащено арканным замком — для стрельбы достаточно взвести курок, но зарядить его можно лишь своей кровью и знаниями.")
 			if(cocked)
 				if(chambered)
@@ -175,6 +179,8 @@
 			. += span_info("Конструкция замка, установленного на этом оружии, вам незнакома.")
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock/process_fire/(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
+	if(fire_sound_variations && length(fire_sound_variations))
+		fire_sound = pickweight(fire_sound_variations)
 	var/skill = user.get_skill_level(/datum/skill/combat/twilight_firearms)
 	if(skill)
 		misfire_chance = max(0, misfire_chance - (skill * 2))
