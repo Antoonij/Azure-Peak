@@ -408,13 +408,15 @@ GLOBAL_LIST_EMPTY(miracle_tiers)
 	if(!length(A.paint_miracles))
 		return
 	for(var/spell_type in A.paint_miracles)
-		if(holder.mind.has_spell(spell_type))
-			continue
-		var/obj/effect/proc_holder/spell/new_paint_spell = new spell_type
-		if(!silent)
-			to_chat(holder, span_boldnotice("You have unlocked a paint miracle: [new_paint_spell]"))
-		holder.mind.AddSpell(new_paint_spell, holder)
-		LAZYADD(granted_spells, new_paint_spell)
+		var/required_tier = A.paint_miracles[spell_type]
+		if(required_tier <= level)
+			if(holder.mind.has_spell(spell_type))
+				continue
+			var/obj/effect/proc_holder/spell/new_paint_spell = new spell_type
+			if(!silent)
+				to_chat(holder, span_boldnotice("You have unlocked a paint miracle: [new_paint_spell]"))
+			holder.mind.AddSpell(new_paint_spell, holder)
+			LAZYADD(granted_spells, new_paint_spell)
 
 #undef PRAYER_DEVOTION_TIME_MULT
 #undef PRAYER_DEVOTION_BASE
