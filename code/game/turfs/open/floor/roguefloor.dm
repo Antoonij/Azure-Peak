@@ -1382,11 +1382,10 @@
 
 /turf/open/floor/rogue/tile/brownbrick/browner
 	icon_state = "browner"
-	var/static/list/random_states = list("browner1", "browner2", "browner3", "browner4")
 
-/turf/open/floor/rogue/tile/brownbrick/browner/Initialize(mapload)
-	. = ..()
-	icon_state = pick(random_states)
+/turf/open/floor/rogue/tile/brownbrick/browner/Initialize()
+	icon_state = "browner"
+	dir = pick(GLOB.cardinals)
 
 /turf/open/floor/rogue/tile/harem
 	icon = 'icons/turf/roguefloor.dmi'
