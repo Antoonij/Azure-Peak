@@ -75,6 +75,10 @@
 	name = "dried vomit"
 	desc = ""
 
+/obj/effect/decal/cleanable/vomit/old/Initialize(mapload)
+	. = ..()
+	icon_state += "-old"
+
 	/obj/effect/decal/cleanable/blood/paint
 	name = "paint splatter"
 	desc = "splattered paint, what a mess"
@@ -83,10 +87,6 @@
 	if(!color)
 		color = rgb(rand(0, 255), rand(0, 255), rand(0, 255))
 	. = ..(mapload, color)
-
-/obj/effect/decal/cleanable/vomit/old/Initialize(mapload)
-	. = ..()
-	icon_state += "-old"
 
 /obj/effect/decal/cleanable/chem_pile
 	name = "chemical pile"
