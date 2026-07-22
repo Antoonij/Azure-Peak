@@ -75,6 +75,7 @@
 					to_chat(H, span_warning("I can't use it, I have no blood to spare!"))
 					return
 				to_chat(H, span_info("I ready the bloodlock to be fired..."))
+				playsound(src,'modular_twilight_axis/firearms/sound/bloodreload.ogg', 100, FALSE)
 				var/adj_reload_time = reload_time
 				if(H.mind)
 					var/skill = H.get_skill_level(/datum/skill/combat/twilight_firearms)
