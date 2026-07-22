@@ -1,11 +1,11 @@
 /obj/item/clothing/head/roguetown/helmet/bloodhelmet
 	name = "Bloodraider helmet"
-	desc = "blabla"
+	desc = "A darksteel helmet that doesn't obstruct the wearer's vision. Fitted with a sharp horn for the most desperate situations."
 	icon_state = "bloodhelmet"
 	item_state = "bloodhelmet"
 	body_parts_covered = HEAD | HAIR | EARS | EYES
 	armor_class = ARMOR_CLASS_LIGHT
-	max_integrity = 300
+	max_integrity = 350
 	smeltresult = /obj/item/ingot/steel
 	icon = 'modular_twilight_axis/icons/clothing/bloodraider.dmi'
 	mob_overlay_icon = 'modular_twilight_axis/icons/clothing/onmob/bloodraider.dmi'
@@ -30,10 +30,11 @@
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/bloodraider
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "Raiders cuirass"
-	desc = "A steel cuirass. It bares all the hallmarks of sixteenth-century nobility: angularity, polishedness, and - above all else - class."
+	desc = "An elegant cuirass that doesn't restrict movement, intimidates enemies, and is simply beautiful. What more could you need?"
 	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
 	icon_state = "bloodcuirass"
 	item_state = "bloodcuirass"
+	allowed_race = list(/datum/species/human/halfelf,/datum/species/elf/dark,/datum/species/elf/dark/raider,/datum/species/elf/wood,/datum/species/elf/sun)
 	armor = ARMOR_PLATE
 	nodismemsleeves = TRUE
 	blocking_behavior = null
@@ -47,7 +48,7 @@
 
 /obj/item/clothing/gloves/roguetown/bloodraider
 	name = "Raiders gauntlets"
-	desc = "A pair of alloyed gauntlets. Each finger is afforded a trinity of segments; with it, one can use a quill as precisely as an arming sword."
+	desc = "Clawed plate gauntlets, capable of tormenting N'wah with their tips"
 	icon_state = "bloodgauntlets"
 	item_state = "bloodgauntlets"
 	armor = ARMOR_PLATE
@@ -94,7 +95,7 @@
 
 /obj/item/clothing/wrists/roguetown/bracers/bloodraider
 	name = "bloodbracers"
-	desc = "A pair of steel vambraces, protecting the arms from blows-most-foul."
+	desc = "A pair of steel vambraces, protecting the arms from blows-most-foul. Painted in black and red"
 	body_parts_covered = ARMS
 	icon_state = "bloodbracers"
 	item_state = "bloodbracers"
@@ -119,7 +120,7 @@
 
 /obj/item/clothing/under/roguetown/bloodsplintlegs
 	name = "Raiders splintlegs"
-	desc = "Splint mail and brigandine chausses, designed to protect the legs while still providing almost complete free range of movement."
+	desc = "Raiders best friend, designed to protect the legs while still providing almost complete free range of movement."
 	icon_state = "bloodsplintlegs"
 	item_state = "bloodsplintlegs"
 	max_integrity = ARMOR_INT_LEG_BRIGANDINE
@@ -148,9 +149,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/bloodboots
 	name = "Raiders boots"
-	desc = "Custom-fitted sabatons, made from a series of interlinking steel plates. The only weakness it has, beyond its inaffordability \
-	amongst those of ignobility, is its inability to properly stand firm across softer surfaces. There's a very good reason as to why \
-	you'd rarely see a knight treading the Terrorbog's muddied paths, after all."
+	desc = "Custom-fitted sabatons, made from a series of interlinking darksteel plates. "
 	body_parts_covered = FEET
 	icon_state = "bloodboots"
 	item_state = "bloodboots"
@@ -174,12 +173,13 @@
 
 /obj/item/clothing/suit/roguetown/shirt/bloodraider
 	name = "Raider gambezon"
-	desc = "A strong loosely worn quilted shirt that places little weight on the arms, usually worn underneath a flexible leather vest. It won't cover your legs."
+	desc = "A strong loosely worn quilted shirt that places little weight on the arms and legs, usually worn for protection from spiders "
 	icon = 'modular_twilight_axis/icons/clothing/bloodraider.dmi'
 	mob_overlay_icon = 'modular_twilight_axis/icons/clothing/onmob/bloodraider.dmi'
 	sleeved = 'modular_twilight_axis/icons/clothing/onmob/bloodraider.dmi'
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	icon_state = "bloodgambenzon"
+	allowed_race = list(/datum/species/human/halfelf,/datum/species/elf/dark,/datum/species/elf/dark/raider,/datum/species/elf/wood,/datum/species/elf/sun)
 	color = "#FFFFFF"
 	var/shiftable = FALSE
 	armor = ARMOR_PADDED
@@ -198,6 +198,7 @@
 	name = "Blood Raider"
 	tutorial = "Having obtained the weapon through honest or not-so-honest means, you carry the consequences of your actions across the surface of Grimoria, showcasing the true might of drow craftsmanship"
 	allowed_sexes = list(MALE, FEMALE)
+	forbidden_races = list(/datum/species/construct/metal,/datum/species/dullahan)
 	outfit = /datum/outfit/job/roguetown/wretch/twilight_blood_raider
 	category_tags = list(CTAG_WRETCH)
 	class_select_category = CLASS_CAT_RANGER
