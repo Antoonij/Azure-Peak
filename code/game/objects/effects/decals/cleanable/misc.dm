@@ -75,6 +75,10 @@
 	name = "dried vomit"
 	desc = ""
 
+/obj/effect/decal/cleanable/vomit/old/Initialize(mapload)
+	. = ..()
+	icon_state += "-old"
+
 	/obj/effect/decal/cleanable/blood/paint
 	name = "paint splatter"
 	desc = "splattered paint, what a mess"
