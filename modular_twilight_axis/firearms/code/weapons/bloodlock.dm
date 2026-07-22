@@ -1,11 +1,11 @@
 /obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock
 	name = "bloodlock rifle"
 	desc = "Оружие скованное тёмными эльфами, глубоко во тьме Подземий. Заряжается жизненной энергией владельца"
-	icon = 'modular_twilight_axis/firearms/icons/Zizolock.dmi'
-	icon_state = "zizolock"
-	var/icon_state_ready = "zizolock_r"
-	var/default_icon_state = "zizolock"
-	item_state = "zizolock"
+	icon = 'modular_twilight_axis/firearms/icons/bloodlock.dmi'
+	icon_state = "bloodlock"
+	var/icon_state_ready = "bloodlock_r"
+	var/default_icon_state = "bloodlock"
+	item_state = "bloodlock"
 	associated_skill = /datum/skill/combat/staves
 	possible_item_intents = list(/datum/intent/mace/strike/wood)
 	gripped_intents = list(/datum/intent/shoot/twilight_runelock, /datum/intent/arc/twilight_runelock, INTENT_GENERIC)
@@ -99,7 +99,7 @@
 	..()
 	if(cocked && icon_state_ready)
 		icon_state = icon_state_ready
-		item_state = "zizolock_r"
+		item_state = icon_state_ready
 	else
 		icon_state = default_icon_state
 		item_state = default_icon_state
