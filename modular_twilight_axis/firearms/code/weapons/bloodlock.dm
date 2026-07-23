@@ -29,7 +29,7 @@
 	fire_sound = 'modular_twilight_axis/firearms/sound/musketfire2.ogg'
 	var/list/fire_sound_variations = list(
 		'modular_twilight_axis/firearms/sound/musketfire2.ogg' = 99.99,
-		'modular_twilight_axis/firearms/sound/musketfire11.ogg' = 0.1, //little secret
+		'modular_twilight_axis/firearms/sound/musketfire11.ogg' = 0.01, //little secret
 	)
 	vary_fire_sound = TRUE
 	fire_sound_volume = 200
@@ -42,6 +42,16 @@
 	damfactor = 1.2
 	var/critfactor = 1
 	var/npcdamfactor = 4
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "GUN")
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_WEAPON)
+	
+/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock/dropped(mob/living/carbon/human/user)
+	return ..()
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock/getonmobprop(tag)
 	. = ..()

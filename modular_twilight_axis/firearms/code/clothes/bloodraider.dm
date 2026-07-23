@@ -10,6 +10,17 @@
 	icon = 'modular_twilight_axis/icons/clothing/bloodraider.dmi'
 	mob_overlay_icon = 'modular_twilight_axis/icons/clothing/onmob/bloodraider.dmi'
 
+/obj/item/clothing/head/roguetown/helmet/bloodhelmet/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+
+/obj/item/clothing/head/roguetown/helmet/bloodhelmet/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+
+/obj/item/clothing/head/roguetown/helmet/bloodhelmet/dropped(mob/living/carbon/human/user)
+	return ..()
+
+
 /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/bloodraider
 	name = "raiders mantle"
 	desc = "A thicker and more durable piece of neck protection that also covers the mouth when pulled up."
@@ -26,6 +37,16 @@
 	AddComponent(/datum/component/adjustable_clothing, (NECK), null, null, 'sound/foley/equip/equip_armor_chain.ogg', null, (UPD_HEAD|UPD_MASK|UPD_NECK))	//Chain coif.
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+
+/obj/item/clothing/neck/roguetown/chaincoif/chainmantle/bloodraider/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+
+/obj/item/clothing/neck/roguetown/chaincoif/chainmantle/bloodraider/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+
+/obj/item/clothing/neck/roguetown/chaincoif/chainmantle/bloodraider/dropped(mob/living/carbon/human/user)
+	return ..()
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/bloodraider
 	slot_flags = ITEM_SLOT_ARMOR
@@ -46,6 +67,16 @@
 	icon = 'modular_twilight_axis/icons/clothing/bloodraider.dmi'
 	mob_overlay_icon = 'modular_twilight_axis/icons/clothing/onmob/bloodraider.dmi'
 
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/bloodraider/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/bloodraider/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/bloodraider/dropped(mob/living/carbon/human/user)
+	return ..()
+
 /obj/item/clothing/gloves/roguetown/bloodraider
 	name = "raiders gauntlets"
 	desc = "Clawed plate gauntlets, capable of tormenting N'wah with their tips"
@@ -64,6 +95,17 @@
 	desc = "This brigandine is an example of the painstaking work of a skilled, and very poor, craftsman. The gambenison, lined with metal parts and scraps of chain mail, is impossible to ruin even with such 'artistry'."
 	icon = 'modular_twilight_axis/icons/clothing/bloodraider.dmi'
 	mob_overlay_icon = 'modular_twilight_axis/icons/clothing/onmob/bloodraider.dmi'
+	
+/obj/item/clothing/gloves/roguetown/bloodraider/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+
+/obj/item/clothing/gloves/roguetown/bloodraider/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+
+/obj/item/clothing/gloves/roguetown/bloodraider/dropped(mob/living/carbon/human/user)
+	return ..()
+
 
 /obj/item/clothing/under/roguetown/bloodsplintlegs
 	name = "raiders splintlegs"
@@ -94,6 +136,16 @@
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_COAT_STEP, 10)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 
+/obj/item/clothing/under/roguetown/bloodsplintlegs/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+
+/obj/item/clothing/under/roguetown/bloodsplintlegs/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+
+/obj/item/clothing/under/roguetown/bloodsplintlegs/dropped(mob/living/carbon/human/user)
+	return ..()
+
 /obj/item/clothing/shoes/roguetown/boots/bloodboots
 	name = "raiders boots"
 	desc = "Custom-fitted sabatons, made from a series of interlinking darksteel plates. "
@@ -118,6 +170,16 @@
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
+/obj/item/clothing/shoes/roguetown/boots/bloodboots/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+
+/obj/item/clothing/shoes/roguetown/boots/bloodboots/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+
+/obj/item/clothing/shoes/roguetown/boots/bloodboots/dropped(mob/living/carbon/human/user)
+	return ..()
+
 /obj/item/clothing/suit/roguetown/shirt/bloodraider
 	name = "raider gambeson"
 	desc = "A strong loosely worn quilted shirt that places little weight on the arms and legs, usually worn for protection from spiders "
@@ -126,7 +188,6 @@
 	sleeved = 'modular_twilight_axis/icons/clothing/onmob/bloodraider.dmi'
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	icon_state = "bloodgambenzon"
-	allowed_race = list(/datum/species/human/halfelf,/datum/species/elf/dark,/datum/species/elf/wood,/datum/species/elf/sun)
 	color = "#FFFFFF"
 	var/shiftable = FALSE
 	armor = ARMOR_PADDED
@@ -141,23 +202,44 @@
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
-/obj/item/clothing/wrists/roguetown/bracers/bloodraider
-	name = "blood bracers"
+/obj/item/clothing/suit/roguetown/shirt/bloodraider/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+
+/obj/item/clothing/suit/roguetown/shirt/bloodraider/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+	
+/obj/item/clothing/suit/roguetown/shirt/bloodraider/dropped(mob/living/carbon/human/user)
+	return ..()
+
+/obj/item/clothing/wrists/roguetown/bracers/twilight_elven/bloodraider
+	name = "raiders bracers"
 	desc = "A pair of steel vambraces, protecting the arms from blows-most-foul. Painted in black and red"
 	icon_state = "bloodbracers"
 	item_state = "bloodbracers"
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	icon = 'modular_twilight_axis/icons/clothing/bloodraider.dmi'
 	mob_overlay_icon = 'modular_twilight_axis/icons/clothing/onmob/bloodraider.dmi'
+	sleeved = 'modular_twilight_axis/icons/clothing/onmob/bloodraider.dmi'
 	alternate_worn_layer = WRISTS_LAYER
 
-/obj/item/clothing/wrists/roguetown/bracers/bloodraider/equipped(mob/user, slot)
+/obj/item/clothing/wrists/roguetown/bracers/twilight_elven/bloodraider/equipped(mob/user, slot)
 	. = ..()
 	user.update_inv_wrists()
 	user.update_inv_gloves()
 	user.update_inv_armor()
 	user.update_inv_shirt()
 
-/obj/item/clothing/wrists/roguetown/bracers/bloodraider/ComponentInitialize()
+/obj/item/clothing/wrists/roguetown/bracers/twilight_elven/bloodraider/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+
+/obj/item/clothing/wrists/roguetown/bracers/twilight_elven/bloodraider/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+
+/obj/item/clothing/wrists/roguetown/bracers/twilight_elven/bloodraider/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
+	
+/obj/item/clothing/wrists/roguetown/bracers/twilight_elven/bloodraider/dropped(mob/living/carbon/human/user)
+	return ..()

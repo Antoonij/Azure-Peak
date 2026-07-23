@@ -41,7 +41,7 @@
 	var/crimeschoice = input(H, "Who is me", "How much have I done?") as anything in crimes
 	if(istype(H.dna.species, /datum/species/elf/dark))
 		H.set_blindness(0)
-		wrists = /obj/item/clothing/wrists/roguetown/bracers/bloodraider
+		wrists = /obj/item/clothing/wrists/roguetown/bracers/twilight_elven/bloodraider
 		belt = /obj/item/storage/belt/rogue/leather/double
 		beltl = /obj/item/quiver/twilight_bullet/lead
 		beltr = /obj/item/rogueweapon/scabbard/sword
@@ -73,17 +73,17 @@
 	else
 		H.set_blindness(0)
 		H.set_patron(/datum/patron/inhumen/zizo)
-		wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
+		wrists = /obj/item/clothing/wrists/roguetown/bracers/twilight_elven/bloodraider
 		belt = /obj/item/storage/belt/rogue/leather
 		beltl = /obj/item/quiver/twilight_bullet/lead
 		beltr = /obj/item/rogueweapon/scabbard/sword
 		backl = /obj/item/storage/backpack/rogue/satchel
 		neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle
-		shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/black
+		shirt = /obj/item/clothing/suit/roguetown/shirt/bloodraider
 		head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate
 		armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light/handmade
 		pants = /obj/item/clothing/under/roguetown/brigandinelegs
-		shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
+		shoes = /obj/item/clothing/shoes/roguetown/boots/bloodboots
 		gloves = /obj/item/clothing/gloves/roguetown/plate
 		r_hand = /obj/item/rogueweapon/sword/sabre
 		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock
