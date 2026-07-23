@@ -1384,6 +1384,7 @@
 	icon_state = "browner"
 
 /turf/open/floor/rogue/tile/brownbrick/browner/Initialize()
+	. = ..()
 	icon_state = "browner"
 	dir = pick(GLOB.cardinals)
 
