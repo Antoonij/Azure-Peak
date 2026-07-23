@@ -41,6 +41,7 @@
 	var/crimeschoice = input(H, "Who is me", "How much have I done?") as anything in crimes
 	if(istype(H.dna.species, /datum/species/elf/dark))
 		H.set_blindness(0)
+		H.set_patron(/datum/patron/inhumen/zizo)
 		wrists = /obj/item/clothing/wrists/roguetown/bracers/twilight_elven/bloodraider
 		belt = /obj/item/storage/belt/rogue/leather/double
 		beltl = /obj/item/quiver/twilight_bullet/lead
