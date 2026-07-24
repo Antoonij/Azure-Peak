@@ -117,8 +117,6 @@
 	. = ..()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_COAT_STEP, 10)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
-
-/obj/item/clothing/under/roguetown/bloodsplintlegs/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
 /obj/item/clothing/under/roguetown/bloodsplintlegs/get_examine_highlight_status()
@@ -147,8 +145,6 @@
 /obj/item/clothing/shoes/roguetown/boots/bloodboots/armor/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
-
-/obj/item/clothing/shoes/roguetown/boots/bloodboots/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
 /obj/item/clothing/shoes/roguetown/boots/bloodboots/get_examine_highlight_status()
@@ -175,8 +171,6 @@
 /obj/item/clothing/suit/roguetown/shirt/bloodraider/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
-
-/obj/item/clothing/suit/roguetown/shirt/bloodraider/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
 /obj/item/clothing/suit/roguetown/shirt/bloodraider/get_examine_highlight_status()
@@ -203,8 +197,6 @@
 /obj/item/clothing/wrists/roguetown/bracers/twilight_elven/bloodraider/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
-
-/obj/item/clothing/wrists/roguetown/bracers/twilight_elven/bloodraider/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
 /obj/item/clothing/wrists/roguetown/bracers/twilight_elven/bloodraider/get_examine_highlight_status()
