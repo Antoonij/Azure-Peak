@@ -27,10 +27,6 @@
 	cartridge_wording = "bullet"
 	load_sound = 'modular_twilight_axis/firearms/sound/musketload.ogg'
 	fire_sound = 'modular_twilight_axis/firearms/sound/musketfire2.ogg'
-	var/list/fire_sound_variations = list(
-		'modular_twilight_axis/firearms/sound/musketfire2.ogg' = 99.99,
-		'modular_twilight_axis/firearms/sound/musketfire11.ogg' = 0.01, //little secret
-	)
 	vary_fire_sound = TRUE
 	fire_sound_volume = 200
 	anvilrepair = null
@@ -43,7 +39,7 @@
 	critfactor = 1
 	npcdamfactor = 4
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_runelock/twilight_bloodlock/Initialize()
+/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_runelock/twilight_bloodlock/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "GUN")
 
@@ -60,13 +56,6 @@
 				return list("shrink" = 0.6,"sx" = 5,"sy" = -2,"nx" = -5,"ny" = -1,"wx" = -8,"wy" = 2,"ex" = 8,"ey" = 2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 1,"nturn" = -45,"sturn" = 45,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 			if("onback")
 				return list("shrink" = 0.5,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
-
-/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_runelock/twilight_bloodlock/shoot_with_empty_chamber()
-	if(cocked)
-		playsound(src.loc, 'modular_twilight_axis/firearms/sound/musketcock.ogg', 100, FALSE)
-		cocked = FALSE
-		icon_state = initial(icon_state)
-		update_icon()
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/twilight_runelock/twilight_bloodlock/attack_self(mob/living/user)
 	if(twohands_required)
@@ -103,110 +92,11 @@
 			wield(user)
 	update_icon()
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_runelock/twilight_bloodlock/update_icon()
-	..()
-	if(cocked && icon_state_ready)
-		icon_state = icon_state_ready
-		item_state = icon_state_ready
-	else
-		icon_state = default_icon_state
-		item_state = default_icon_state
-	if(!ismob(loc))
+/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_runelock/twilight_bloodlock/get_special_examine_hint(mob/living/carbon/human/user)
+	if(!HAS_TRAIT(user, TRAIT_ARCYNE))
 		return
-	var/mob/M = loc
-	M.update_inv_hands()
-
-/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_runelock/twilight_bloodlock/attackby(obj/item/A, mob/user, params)
-	if(istype(A, /obj/item/ammo_box) || istype(A, /obj/item/ammo_casing))
-		if(cocked)
-			if((loc == user) && (user.get_inactive_held_item() != src) && (user.get_active_held_item() != src))
-				return
-			..()
-		else
-			to_chat(user, span_warning("I need to cock the bloodlock first!"))
-	if(istype(A, /obj/item/rogueweapon/hammer))
-		var/repair_percent = 0.025 // 2.5% Repairing per hammer smack
-		if(locate(/obj/machinery/anvil) in src.loc)
-			repair_percent *= 2 // Double the repair amount if we're using an anvil
-		var/exp_gained = 0
-		var/repair_skill = (user?.mind ? user.get_skill_level(/datum/skill/craft/engineering) : 1)
-		if((obj_integrity >= max_integrity) || !isturf(src.loc))
-			return
-
-		if(!src.ontable())
-			to_chat(user, span_warning("I should put this on a table or an anvil first."))
-			return
-
-		if(repair_skill <= 0)
-			if(HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR))
-				if(locate(/obj/machinery/anvil) in src.loc)
-					repair_percent = 0.035
-				//Squires can repair on tables, but less efficiently
-				else if(src.ontable())
-					repair_percent = 0.015
-			else if(prob(30))
-				repair_percent = 0.01
-			else
-				repair_percent = 0
-		else
-			repair_percent *= repair_skill
-
-		playsound(src,'modular_twilight_axis/firearms/sound/arq_repair.ogg', 40, FALSE)
-		if(repair_percent)
-			repair_percent *= max_integrity
-			exp_gained = min(obj_integrity + repair_percent, max_integrity) - obj_integrity
-			obj_integrity = min(obj_integrity + repair_percent, max_integrity)
-			if(repair_percent == 0.01) // If an inexperienced repair attempt has been successful
-				to_chat(user, span_warning("You fumble your way into slightly repairing [src]."))
-			else
-				user.visible_message(span_info("[user] repairs [src]!"))
-			if(obj_broken && obj_integrity == max_integrity)
-				src.obj_fix()
-			adjust_experience(user, /datum/skill/craft/engineering, exp_gained/2) //We gain as much exp as we fix divided by 2
-			return
-		else
-			user.visible_message(span_warning("[user] fumbles trying to repair [src]!"))
-			if(do_after(user, CLICK_CD_MELEE, target = src))
-				attack_obj(src, user)
-			return
-
-/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_runelock/twilight_bloodlock/examine(mob/user)
-	. = ..()
-	if(ishuman(user))
-		var/mob/living/carbon/human/u = user
-		if(HAS_TRAIT(u, TRAIT_ARCYNE))
-			. += span_info("Это оружие оснащено арканным замком — для стрельбы достаточно взвести курок, но зарядить его можно лишь своей кровью и знаниями.")
-			if(cocked)
-				if(chambered)
-					. += span_bold("Взведено и готово к стрельбе.")
-				else
-					. += span_bold("Оружие взведено, но пуля не установлена.")
-			else
-				. += span_bold("Не заряжено.")
-		else
-			. += span_info("Конструкция замка, установленного на этом оружии, вам незнакома.")
-
-/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_runelock/twilight_bloodlock/process_fire/(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
-	if(fire_sound_variations && length(fire_sound_variations))
-		fire_sound = pickweight(fire_sound_variations)
-	var/skill = user.get_skill_level(/datum/skill/combat/twilight_firearms)
-	if(skill)
-		misfire_chance = max(0, misfire_chance - (skill * 2))
-		spread = max(3, spread / skill)
-	if(prob(misfire_chance))
-		to_chat(user, span_warning("The [name] misfires!"))
-		explosion(src, light_impact_range = 2, heavy_impact_range = 1, smoke = FALSE, soundin = 'sound/misc/explode/bomb.ogg')
-		qdel(src)
-		return
-	for(var/obj/item/ammo_casing/CB in get_ammo_list(FALSE, TRUE))
-		var/obj/projectile/bullet/BB = CB.BB
-		BB.gunpowder_npc_critfactor *= npcdamfactor
-		BB.critfactor *= critfactor
-		var/per_scaling = 1 + ((min(user.STAPER, RANGED_STAT_SOFTCAP) - 10) * RANGED_STAT_MULT) + (max(0, user.STAPER - RANGED_STAT_SOFTCAP) * RANGED_STAT_CAPPEDMULT)
-		BB.damage *= damfactor * per_scaling
-	cocked = FALSE
-	update_icon()
-	..()
+	
+	return span_info("Это оружие оснащено арканным замком — для стрельбы достаточно взвести курок, но зарядить его можно лишь своей кровью и знаниями.")
 
 /obj/item/ammo_box/magazine/internal/shot/twilight_bloodlock
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/twilight_lead
