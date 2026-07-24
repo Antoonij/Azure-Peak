@@ -1,10 +1,10 @@
-/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock
+/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_runelock/twilight_bloodlock
 	name = "bloodlock rifle"
 	desc = "Оружие скованное тёмными эльфами, глубоко во тьме Подземий. Заряжается жизненной энергией владельца"
 	icon = 'modular_twilight_axis/firearms/icons/bloodlock.dmi'
 	icon_state = "bloodlock"
-	var/icon_state_ready = "bloodlock_r"
-	var/default_icon_state = "bloodlock"
+	icon_state_ready = "bloodlock_r"
+	default_icon_state = "bloodlock"
 	item_state = "bloodlock"
 	associated_skill = /datum/skill/combat/staves
 	possible_item_intents = list(/datum/intent/mace/strike/wood)
@@ -23,7 +23,7 @@
 	recoil = 3
 	force = 10
 	force_wielded = 15
-	var/cocked = FALSE
+	cocked = FALSE
 	cartridge_wording = "bullet"
 	load_sound = 'modular_twilight_axis/firearms/sound/musketload.ogg'
 	fire_sound = 'modular_twilight_axis/firearms/sound/musketfire2.ogg'
@@ -36,24 +36,21 @@
 	anvilrepair = null
 	smeltresult = /obj/item/ingot/steel
 	/// Chance for the weapon to misfire
-	var/misfire_chance = 0
+	misfire_chance = 0
 	/// Reload time, in SECONDS
-	var/reload_time = 10
+	reload_time = 10
 	damfactor = 1.2
-	var/critfactor = 1
-	var/npcdamfactor = 4
+	critfactor = 1
+	npcdamfactor = 4
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock/Initialize()
+/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_runelock/twilight_bloodlock/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "GUN")
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock/get_examine_highlight_status()
+/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_runelock/twilight_bloodlock/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_WEAPON)
-	
-/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock/dropped(mob/living/carbon/human/user)
-	return ..()
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock/getonmobprop(tag)
+/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_runelock/twilight_bloodlock/getonmobprop(tag)
 	. = ..()
 	if(tag)
 		switch(tag)
@@ -64,14 +61,14 @@
 			if("onback")
 				return list("shrink" = 0.5,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock/shoot_with_empty_chamber()
+/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_runelock/twilight_bloodlock/shoot_with_empty_chamber()
 	if(cocked)
 		playsound(src.loc, 'modular_twilight_axis/firearms/sound/musketcock.ogg', 100, FALSE)
 		cocked = FALSE
 		icon_state = initial(icon_state)
 		update_icon()
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock/attack_self(mob/living/user)
+/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_runelock/twilight_bloodlock/attack_self(mob/living/user)
 	if(twohands_required)
 		return
 	if(altgripped || wielded) //Trying to unwield it
@@ -106,7 +103,7 @@
 			wield(user)
 	update_icon()
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock/update_icon()
+/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_runelock/twilight_bloodlock/update_icon()
 	..()
 	if(cocked && icon_state_ready)
 		icon_state = icon_state_ready
@@ -119,7 +116,7 @@
 	var/mob/M = loc
 	M.update_inv_hands()
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock/attackby(obj/item/A, mob/user, params)
+/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_runelock/twilight_bloodlock/attackby(obj/item/A, mob/user, params)
 	if(istype(A, /obj/item/ammo_box) || istype(A, /obj/item/ammo_casing))
 		if(cocked)
 			if((loc == user) && (user.get_inactive_held_item() != src) && (user.get_active_held_item() != src))
@@ -173,7 +170,7 @@
 				attack_obj(src, user)
 			return
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock/examine(mob/user)
+/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_runelock/twilight_bloodlock/examine(mob/user)
 	. = ..()
 	if(ishuman(user))
 		var/mob/living/carbon/human/u = user
@@ -189,7 +186,7 @@
 		else
 			. += span_info("Конструкция замка, установленного на этом оружии, вам незнакома.")
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock/process_fire/(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
+/obj/item/gun/ballistic/revolver/grenadelauncher/twilight_runelock/twilight_bloodlock/process_fire/(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
 	if(fire_sound_variations && length(fire_sound_variations))
 		fire_sound = pickweight(fire_sound_variations)
 	var/skill = user.get_skill_level(/datum/skill/combat/twilight_firearms)

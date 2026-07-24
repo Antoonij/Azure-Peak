@@ -2,7 +2,7 @@
 	name = "Blood Raider"
 	tutorial = "Having obtained the weapon through honest or not-so-honest means, you carry the consequences of your actions across the surface of Grimoria, showcasing the true might of drow craftsmanship"
 	allowed_sexes = list(MALE, FEMALE)
-	forbidden_races = list(/datum/species/construct/metal,/datum/species/dullahan)
+	forbidden_races = list(/datum/species/construct/metal, /datum/species/dullahan)
 	outfit = /datum/outfit/job/roguetown/wretch/twilight_blood_raider
 	category_tags = list(CTAG_WRETCH)
 	class_select_category = CLASS_CAT_RANGER
@@ -41,21 +41,16 @@
 	var/crimeschoice = input(H, "Who is me", "How much have I done?") as anything in crimes
 	if(istype(H.dna.species, /datum/species/elf/dark))
 		H.set_blindness(0)
-		H.set_patron(/datum/patron/inhumen/zizo)
-		wrists = /obj/item/clothing/wrists/roguetown/bracers/twilight_elven/bloodraider
 		belt = /obj/item/storage/belt/rogue/leather/double
 		beltl = /obj/item/quiver/twilight_bullet/lead
 		beltr = /obj/item/rogueweapon/scabbard/sword
 		backl = /obj/item/storage/backpack/rogue/satchel/black
 		neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/bloodraider
-		shirt = /obj/item/clothing/suit/roguetown/shirt/bloodraider
 		head = /obj/item/clothing/head/roguetown/helmet/bloodhelmet
 		armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/bloodraider
 		pants = /obj/item/clothing/under/roguetown/bloodsplintlegs
-		shoes = /obj/item/clothing/shoes/roguetown/boots/bloodboots
 		gloves = /obj/item/clothing/gloves/roguetown/bloodraider
 		r_hand = /obj/item/rogueweapon/sword/sabre/stalker
-		l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock
 		backpack_contents = list(/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1, /obj/item/rogueweapon/huntingknife/idagger/steel/stalker = 1, /obj/item/rope/chain = 1, /obj/item/storage/belt/rogue/pouch/coins/poor = 1, /obj/item/chalk = 1, /obj/item/rogueweapon/spellbook = 1)
 		H.grant_language(/datum/language/undead)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/recall_weapon)
@@ -73,21 +68,16 @@
 				to_chat(H, span_warning("Они боятся меня. Моя ловкость и зоркость не подводили ни разу на рейдах мерзких Н'вах"))
 	else
 		H.set_blindness(0)
-		H.set_patron(/datum/patron/inhumen/zizo)
-		wrists = /obj/item/clothing/wrists/roguetown/bracers/twilight_elven/bloodraider
 		belt = /obj/item/storage/belt/rogue/leather
 		beltl = /obj/item/quiver/twilight_bullet/lead
 		beltr = /obj/item/rogueweapon/scabbard/sword
 		backl = /obj/item/storage/backpack/rogue/satchel
 		neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle
-		shirt = /obj/item/clothing/suit/roguetown/shirt/bloodraider
 		head = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate
 		armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light/handmade
 		pants = /obj/item/clothing/under/roguetown/brigandinelegs
-		shoes = /obj/item/clothing/shoes/roguetown/boots/bloodboots
 		gloves = /obj/item/clothing/gloves/roguetown/plate
 		r_hand = /obj/item/rogueweapon/sword/sabre
-		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/twilight_bloodlock
 		backpack_contents = list(/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1, /obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rope/chain = 1, /obj/item/storage/belt/rogue/pouch/coins/poor = 1, /obj/item/chalk = 1, /obj/item/rogueweapon/spellbook = 1)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/recall_weapon)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
@@ -102,3 +92,9 @@
 				H.change_stat(STATKEY_WIL, 1)
 				H.change_stat(STATKEY_CON, 1)
 				to_chat(H, span_warning("Приспособившись к новому оружию, мне стало легче избегать охотников за головой"))
+
+	H.set_patron(/datum/patron/inhumen/zizo)
+	shoes = /obj/item/clothing/shoes/roguetown/boots/bloodboots
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/twilight_runelock/twilight_bloodlock
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/twilight_elven/bloodraider
+	shirt = /obj/item/clothing/suit/roguetown/shirt/bloodraider

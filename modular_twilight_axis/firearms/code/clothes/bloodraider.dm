@@ -10,16 +10,11 @@
 	icon = 'modular_twilight_axis/icons/clothing/bloodraider.dmi'
 	mob_overlay_icon = 'modular_twilight_axis/icons/clothing/onmob/bloodraider.dmi'
 
-/obj/item/clothing/head/roguetown/helmet/bloodhelmet/Initialize()
-	. = ..()
+/obj/item/clothing/head/roguetown/helmet/bloodhelmet/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
 /obj/item/clothing/head/roguetown/helmet/bloodhelmet/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
-
-/obj/item/clothing/head/roguetown/helmet/bloodhelmet/dropped(mob/living/carbon/human/user)
-	return ..()
-
 
 /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/bloodraider
 	name = "raiders mantle"
@@ -38,15 +33,11 @@
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
-/obj/item/clothing/neck/roguetown/chaincoif/chainmantle/bloodraider/Initialize()
-	. = ..()
+/obj/item/clothing/neck/roguetown/chaincoif/chainmantle/bloodraider/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
 /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/bloodraider/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
-
-/obj/item/clothing/neck/roguetown/chaincoif/chainmantle/bloodraider/dropped(mob/living/carbon/human/user)
-	return ..()
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/bloodraider
 	slot_flags = ITEM_SLOT_ARMOR
@@ -67,15 +58,11 @@
 	icon = 'modular_twilight_axis/icons/clothing/bloodraider.dmi'
 	mob_overlay_icon = 'modular_twilight_axis/icons/clothing/onmob/bloodraider.dmi'
 
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/bloodraider/Initialize()
-	. = ..()
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/bloodraider/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/bloodraider/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
-
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/bloodraider/dropped(mob/living/carbon/human/user)
-	return ..()
 
 /obj/item/clothing/gloves/roguetown/bloodraider
 	name = "raiders gauntlets"
@@ -96,16 +83,11 @@
 	icon = 'modular_twilight_axis/icons/clothing/bloodraider.dmi'
 	mob_overlay_icon = 'modular_twilight_axis/icons/clothing/onmob/bloodraider.dmi'
 	
-/obj/item/clothing/gloves/roguetown/bloodraider/Initialize()
-	. = ..()
+/obj/item/clothing/gloves/roguetown/bloodraider/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
 /obj/item/clothing/gloves/roguetown/bloodraider/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
-
-/obj/item/clothing/gloves/roguetown/bloodraider/dropped(mob/living/carbon/human/user)
-	return ..()
-
 
 /obj/item/clothing/under/roguetown/bloodsplintlegs
 	name = "raiders splintlegs"
@@ -136,15 +118,11 @@
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_COAT_STEP, 10)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 
-/obj/item/clothing/under/roguetown/bloodsplintlegs/Initialize()
-	. = ..()
+/obj/item/clothing/under/roguetown/bloodsplintlegs/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
 /obj/item/clothing/under/roguetown/bloodsplintlegs/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
-
-/obj/item/clothing/under/roguetown/bloodsplintlegs/dropped(mob/living/carbon/human/user)
-	return ..()
 
 /obj/item/clothing/shoes/roguetown/boots/bloodboots
 	name = "raiders boots"
@@ -170,15 +148,11 @@
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
-/obj/item/clothing/shoes/roguetown/boots/bloodboots/Initialize()
-	. = ..()
+/obj/item/clothing/shoes/roguetown/boots/bloodboots/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
 /obj/item/clothing/shoes/roguetown/boots/bloodboots/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
-
-/obj/item/clothing/shoes/roguetown/boots/bloodboots/dropped(mob/living/carbon/human/user)
-	return ..()
 
 /obj/item/clothing/suit/roguetown/shirt/bloodraider
 	name = "raider gambeson"
@@ -202,15 +176,11 @@
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
-/obj/item/clothing/suit/roguetown/shirt/bloodraider/Initialize()
-	. = ..()
+/obj/item/clothing/suit/roguetown/shirt/bloodraider/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
 /obj/item/clothing/suit/roguetown/shirt/bloodraider/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
-	
-/obj/item/clothing/suit/roguetown/shirt/bloodraider/dropped(mob/living/carbon/human/user)
-	return ..()
 
 /obj/item/clothing/wrists/roguetown/bracers/twilight_elven/bloodraider
 	name = "raiders bracers"
@@ -234,12 +204,8 @@
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
-/obj/item/clothing/wrists/roguetown/bracers/twilight_elven/bloodraider/Initialize()
-	. = ..()
+/obj/item/clothing/wrists/roguetown/bracers/twilight_elven/bloodraider/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
 /obj/item/clothing/wrists/roguetown/bracers/twilight_elven/bloodraider/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_ARMOR)
-	
-/obj/item/clothing/wrists/roguetown/bracers/twilight_elven/bloodraider/dropped(mob/living/carbon/human/user)
-	return ..()
