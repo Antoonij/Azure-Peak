@@ -346,6 +346,19 @@
 	converted_type = /area/rogue/outdoors/exposed/tavern
 	tavern_area = TRUE
 
+/area/rogue/indoors/town/tavern/grim
+	first_time_text = "THE BLUSHING BOGMAN"
+	name = "Blushing Bogman"
+	icon_state = "tavern"
+	ambientsounds = AMB_INGEN
+	ambientnight = AMB_INGEN
+	droning_sound = list('sound/music/area/genericrevelry.ogg', 'sound/music/area/genericcalm.ogg', 'sound/music/area/genericchill.ogg', 'sound/music/area/genericflutey.ogg')
+	droning_sound_dusk = list('sound/music/area/townalright.ogg', 'sound/music/area/grimpeace.ogg', 'sound/music/area/genericjaunty.ogg')
+	droning_sound_night = 'sound/music/area/grimnight.ogg'
+	converted_type = /area/rogue/outdoors/exposed/tavern
+	tavern_area = TRUE
+	deathsight_message = "the local tavern, shadowed patrons either scattering or standing to watch this unfortunate soul"
+
 /area/rogue/outdoors/exposed/tavern
 	icon_state = "tavern"
 	droning_sound = 'sound/silence.ogg'
