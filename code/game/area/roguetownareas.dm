@@ -500,4 +500,19 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors
 	converted_type = /area/rogue/indoors/shelter/mountains
 	deathsight_message = "Jagged peaks, treetops and cliffs"
 
+/area/rogue/outdoors/mountains/grim
+	name = "Mountains"
+	icon_state = "mountains"
+	ambientsounds = AMB_MOUNTAIN
+	ambientnight = AMB_MOUNTAIN
+	spookysounds = SPOOKY_GEN
+	spookynight = SPOOKY_GEN
+	droning_sound = list(, 'sound/music/area/grimtwilight.ogg', 'sound/music/area/grimdrama.ogg')
+	droning_sound_dusk = 'sound/music/area/grimdusk.ogg'
+	droning_sound_night = 'sound/music/area/grimfield.ogg'
+	warden_area = TRUE
+	soundenv = 17
+	converted_type = /area/rogue/indoors/shelter/mountains
+	deathsight_message = "Jagged peaks, treetops and cliffs"
+
 //PILGRIM END
