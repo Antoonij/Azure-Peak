@@ -295,14 +295,6 @@
 	droning_sound_night = null
 	converted_type = /area/rogue/outdoors/exposed/bath
 
-/area/rogue/indoors/town/bath/grim
-	name = "Calmer Baths"
-	icon_state = "bath"
-	droning_sound = list('sound/music/area/bathchill.ogg', 'sound/music/area/grimchill.ogg', 'sound/music/area/bathcalm.ogg')
-	droning_sound_dusk = null
-	droning_sound_night = null
-	converted_type = /area/rogue/outdoors/exposed/bath
-
 /area/rogue/outdoors/exposed/bath
 	icon_state = "bath"
 	droning_sound = 'sound/music/area/bath.ogg'

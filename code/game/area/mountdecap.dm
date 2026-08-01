@@ -292,3 +292,4 @@
 	deathsight_message = "deep within volcanic caverns, air thick with heat distortion"
 	detail_text = DETAIL_TEXT_DECAP_TARICHEA
 //PILGRIM END
+
