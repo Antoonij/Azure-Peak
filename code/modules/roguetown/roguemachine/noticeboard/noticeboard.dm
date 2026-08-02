@@ -70,6 +70,8 @@
 			icon_state = "bulletinboard2"
 		else
 			icon_state = "bulletinboard3"
+//BULLETIN BOARD SUBTYPE END
+//draws from existing noticeboard for it's updates n' stuff.
 
 /obj/structure/roguemachine/noticeboard/wall/OnCrafted(dirin, user)
 	pixel_x = 0
