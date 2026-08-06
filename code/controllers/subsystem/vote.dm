@@ -722,7 +722,7 @@ SUBSYSTEM_DEF(vote)
 			if("restart")
 				choices.Add("Restart Round","Continue Playing")
 			if("gamemode")
-				choices.Add(config.votable_modes)
+				choices.Add(config.votable_modes)	
 			if("map")
 				for(var/map in global.config.maplist)
 					var/datum/map_config/VM = config.maplist[map]
@@ -794,7 +794,7 @@ SUBSYSTEM_DEF(vote)
 		return TRUE
 	return FALSE
 
-// Helper for sending an active vote to someone who has just logged in
+// Helper for sending an active vote to someone who has just logged in 
 /datum/controller/subsystem/vote/proc/send_vote(client/C)
 	if(!mode || !C)
 		return
