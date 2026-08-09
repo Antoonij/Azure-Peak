@@ -12698,6 +12698,11 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/grim/northeast)
+"bIP" = (
+/obj/structure/fluff/railing/corner/south_east,
+/obj/machinery/light/rogue/torchholder/l,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town/garrison/grim)
 "bIU" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -22296,6 +22301,10 @@
 /obj/structure/roguemachine/mail{
 	mailtag = "Inside Guild"
 	},
+/obj/structure/roguemachine/noticeboard/wall/bulletinboard{
+	pixel_y = 0;
+	pixel_x = 32
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/dwarfin)
 "cVP" = (
@@ -25171,6 +25180,17 @@
 /obj/structure/roguetent,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/mountains/grim)
+"dou" = (
+/obj/structure/roguewindow,
+/obj/structure/bars/grille{
+	density = 1;
+	name = "window bars"
+	},
+/obj/structure/bars/passage/shutter{
+	redstone_id = "weaponsmith_shutter"
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/town/dwarfin)
 "dow" = (
 /obj/structure/fluff/railing/border,
 /turf/open/floor/rogue/cobble/mossy,
@@ -62210,6 +62230,13 @@
 	},
 /turf/open/floor/rogue/cobblerock/no_smooth,
 /area/rogue/outdoors/exposed/town/keep/grim)
+"inO" = (
+/obj/structure/fluff/railing/fence{
+	dir = 1
+	},
+/obj/machinery/light/rogue/torchholder/r,
+/turf/open/floor/rogue/ruinedwood/turned,
+/area/rogue/outdoors/town/roofs/grim)
 "inR" = (
 /obj/item/restraints/legcuffs/beartrap/armed/camouflage,
 /turf/open/floor/rogue/carpet/lord/left{
@@ -105279,9 +105306,7 @@
 /turf/closed/mineral/random/rogue/high,
 /area/rogue/indoors/cave/northern)
 "nZI" = (
-/obj/structure/fluff/walldeco/customflag{
-	pixel_y = 32
-	},
+/obj/machinery/light/rogue/torchholder/c,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/outdoors/town/roofs/grim)
 "nZK" = (
@@ -113925,7 +113950,6 @@
 /obj/effect/decal/edge{
 	color = "#3f3f3f"
 	},
-/obj/structure/roguemachine/noticeboard/wall/bulletinboard,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/dwarfin)
 "pgy" = (
@@ -142688,6 +142712,10 @@
 /obj/item/reagent_containers/glass/bucket,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/shelter)
+"sTr" = (
+/obj/machinery/light/rogue/torchholder/r,
+/turf/open/floor/rogue/ruinedwood/turned,
+/area/rogue/outdoors/town/roofs/grim)
 "sTv" = (
 /turf/open/water/swamp,
 /area/rogue/under/underdark/grim)
@@ -160344,6 +160372,10 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/bog/south/grim/se)
+"vjy" = (
+/obj/machinery/light/rogue/candle/l,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/indoors/town/garrison/grim)
 "vjz" = (
 /obj/effect/decal/edge_corner{
 	color = "#3f3f3f";
@@ -161971,6 +162003,7 @@
 /area/rogue/indoors/town/tavern/grim)
 "vus" = (
 /obj/structure/fluff/railing/corner/south_west,
+/obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/garrison/grim)
 "vuv" = (
@@ -491323,7 +491356,7 @@ oFh
 pJa
 gRB
 gRB
-gRB
+epv
 gRB
 gRB
 gRB
@@ -491691,7 +491724,7 @@ ppk
 ppk
 aVd
 vNr
-pZZ
+vjy
 qNp
 bBP
 bBP
@@ -493630,7 +493663,7 @@ tgh
 tgh
 jJb
 aDp
-ldg
+dou
 pgt
 hCk
 ipJ
@@ -598275,7 +598308,7 @@ iOF
 iOF
 nuD
 nuD
-yfG
+xop
 nbS
 pVh
 sAE
@@ -601713,7 +601746,7 @@ mDI
 aTh
 nuD
 nuD
-yfG
+xop
 nbS
 pVh
 pVh
@@ -602088,7 +602121,7 @@ qrO
 qrO
 qrO
 hra
-yfG
+feg
 yfG
 yfG
 yfG
@@ -607054,7 +607087,7 @@ qrO
 qrO
 qrO
 uBb
-xhJ
+sTr
 nbS
 pVh
 pVh
@@ -607794,7 +607827,7 @@ qrO
 qrO
 qrO
 bBP
-ktw
+bIP
 psh
 oye
 meP
@@ -610871,7 +610904,7 @@ pVh
 pVh
 pVh
 pVh
-uBb
+inO
 xhJ
 tQp
 jiA
