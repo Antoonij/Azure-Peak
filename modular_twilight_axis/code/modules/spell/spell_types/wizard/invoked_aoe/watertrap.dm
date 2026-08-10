@@ -3,7 +3,6 @@
 	desc = "Causes a whirlpool with a strong current."
 	cost = 3
 	range = 7
-	xp_gain = TRUE
 	releasedrain = 30
 	chargedrain = 1
 	chargetime = 15
@@ -13,7 +12,7 @@
 	movement_interrupt = FALSE
 	charging_slowdown = 2
 	chargedloop = /datum/looping_sound/invokegen
-	associated_skill = /datum/skill/magic/arcane
+	associated_skill = /datum/skill/magic/holy
 	overlay_state = "nondetection"
 	spell_tier = 3
 	invocations = list("Submergi!")
@@ -22,6 +21,9 @@
 	glow_intensity = GLOW_INTENSITY_HIGH
 	gesture_required = TRUE
 	ignore_los = FALSE
+	action_icon = 'icons/mob/actions/hagspells.dmi'
+	overlay_icon = 'icons/mob/actions/abyssormiracles.dmi'
+	overlay_state = "aqua"
 	var/delay = 1 SECONDS
 	var/area_of_effect = 1
 
@@ -36,7 +38,7 @@
 	var/duration = 10 SECONDS
 	var/radius = 1
 	var/atom/movable/spawned_maneater
-	var/is_cleaning_up = FALSE 
+	var/is_cleaning_up = FALSE
 
 /obj/effect/proc_holder/spell/invoked/watertrap/cast(list/targets, mob/user)
 	. = ..()
@@ -71,7 +73,7 @@
 	for(var/turf/T in turf_data)
 		if(T && istype(T, /turf/open/water))
 			T.ChangeTurf(turf_data[T], flags = CHANGETURF_IGNORE_AIR)
-	
+
 	turf_data.Cut()
 	return ..()
 
@@ -82,24 +84,24 @@
 	if(!origin)
 		return INITIALIZE_HINT_QDEL
 
-	
+
 	for(var/obj/effect/watertrap/existing in origin)
 		if(existing != src)
 			return INITIALIZE_HINT_QDEL
 
-	
-	src.invisibility = INVISIBILITY_ABSTRACT 
-	
+
+	invisibility = INVISIBILITY_ABSTRACT
+
 	var/list/affected = range(radius, origin)
 
 	for(var/turf/T in affected)
-		
+
 		if(istype(T, /turf/closed) || istype(T, /turf/open/transparent/openspace) || istype(T, /turf/open/water))
 			continue
 
-		
+
 		turf_data[T] = T.type
-		
+
 		var/dx = T.x - origin.x
 		var/dy = T.y - origin.y
 		var/new_type
@@ -123,5 +125,5 @@
 		if(new_type)
 			T.ChangeTurf(new_type, flags = CHANGETURF_IGNORE_AIR)
 
-	
+
 	QDEL_IN(src, duration)

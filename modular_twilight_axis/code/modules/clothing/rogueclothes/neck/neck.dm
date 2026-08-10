@@ -65,3 +65,12 @@
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/moneta/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, "Strange luck charm")
+
+/obj/item/clothing/neck/roguetown/psicross/wyrd
+	name = /obj/item/clothing/neck/roguetown/psicross/hag::name
+	desc = /obj/item/clothing/neck/roguetown/psicross/hag::desc
+	icon = /obj/item/clothing/neck/roguetown/psicross/hag::icon
+	icon_state = /obj/item/clothing/neck/roguetown/psicross/hag::icon_state
+
+/obj/item/clothing/neck/roguetown/psicross/wyrd/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, "The cross's silhouette shifts. That's no psycross... What is that?!")
