@@ -507,6 +507,8 @@
 
 	W.ronin_prepared_combo = rule_id
 	W.ronin_prepared_at = world.time
+	if(rule_id == "tanuki")
+		elder_tanuki_riposte_ready = FALSE
 	_ronin_apply_weapon_glow(W)
 
 	var/icon_file = 'modular_twilight_axis/icons/roguetown/misc/roninspells.dmi'
@@ -549,9 +551,11 @@
 	elder_tanuki_riposte_ready = FALSE
 	OnComboConsumed("tanuki_riposte", target)
 
-	var/fail_chance = (RONIN_MAX_STACKS_OVERDRIVE - ronin_stacks) * 4
-	fail_chance -= (owner.get_stat(STATKEY_PER) - 10) * 2
-	if(prob(fail_chance))
+	var/skill_difference = owner.get_skill_level(/datum/skill/combat/swords) - target.get_skill_level(/datum/skill/combat/swords)
+	var/perception_difference = owner.get_stat(STATKEY_PER) - target.get_stat(STATKEY_PER)
+	var/charge_chance = 10 + 40 * clamp(ronin_stacks / RONIN_MAX_STACKS_OVERDRIVE, 0, 1)
+	var/success_chance = clamp(charge_chance + skill_difference * 20 + perception_difference * 5, 0, 100)
+	if(!prob(success_chance))
 		owner.visible_message(
 			span_danger("[owner] fails to riposte!"),
 			span_notice("They failed!"),
@@ -859,13 +863,11 @@
 				return
 
 			var/force = _GetBladeForce()
-			var/stam = null
-			if(isnum(target.stamina))
-				stam = target.stamina
-
-			if(isnull(stam))
-				target.OffBalance(1.5 SECONDS)
-			else if(force > stam)
+			if(!isnum(target.stamina) || !isnum(target.max_stamina))
+				return
+			// Stamina stores fatigue, so subtract it to get the remaining reserve.
+			var/remaining_stamina = max(0, target.max_stamina - target.stamina)
+			if(force > remaining_stamina * 1.5)
 				target.OffBalance(3 SECONDS)
 			else
 				_set_ronin_stacks(min(ronin_stacks + 2, RONIN_MAX_STACKS_OVERDRIVE))
@@ -995,11 +997,12 @@
 	if(istype(W) && W.ronin_prepared_combo)
 		var/rule_id = W.ronin_prepared_combo
 
-		if(elder_tanuki_riposte_ready)
-			_HandleElderTanukiRiposteOnHit(target, user.zone_selected)
-		else
-			elder_tanuki_riposte_ready = TRUE
-			return
+		if(rule_id == "tanuki")
+			if(elder_tanuki_riposte_ready)
+				_HandleElderTanukiRiposteOnHit(target, user.zone_selected)
+			else
+				elder_tanuki_riposte_ready = TRUE
+				return
 
 		W.ronin_prepared_combo = null
 		W.ronin_prepared_at = 0

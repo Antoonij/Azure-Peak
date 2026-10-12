@@ -1416,7 +1416,7 @@
 			else
 				ADD_TRAIT(H, trait_id, TAT_TRAIT_SOURCE)
 	if(has_trait(TAT_TRAIT_RONIN))
-		H.LoadComponent(/datum/component/combo_core/ronin)
+		H.LoadComponent(/datum/component/combo_core/ronin, RONIN_GATE_DURATION, RONIN_MAX_HISTORY)
 	if(has_trait(TAT_TRAIT_SOUNDBREAKER))
 		H.LoadComponent(/datum/component/combo_core/soundbreaker)
 	if(has_trait(TAT_TRAIT_RESIDENT))
