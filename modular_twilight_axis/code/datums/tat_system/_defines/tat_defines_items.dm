@@ -480,6 +480,7 @@ GLOBAL_LIST_INIT(tat_donation_access_all_ckeys, TAT_DONATION_ACCESS_ALL_CKEYS)
 	/obj/item/clothing/gloves/roguetown/angle/freifechter = TAT_ITEM_ENTRY("Fencing Gloves", 1.5, "clothing", "armor_family", TAT_ARMOR_LEATHER, "gloves"), \
 	/obj/item/rogueweapon/hammer/iron = TAT_ITEM_ENTRY("Iron Hammer", 1, "misc", "weapon_supply", TAT_SUPPLY_IRON, "smith"), \
 	/obj/item/natural/whetstone = TAT_ITEM_ENTRY("Whetstone", 0, "misc", "weapon_supply", TAT_SUPPLY_IRON, "smith"), \
+	/obj/item/armor_brush = TAT_ITEM_ENTRY("Armor Brush", 4, "misc", "weapon_supply", TAT_SUPPLY_IRON, "smith"), \
 	/obj/item/rogueweapon/tongs = TAT_ITEM_ENTRY("Iron Tongs", 1, "misc", "weapon_supply", TAT_SUPPLY_IRON, "smith"), \
 	/obj/item/rogueweapon/hammer/steel = TAT_ITEM_ENTRY("Steel Hammer", 2, "misc", "weapon_supply", TAT_SUPPLY_STEEL, "smith"), \
 	/obj/item/lockpickring/mundane = TAT_ITEM_ENTRY("Lockpick Ring", 2, "misc", "weapon_supply", TAT_SUPPLY_IRON, "adventur' supply"), \
@@ -707,6 +708,7 @@ GLOBAL_LIST_INIT(tat_donation_access_all_ckeys, TAT_DONATION_ACCESS_ALL_CKEYS)
 	/obj/item/reagent_containers/glass/bottle/waterskin/milk = TAT_ITEM_ENTRY("Not Milk....", 2, "misc", "weapon_supply", TAT_SUPPLY_IRON, "food"), \
 	/obj/item/storage/backpack/rogue/satchel/short = TAT_ITEM_ENTRY("Short Satchel", 1.5, "misc", "armor_family", TAT_ARMOR_CLOTH, "belt"), \
 	/obj/item/storage/backpack/rogue/satchel = TAT_ITEM_ENTRY("Satchel", 1, "misc", "armor_family", TAT_ARMOR_CLOTH, "back"), \
+	/obj/item/storage/roguebasket = TAT_ITEM_ENTRY("Basket", 1, "misc", "weapon_supply", TAT_SUPPLY_IRON, "lyfe"), \
 	/obj/item/clothing/gloves/roguetown/fingerless = TAT_ITEM_ENTRY("Fingerless Gloves", 0, "clothing", "armor_family", TAT_ARMOR_CLOTH, "gloves"), \
 	/obj/item/clothing/gloves/roguetown/fingerless_leather = TAT_ITEM_ENTRY("Fingerless Leather Gloves", 1, "clothing", "armor_family", TAT_ARMOR_CLOTH, "gloves"), \
 	/obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants = TAT_ITEM_ENTRY("Silk Tightss", 1.5, "clothing", "armor_family", TAT_ARMOR_LEATHER, "pants"), \
