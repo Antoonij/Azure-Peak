@@ -596,23 +596,39 @@
 /datum/tat_items/proc/sync_donor_loadout_from_preferences()
 	var/list/wanted = list()
 	var/datum/preferences/P = owner_build?.owner_preferences
-	if(P && islist(P.gear_list))
+	var/client/owner_client = P?.parent
+	var/mob/loadout_user = owner_client?.mob
+	if(loadout_user?.ckey && P && islist(P.gear_list))
+		P.sanitize_subscription_loadout(loadout_user, FALSE)
+		var/slots_left = P.get_loadout_size(loadout_user)
 		for(var/key in P.gear_list)
+			if(slots_left <= 0)
+				break
 			var/datum/loadout_item/item = GLOB.loadout_items_by_name[key]
-			if(!item?.path)
+			if(!item?.path || !ispath(item.path, /obj/item) || item.get_loadout_lock_reason(loadout_user))
+				continue
+			if(!GLOB.PatreonsLoaded && (item.donatitem || item.donat_tier > 0))
 				continue
 			ensure_runtime_item_entry(item.path, item.name, TRUE)
 			add_grant_amount(wanted, item.path)
+			slots_left--
 
 	var/list/current_donor_grants = list()
 	for(var/item_path in item_grants)
 		if(get_granted_amount(item_path, TAT_ITEM_SOURCE_DONOR_LOADOUT) > 0)
 			current_donor_grants += item_path
+	var/grants_changed = FALSE
 	for(var/item_path in wanted)
+		if(get_granted_amount(item_path, TAT_ITEM_SOURCE_DONOR_LOADOUT) == wanted[item_path])
+			continue
 		set_item_grant_amount(item_path, TAT_ITEM_SOURCE_DONOR_LOADOUT, wanted[item_path], TRUE, TRUE)
+		grants_changed = TRUE
 	for(var/item_path in current_donor_grants)
 		if(!(item_path in wanted))
-			set_item_grant_amount(item_path, TAT_ITEM_SOURCE_DONOR_LOADOUT, 0, TRUE, TRUE)
+			set_item_grant_amount(item_path, TAT_ITEM_SOURCE_DONOR_LOADOUT, 0, TRUE, FALSE)
+			grants_changed = TRUE
+	if(grants_changed)
+		owner_build?.set_dirty()
 	return TRUE
 
 /datum/tat_items/proc/ensure_external_grants_start_in_stash()
@@ -2297,16 +2313,24 @@
 		player = character.client
 	if(!player?.prefs)
 		return FALSE
-	character.mind.triumph_discount_remaining = get_donator_triumph_discount(player.ckey) // TA EDIT - donor triumph discount scales by Patreon tier
+	character.mind.triumph_discount_remaining = get_donator_triumph_discount(player.ckey)
+	var/mob/loadout_user = player.mob
+	if(loadout_user?.ckey)
+		player.prefs.sanitize_subscription_loadout(loadout_user)
 	if(tat_build_handles_preference_loadout(character, player))
 		return TRUE
 
+	var/slots_left = loadout_user?.ckey ? player.prefs.get_loadout_size(loadout_user) : 0
 	if(player.prefs.gear_list)
 		for(var/key in player.prefs.gear_list)
+			if(slots_left <= 0)
+				break
 			var/datum/loadout_item/item = GLOB.loadout_items_by_name[key]
-			if(!item)
+			if(!item?.path || !ispath(item.path, /obj/item) || item.get_loadout_lock_reason(loadout_user))
 				continue
-
+			if(!GLOB.PatreonsLoaded && (item.donatitem || item.donat_tier > 0))
+				continue
+			slots_left--
 			if(item.triumph_cost)
 				character.mind.special_items["[item.name][TRIUMPH_STASH_SUFFIX]"] = item.path
 			else

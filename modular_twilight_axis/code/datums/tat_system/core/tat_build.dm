@@ -167,6 +167,9 @@
 	if(!P || !islist(P.gear_list))
 		return ""
 	var/list/parts = list()
+	var/client/owner_client = P.parent
+	var/current_tier = GLOB.PatreonsLoaded ? check_patreon_lvl(owner_client?.ckey) : -1
+	parts += "subscription=[current_tier]"
 	for(var/key in P.gear_list)
 		parts += "[key]"
 	return parts.Join("|")
@@ -177,6 +180,7 @@
 	var/datum/preferences/P = user.client.prefs
 	if(P.tat_build != src)
 		return FALSE
+	P.sanitize_subscription_loadout(user, FALSE)
 
 	var/new_virtues_key = get_active_virtues_cache_key(P)
 	var/new_loadout_key = get_preference_loadout_cache_key(P)
@@ -842,6 +846,7 @@
 		invalidate_ui_data_cache()
 		return TRUE
 	load_slot_build_from_list(build_data)
+	save_current_to_slot(slot_id)
 	dirty = FALSE
 	invalidate_ui_data_cache()
 	return TRUE
