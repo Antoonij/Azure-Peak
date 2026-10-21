@@ -562,7 +562,8 @@
 		TRAIT_SHIRTLESS = list(TRAIT_NUDIST),
 		TRAIT_NUDE_SLEEPER = list(TRAIT_NUDIST, TAT_TRAIT_SAVAGE_SKIN, TAT_TRAIT_BODYBUILDER_SKIN, TRAIT_NOSLEEP),
 		TRAIT_NOSLEEP = list(TRAIT_RITUALIST),
-		TRAIT_NOPAINSTUN = list(TAT_TRAIT_MAGE_INITIATE)
+		TRAIT_NOPAINSTUN = list(TAT_TRAIT_MAGE_INITIATE),
+		TRAIT_BOMBER_EXPERT = list(TAT_TRAIT_WARRIOR_EXPERT,)
 	)
 	return GLOB.tat_trait_conflict_map
 
@@ -598,6 +599,7 @@
 		TAT_TRAIT_HUNTER_BEATER = list("all" = list(TRAIT_OUTDOORSMAN), "role_choice" = TAT_ROLE_CHOICE_TOWNER, "message" = "\"[get_trait_display_name(TAT_TRAIT_HUNTER_BEATER)]\" requires Resident and \"[get_trait_display_name(TRAIT_OUTDOORSMAN)]\"."),
 		TAT_TRAIT_HUNTER_SHOOTER = list("all" = list(TRAIT_OUTDOORSMAN), "role_choice" = TAT_ROLE_CHOICE_TOWNER, "message" = "\"[get_trait_display_name(TAT_TRAIT_HUNTER_SHOOTER)]\" requires Resident and \"[get_trait_display_name(TRAIT_OUTDOORSMAN)]\"."),
 		TAT_TRAIT_LOOTRAT_2 = list("all" = list(TAT_TRAIT_TRADER_LICENSE, TAT_TRAIT_LOOTRAT), "foundation" = TAT_FOUNDATION_SETTLED, "role_choice" = TAT_ROLE_CHOICE_TRADER, "message" = "\"[get_trait_display_name(TAT_TRAIT_LOOTRAT_2)]\" requires \"[get_trait_display_name(TAT_TRAIT_TRADER_LICENSE)]\", \"[get_trait_display_name(TAT_TRAIT_LOOTRAT)]\", and Trader role."),
+		TRAIT_BOMBER_EXPERT = list("all" = list(TRAIT_EXPLOSIVE_SUPPLY), "message" = "\"[get_trait_display_name(TRAIT_BOMBER_EXPERT)]\" requires \"[get_trait_display_name(TRAIT_EXPLOSIVE_SUPPLY)]\"."),
 	)
 	return GLOB.tat_trait_requirement_map
 

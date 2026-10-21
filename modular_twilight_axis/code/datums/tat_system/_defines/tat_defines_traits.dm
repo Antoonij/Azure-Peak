@@ -268,6 +268,7 @@ GLOBAL_LIST_INIT(tat_virtue_choice_trait_rules, TAT_VIRTUE_CHOICE_TRAIT_RULES)
 	TAT_TRAIT_MAGE_UTILITY_SLOT = TAT_TRAIT_ENTRY("Arcane Utility Slot", 1, "Requires Mage Initiate. Grants +1 utility spell slot."), \
 	TAT_TRAIT_WITCH_INITIATE = TAT_TRAIT_ENTRY("Witch Initiate", 2, "Grants witch trait, deathsight, and ability to shapeshift yourself into different small creatures. Resident only: Magic 2 unlocks Old Magick, Miracles 2 unlocks Godsblood, and Magic 1 plus Miracles 1 unlocks Mystagogue."), \
 	TRAIT_EXPLOSIVE_SUPPLY = TAT_TRAIT_ENTRY("Explosive Supply", 1, "Grants explosives gifts from your friends. Luck scaled."), \
+	TRAIT_BOMBER_EXPERT = TAT_TRAIT_ENTRY("Bomb Expert", 3, "I can more readily prepare bombs through jury-rigged crafting, and I can prepare and handle tripwire traps with greater dexterity. My bombs can also sometimes critically strike certain enemies, causing fatal damage."), \
 	TAT_TRAIT_ARTIFACTS_SUPPLIER = TAT_TRAIT_ENTRY("Artifacts Bearer", 3, "You're one of the adventurers with stories about your raids. Now, you have one of the deadliest weapons in Grimmoria. REQUIRES: Party Leader"), \
 	TAT_TRAIT_RANGED_SYNERGY_BOWS = TAT_TRAIT_ENTRY("Bow Synergy", 1, "Choose one ranged synergy only. Your Ranged direction points automatically raise Bows, limited by the current Bows cap."), \
 	TAT_TRAIT_RANGED_SYNERGY_CROSSBOWS = TAT_TRAIT_ENTRY("Crossbow Synergy", 1, "Choose one ranged synergy only. Your Ranged direction points automatically raise Crossbows, limited by the current Crossbows cap."), \
