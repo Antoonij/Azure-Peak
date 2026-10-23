@@ -594,24 +594,28 @@
 	return TRUE
 
 /datum/tat_items/proc/sync_donor_loadout_from_preferences()
-	var/list/wanted = list()
 	var/datum/preferences/P = owner_build?.owner_preferences
 	var/client/owner_client = P?.parent
 	var/mob/loadout_user = owner_client?.mob
-	if(loadout_user?.ckey && P && islist(P.gear_list))
-		P.sanitize_subscription_loadout(loadout_user, FALSE)
-		var/slots_left = P.get_loadout_size(loadout_user)
-		for(var/key in P.gear_list)
-			if(slots_left <= 0)
-				break
-			var/datum/loadout_item/item = GLOB.loadout_items_by_name[key]
-			if(!item?.path || !ispath(item.path, /obj/item) || item.get_loadout_lock_reason(loadout_user))
-				continue
-			if(!GLOB.PatreonsLoaded && (item.donatitem || item.donat_tier > 0))
-				continue
-			ensure_runtime_item_entry(item.path, item.name, TRUE)
-			add_grant_amount(wanted, item.path)
-			slots_left--
+	// A client still logging in is not an authoritative empty loadout.
+	if(!loadout_user?.ckey || !P || !islist(P.gear_list) || !length(GLOB.loadout_items_by_name))
+		return FALSE
+	if(!GLOB.PatreonsLoaded)
+		queue_load_patreons()
+		return FALSE
+
+	var/list/wanted = list()
+	P.sanitize_subscription_loadout(loadout_user, FALSE)
+	var/slots_left = P.get_loadout_size(loadout_user)
+	for(var/key in P.gear_list)
+		if(slots_left <= 0)
+			break
+		var/datum/loadout_item/item = GLOB.loadout_items_by_name[key]
+		if(!item?.path || !ispath(item.path, /obj/item) || item.get_loadout_lock_reason(loadout_user))
+			continue
+		ensure_runtime_item_entry(item.path, item.name, TRUE)
+		add_grant_amount(wanted, item.path)
+		slots_left--
 
 	var/list/current_donor_grants = list()
 	for(var/item_path in item_grants)
@@ -656,6 +660,10 @@
 	return TRUE
 
 /datum/tat_items/proc/sync_external_grants()
+	// Saved grants outlive the runtime catalog; rebuild it before validating slots.
+	for(var/item_path in item_grants)
+		if(get_granted_amount(item_path) > 0)
+			ensure_runtime_item_entry(item_path, null, TRUE)
 	sync_trait_granted_items()
 	sync_donor_loadout_from_preferences()
 	ensure_external_grants_start_in_stash()
