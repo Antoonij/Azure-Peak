@@ -353,7 +353,7 @@ GLOBAL_LIST_INIT(tat_donation_access_all_ckeys, TAT_DONATION_ACCESS_ALL_CKEYS)
 	/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy/zycuirass = TAT_ITEM_ENTRY("Iron Gardbrace And Fauld", 2.5, "clothing", "armor_family", TAT_ARMOR_PLATE, "armor"), \
 	/obj/item/clothing/suit/roguetown/armor/plate/iron/banded= TAT_ITEM_ENTRY("Iron Branded Armor", 2, "clothing", "armor_family", TAT_ARMOR_PLATE, "armor"), \
 	/obj/item/clothing/suit/roguetown/armor/plate/full/raneshen_plated = TAT_DONATION_ITEM_ENTRY("Ranesheni Rlate Armor", 3.5, "clothing", "armor_family", TAT_ARMOR_PLATE, "armor", TAT_DONATION_TIER_TWO), \
-	/obj/item/clothing/suit/roguetown/armor/plate/full/samsibsa = TAT_DONATION_ITEM_ENTRY("Samsibsa Scaleplate", 2.5, "clothing", "armor_family", TAT_ARMOR_PLATE, "armor", TAT_DONATION_TIER_TWO), \
+	/obj/item/clothing/suit/roguetown/armor/brigandine/samsibsa = TAT_DONATION_ITEM_ENTRY("Samsibsa Scaleplate", 2.5, "clothing", "armor_family", TAT_ARMOR_PLATE, "armor", TAT_DONATION_TIER_TWO), \
 	/obj/item/clothing/suit/roguetown/armor/plate/iron = TAT_ITEM_ENTRY("iron half-plate", 1.5, "clothing", "armor_family", TAT_ARMOR_MAIL, "armor"), \
 	/obj/item/clothing/suit/roguetown/armor/plate/raneshen_scale = TAT_DONATION_ITEM_ENTRY("Ranesheni Medium Lamellar Armor", 3.5, "clothing", "armor_family", TAT_ARMOR_MAIL, "armor", TAT_DONATION_TIER_TWO), \
 	/obj/item/clothing/suit/roguetown/armor/plate/scale = TAT_ITEM_ENTRY("Scalemail", 2.5, "clothing", "armor_family", TAT_ARMOR_MAIL, "armor"), \
