@@ -202,14 +202,14 @@
 	name = "wooden kitsune mask"
 	armor = ARMOR_BRIGANDINE
 	anvilrepair = /datum/skill/craft/armorsmithing
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 	max_integrity = 50
 
 /obj/item/clothing/mask/rogue/yoruku_oni/armored
 	name = "wooden oni mask"
 	armor = ARMOR_BRIGANDINE
 	anvilrepair = /datum/skill/craft/armorsmithing
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 	max_integrity = 50
 
 /obj/item/clothing/mask/rogue/overseer_gold

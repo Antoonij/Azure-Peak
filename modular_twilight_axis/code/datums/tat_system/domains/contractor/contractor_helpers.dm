@@ -374,7 +374,7 @@
 		/datum/charflaw/clingy,
 		/datum/charflaw/finicky,
 		/datum/charflaw/lonely,
-		/datum/charflaw/addiction/paranoid,
+		/datum/charflaw/paranoid,
 		/datum/charflaw/addiction/clamorous,
 		/datum/charflaw/addiction/thrillseeker,
 		/datum/charflaw/indebted,
