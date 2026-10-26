@@ -101,7 +101,7 @@
 #define TAT_VIRTUE_CHOICE_SKILLED_TAILOR "Tailor Apprentice"
 #define TAT_VIRTUE_CHOICE_SKILLED_HUNTER "Hunter Apprentice"
 #define TAT_VIRTUE_CHOICE_SKILLED_PHYS "Physician Apprentice"
-#define TAT_VIRTUE_CHOICE_SKILLED_FORESTER "Forester Apprentice"
+#define TAT_VIRTUE_CHOICE_SKILLED_COOK "Chef Apprentice"
 #define TAT_VIRTUE_CHOICE_SKILLED_ARTIF "Artificer Apprentice"
 #define TAT_VIRTUE_CHOICE_SKILLED_ENCHANT "Enchanter Apprentice"
 
@@ -150,7 +150,7 @@
 		TAT_VIRTUE_CHOICE_SKILLED_TAILOR = list(/datum/skill/labor/butchering = 2, /datum/skill/craft/sewing = 3, /datum/skill/craft/tanning = 2), \
 		TAT_VIRTUE_CHOICE_SKILLED_HUNTER = list(/datum/skill/craft/traps = 2, /datum/skill/misc/tracking = 2, /datum/skill/labor/butchering = 2, /datum/skill/craft/sewing = 2, /datum/skill/craft/tanning = 2, /datum/skill/misc/hunting = 2), \
 		TAT_VIRTUE_CHOICE_SKILLED_PHYS = list(/datum/skill/craft/alchemy = 2, /datum/skill/misc/medicine = 2), \
-		TAT_VIRTUE_CHOICE_SKILLED_FORESTER = list(/datum/skill/craft/cooking = 2, /datum/skill/misc/athletics = 2, /datum/skill/labor/farming = 2, /datum/skill/labor/fishing = 2, /datum/skill/labor/lumberjacking = 2), \
+		TAT_VIRTUE_CHOICE_SKILLED_COOK = list(/datum/skill/craft/cooking = 3, /datum/skill/labor/fishing = 2, /datum/skill/labor/farming = 2, /datum/skill/labor/butchering = 2), \
 		TAT_VIRTUE_CHOICE_SKILLED_ARTIF = list(/datum/skill/craft/carpentry = 2, /datum/skill/craft/masonry = 2, /datum/skill/craft/engineering = 2, /datum/skill/craft/smelting = 2, /datum/skill/craft/ceramics = 2), \
 		TAT_VIRTUE_CHOICE_SKILLED_ENCHANT = list(/datum/skill/craft/alchemy =2, /datum/skill/craft/blacksmithing = 2, /datum/skill/craft/engineering = 2, /datum/skill/craft/smelting = 2, /datum/skill/magic/arcane = 2) \
 	), \
