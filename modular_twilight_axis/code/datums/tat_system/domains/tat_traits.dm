@@ -830,9 +830,6 @@
 	var/cleric_tier = get_effective_divine_tier()
 	var/passive_gain = get_divine_passive_gain_for_tier(cleric_tier)
 	var/devotion_limit = get_divine_devotion_limit_for_tier(cleric_tier)
-	if(H.patron?.type == /datum/patron/divine/abyssor && cleric_tier >= CLERIC_T1)
-		// Abyssorite TAT devotees at T1 follow the Painter path before miracles are allocated.
-		ADD_TRAIT(H, TRAIT_INK_AFFINITY, TAT_TRAIT_SOURCE)
 	var/datum/devotion/D = new /datum/devotion(H, H.patron)
 	D.grant_miracles(H, cleric_tier = cleric_tier, passive_gain = passive_gain, devotion_limit = devotion_limit)
 	H.adjust_skillrank_up_to(/datum/skill/magic/holy, max(1, owner_build?.get_skill_value(/datum/skill/magic/holy) || 1), TRUE)
@@ -1452,7 +1449,9 @@
 		ADD_TRAIT(H, TRAIT_ZURCH, TAT_TRAIT_SOURCE)
 	if(has_trait(TAT_TRAIT_HERETIC))
 		GLOB.excommunicated_players += H.real_name
-	apply_divine_package(H)
+	// Abyssor's T1+ path prompt needs the client attached to the new character.
+	if(H.patron?.type != /datum/patron/divine/abyssor || get_effective_divine_tier() < CLERIC_T1)
+		apply_divine_package(H)
 	apply_mage_package(H)
 	apply_accursed_package(H)
 	if(has_trait(TAT_TRAIT_CONTRACTOR))
@@ -1465,6 +1464,8 @@
 /datum/tat_traits/proc/apply_deferred_to_human(mob/living/carbon/human/H)
 	if(!H?.client)
 		return FALSE
+	if(H.patron?.type == /datum/patron/divine/abyssor && get_effective_divine_tier() >= CLERIC_T1)
+		apply_divine_package(H)
 //	if(has_trait(TAT_TRAIT_RESIDENT))
 		//apply_resident_pugilist_package(H)
 	if(has_trait(TAT_TRAIT_SPELLBLADE))
