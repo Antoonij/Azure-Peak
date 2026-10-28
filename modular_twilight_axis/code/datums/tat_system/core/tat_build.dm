@@ -89,7 +89,7 @@
 	return FALSE
 
 /datum/tat_build/proc/can_select_contractor_trait()
-	return is_owner_admin() //TRUE для фулланлока
+	return is_owner_admin()
 
 /datum/tat_build/proc/is_owner_tat_banned(mob/user = null)
 	if(user?.ckey)

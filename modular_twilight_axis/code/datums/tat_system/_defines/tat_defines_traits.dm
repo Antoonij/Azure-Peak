@@ -47,7 +47,7 @@
 #define TAT_TRAIT_MAGE_INITIATE "tat_mage_initiate"
 #define TAT_TRAIT_WITCH_INITIATE "tat_witch_initiate"
 #define TAT_TRAIT_CONTRACTOR "tat_contractor"
-#define TAT_TRAIT_CONTRACTOR_ENTITY "tat_contractor_entity"
+#define TAT_TRAIT_MENTOR "tat_mentor"
 
 #define TAT_TRAIT_DIVINE_BOON_1 "tat_divine_boon_1"
 #define TAT_TRAIT_DIVINE_BOON_2 "tat_divine_boon_2"
@@ -210,7 +210,7 @@ GLOBAL_LIST_INIT(tat_virtue_choice_trait_rules, TAT_VIRTUE_CHOICE_TRAIT_RULES)
 	TAT_TRAIT_BARDIC_INSPIRATION_T2 = TAT_TRAIT_ENTRY("Bardic Inspiration II", 2, "Upgrades bardic inspiration to tier 2, increasing audience size and songs known."), \
 	TAT_TRAIT_PARTY_LEADER = TAT_TRAIT_ENTRY("Party Leader", 2, "Improves the core Fellowship: nearby fellows gain +1 CON; while at least one fellow is nearby, the leader gains +1 CON, +1 WIL, and +0.5 Fortune per nearby fellow."), \
 	TAT_TRAIT_BONUS_STAT_POOL = TAT_TRAIT_ENTRY("Natural Potential", 2, "Shenanigans only. Requires Melee 2 and grants +3 stat points."), \
-	TAT_TRAIT_CONTRACTOR_ENTITY = TAT_TRAIT_ENTRY("Tempress Entity", 0, "Debug trait. Grants +2 direction points."), \
+	TAT_TRAIT_MENTOR = TAT_TRAIT_ENTRY("Mentor", 0, "Mentor trait."), \
 	TAT_TRAIT_WANTED = TAT_TRAIT_ENTRY("Wanted", -3, "Gain +5 stat points in the build pool, become an Outlaw, gain Forbidden Knowledge, and receive a bounty."), \
 	TAT_TRAIT_TROPHY_BOUNTY = TAT_TRAIT_ENTRY("Trophy Bounty", 1, "You can receive additional bonuses when wearing a headhook with monster heads."), \
 	TAT_TRAIT_WEAPON_TRAINING = TAT_TRAIT_ENTRY("Weapon Training", 1, "Allows raising melee combat skills to level 3 and grants +3 combat skill points when purchased."), \
@@ -355,11 +355,11 @@ GLOBAL_LIST_INIT(tat_virtue_choice_trait_rules, TAT_VIRTUE_CHOICE_TRAIT_RULES)
 	TAT_TRAIT_WANTED = TAT_BUILD_ITEM_BONUS_WANTED, \
 	TAT_TRAIT_LOOTRAT = TAT_BUILD_ITEM_BONUS_LOOTRAT, \
 	TAT_TRAIT_LOOTRAT_2 = TAT_BUILD_ITEM_BONUS_LOOTRAT_2, \
-	TAT_TRAIT_CONTRACTOR_ENTITY = TAT_BUILD_ITEM_BONUS_LOOTRAT \
+	TAT_TRAIT_MENTOR = TAT_BUILD_ITEM_BONUS_LOOTRAT \
 )
 
 #define TAT_TRAIT_DIRECTION_POINT_RULES list( \
-	TAT_TRAIT_CONTRACTOR_ENTITY = 2 \
+	TAT_TRAIT_MENTOR = 2 \
 )
 
 #define TAT_TRAIT_ITEM_UNLOCK_RULES list( \

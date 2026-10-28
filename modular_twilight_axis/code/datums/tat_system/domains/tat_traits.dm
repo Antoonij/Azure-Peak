@@ -29,7 +29,7 @@
 	return (trait_id in GLOB.tat_trait_skill_point_rules) || (trait_id in GLOB.tat_trait_skill_bonus_rules) || (trait_id in GLOB.tat_trait_skill_cap_bonus_rules) || (trait_id in GLOB.tat_trait_skill_discount_rules)
 
 /datum/tat_traits/proc/is_contractor_trait_blocked(trait_id)
-	if(has_trait(TAT_TRAIT_CONTRACTOR_ENTITY))
+	if(has_trait(TAT_TRAIT_MENTOR))
 		return FALSE
 	if(has_trait(TAT_TRAIT_CONTRACTOR))
 		return trait_id != TAT_TRAIT_CONTRACTOR && !is_contractor_skill_trait(trait_id)
@@ -39,6 +39,7 @@
 		if(selected_trait_id != TAT_TRAIT_CONTRACTOR && !is_contractor_skill_trait(selected_trait_id))
 			return TRUE
 	return FALSE
+
 
 /datum/tat_traits/proc/get_trait_count(trait_id)
 	if(trait_id == TAT_TRAIT_RESIDENT || trait_id == TRAIT_OUTLANDER || trait_id == TAT_TRAIT_WANTED)
@@ -264,19 +265,14 @@
 
 	return 0
 
-/datum/tat_traits/proc/get_contractor_entity_discount(trait_id)
-	if(!has_trait(TAT_TRAIT_CONTRACTOR_ENTITY))
-		return 0
-	if(trait_id != TRAIT_NOPAINSTUN && trait_id != TRAIT_CIVILIZEDBARBARIAN)
-		return 0
-	return max(0, get_base_cost(trait_id))
 
 /datum/tat_traits/proc/get_cost_modifier(trait_id)
 	var/modifier = 0
 	modifier -= get_armor_supplier_cross_discount(trait_id)
 	modifier -= get_material_supplier_cross_discount(trait_id)
 	modifier -= get_armor_training_supplier_discount(trait_id)
-	modifier -= get_contractor_entity_discount(trait_id)
+	if(has_trait(TAT_TRAIT_MENTOR) && (trait_id in list(TRAIT_NOPAINSTUN, TRAIT_CIVILIZEDBARBARIAN)))
+		modifier -= max(0, get_base_cost(trait_id))
 	return modifier
 
 /datum/tat_traits/proc/get_display_cost(trait_id)
@@ -298,6 +294,8 @@
 /datum/tat_traits/proc/can_select_trait(trait_id)
 	if(!check_trait(trait_id))
 		return FALSE
+	if(trait_id == TAT_TRAIT_MENTOR && owner_build?.get_owner_ckey() != "mrix")
+		return FALSE
 	if(is_resident_only_hunter_trait(trait_id) && owner_build?.directions?.get_role_choice() != TAT_ROLE_CHOICE_TOWNER)
 		return FALSE
 	if(trait_id == TAT_TRAIT_WEAPON_TRAINING && !((owner_build?.directions?.get_role_choice()) in list(TAT_ROLE_CHOICE_TOWNER, TAT_ROLE_CHOICE_TRADER)))
@@ -307,8 +305,6 @@
 	if(owner_build?.directions?.is_role_trait(trait_id))
 		return FALSE
 	if(trait_id == TAT_TRAIT_CONTRACTOR && !owner_build?.can_select_contractor_trait())
-		return FALSE
-	if(trait_id == TAT_TRAIT_CONTRACTOR_ENTITY && owner_build?.get_owner_ckey() != "mrix")
 		return FALSE
 	if(is_contractor_trait_blocked(trait_id))
 		return FALSE
@@ -1410,7 +1406,7 @@
 		if(is_repeatable_trait(trait_id))
 			continue
 		switch(trait_id)
-			if(TAT_TRAIT_WARRIOR_EXPERT, TAT_TRAIT_WARRIOR_MASTER, TAT_TRAIT_WEAPON_TRAINING, TAT_TRAIT_SOUNDBREAKER, TAT_TRAIT_RONIN, TAT_TRAIT_RESIDENT, TAT_TRAIT_STEEL_SUPPLIER, TAT_TRAIT_SILVER_SUPPLIER, TAT_TRAIT_BRONZE_SUPPLIER, TAT_TRAIT_LEATHER_SUPPLIER, TAT_TRAIT_MAIL_SUPPLIER, TAT_TRAIT_PLATE_SUPPLIER, TAT_TRAIT_RANGED_SUPPLIER, TAT_TRAIT_RANGED_SYNERGY_BOWS, TAT_TRAIT_RANGED_SYNERGY_CROSSBOWS, TAT_TRAIT_RANGED_SYNERGY_SLINGS, TAT_TRAIT_RANGED_SYNERGY_FIREARMS, TAT_TRAIT_HUNTER_BEATER, TAT_TRAIT_HUNTER_SHOOTER, TAT_TRAIT_SPELLBLADE, TAT_TRAIT_SPELLFIST, TAT_TRAIT_EXPERT_ARMAMENT, TAT_TRAIT_BARDIC_INSPIRATION_T1, TAT_TRAIT_BARDIC_INSPIRATION_T2, TAT_TRAIT_PARTY_LEADER, TAT_TRAIT_BONUS_STAT_POOL, TAT_TRAIT_WANTED, TAT_TRAIT_DIVINE_INITIATE, TAT_TRAIT_DIVINE_BLAST, TAT_TRAIT_MAGE_INITIATE, TAT_TRAIT_WITCH_INITIATE, TAT_TRAIT_CONTRACTOR, TAT_TRAIT_ARTIFACTS_SUPPLIER, TAT_TRAIT_FIREARMS_SUPPLIER, TAT_TRAIT_TROPHY_BOUNTY, TAT_TRAIT_MASTER_OF_WANDERING, TAT_TRAIT_MASTER_OF_CRAFTING, TAT_TRAIT_STRAYING_SOUL, TAT_TRAIT_HANDICRAFT_APPRENTICE, TAT_TRAIT_STRAYING_SOUL_APPRENTICE, TAT_TRAIT_PLIANT_RENAME, TAT_TRAIT_SAVAGE_SKIN, TAT_TRAIT_BODYBUILDER_SKIN, TAT_TRAIT_SAVAGE_RAGE, TAT_TRAIT_HERETIC, TAT_TRAIT_BERSERKER_RAGE, TAT_TRAIT_LOOTRAT, TRAIT_SHIRTLESS, TAT_TRAIT_LOOTRAT_2, TAT_TRAIT_ACCURSED, TAT_TRAIT_POLYGLOT)
+			if(TAT_TRAIT_WARRIOR_EXPERT, TAT_TRAIT_WARRIOR_MASTER, TAT_TRAIT_WEAPON_TRAINING, TAT_TRAIT_SOUNDBREAKER, TAT_TRAIT_RONIN, TAT_TRAIT_RESIDENT, TAT_TRAIT_STEEL_SUPPLIER, TAT_TRAIT_SILVER_SUPPLIER, TAT_TRAIT_BRONZE_SUPPLIER, TAT_TRAIT_LEATHER_SUPPLIER, TAT_TRAIT_MAIL_SUPPLIER, TAT_TRAIT_PLATE_SUPPLIER, TAT_TRAIT_RANGED_SUPPLIER, TAT_TRAIT_RANGED_SYNERGY_BOWS, TAT_TRAIT_RANGED_SYNERGY_CROSSBOWS, TAT_TRAIT_RANGED_SYNERGY_SLINGS, TAT_TRAIT_RANGED_SYNERGY_FIREARMS, TAT_TRAIT_HUNTER_BEATER, TAT_TRAIT_HUNTER_SHOOTER, TAT_TRAIT_SPELLBLADE, TAT_TRAIT_SPELLFIST, TAT_TRAIT_EXPERT_ARMAMENT, TAT_TRAIT_BARDIC_INSPIRATION_T1, TAT_TRAIT_BARDIC_INSPIRATION_T2, TAT_TRAIT_PARTY_LEADER, TAT_TRAIT_BONUS_STAT_POOL, TAT_TRAIT_WANTED, TAT_TRAIT_DIVINE_INITIATE, TAT_TRAIT_DIVINE_BLAST, TAT_TRAIT_MAGE_INITIATE, TAT_TRAIT_WITCH_INITIATE, TAT_TRAIT_CONTRACTOR, TAT_TRAIT_MENTOR, TAT_TRAIT_ARTIFACTS_SUPPLIER, TAT_TRAIT_FIREARMS_SUPPLIER, TAT_TRAIT_TROPHY_BOUNTY, TAT_TRAIT_MASTER_OF_WANDERING, TAT_TRAIT_MASTER_OF_CRAFTING, TAT_TRAIT_STRAYING_SOUL, TAT_TRAIT_HANDICRAFT_APPRENTICE, TAT_TRAIT_STRAYING_SOUL_APPRENTICE, TAT_TRAIT_PLIANT_RENAME, TAT_TRAIT_SAVAGE_SKIN, TAT_TRAIT_BODYBUILDER_SKIN, TAT_TRAIT_SAVAGE_RAGE, TAT_TRAIT_HERETIC, TAT_TRAIT_BERSERKER_RAGE, TAT_TRAIT_LOOTRAT, TRAIT_SHIRTLESS, TAT_TRAIT_LOOTRAT_2, TAT_TRAIT_ACCURSED, TAT_TRAIT_POLYGLOT)
 				continue
 			else
 				ADD_TRAIT(H, trait_id, TAT_TRAIT_SOURCE)
@@ -1455,10 +1451,12 @@
 	apply_mage_package(H)
 	apply_accursed_package(H)
 	if(has_trait(TAT_TRAIT_CONTRACTOR))
-		H.LoadComponent(/datum/component/contractor, 0)
+		var/contractor_type = text2path("/datum/component/contractor")
+		if(contractor_type)
+			H.LoadComponent(contractor_type, 0)
 	apply_witch_base_package(H)
-	if(has_trait(TAT_TRAIT_CONTRACTOR_ENTITY))
-		H.LoadComponent(/datum/component/contractor/entity, 4)
+	if(has_trait(TAT_TRAIT_MENTOR))
+		H.LoadComponent(/datum/component/tat_mentor)
 	return TRUE
 
 /datum/tat_traits/proc/apply_deferred_to_human(mob/living/carbon/human/H)
@@ -1761,3 +1759,1012 @@
 		return
 
 	H.advjob = applied_name
+
+/datum/component/tat_mentor
+	var/mob/living/carbon/human/owner
+	var/training_enabled = FALSE
+	var/list/granted_spells = list()
+
+/datum/component/tat_mentor/Initialize()
+	. = ..()
+	if(!ishuman(parent))
+		return COMPONENT_INCOMPATIBLE
+	owner = parent
+	if(owner.mind)
+		for(var/spell_type in list(/datum/action/cooldown/spell/tat_mentor/training_toggle, /datum/action/cooldown/spell/tat_mentor/body_change))
+			var/datum/action/cooldown/spell/new_spell = new spell_type
+			owner.mind.AddSpell(new_spell)
+			granted_spells += new_spell
+
+/datum/component/tat_mentor/Destroy(force)
+	for(var/datum/action/cooldown/spell/spell as anything in granted_spells)
+		if(QDELETED(spell))
+			continue
+		owner?.mind?.RemoveSpell(spell)
+		if(!QDELETED(spell))
+			qdel(spell)
+	granted_spells = null
+	owner = null
+	return ..()
+
+/datum/component/tat_mentor/proc/can_share_training()
+	return training_enabled
+
+/datum/action/cooldown/spell/tat_mentor
+	button_icon = 'icons/mob/actions/actions_spells.dmi'
+	button_icon_state = "spell_default"
+	background_icon = 'icons/mob/actions/roguespells.dmi'
+	background_icon_state = "spell0"
+	base_background_icon_state = "spell0"
+	active_background_icon_state = "spell1"
+	panel = "Mentor"
+	charge_required = FALSE
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+	primary_resource_type = SPELL_COST_NONE
+	primary_resource_cost = 0
+	associated_stat = null
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/tat_mentor/proc/get_core()
+	return owner?.GetComponent(/datum/component/tat_mentor)
+
+/datum/action/cooldown/spell/tat_mentor/can_cast_spell(feedback = TRUE)
+	return ..() && !!get_core()
+
+/datum/action/cooldown/spell/tat_mentor/training_toggle
+	name = "Training"
+	desc = "Toggle sharing skills through intimate actions."
+	cooldown_time = 5 SECONDS
+
+/datum/action/cooldown/spell/tat_mentor/training_toggle/cast(atom/cast_on)
+	. = ..()
+	var/datum/component/tat_mentor/core = get_core()
+	if(!core)
+		return FALSE
+	core.training_enabled = !core.training_enabled
+	if(core.training_enabled)
+		to_chat(owner, span_notice("You start sharing training through intimate actions."))
+	else
+		to_chat(owner, span_notice("You stop sharing training."))
+	return TRUE
+
+/datum/action/cooldown/spell/tat_mentor/body_change
+	name = "Shape Body"
+	desc = "Change your own or another nearby body."
+	cooldown_time = 5 SECONDS
+	click_to_activate = TRUE
+	self_cast_possible = TRUE
+	cast_range = 1
+	aim_assist = TRUE
+
+/datum/action/cooldown/spell/tat_mentor/body_change/is_valid_target(atom/cast_on)
+	return ..() && ishuman(cast_on)
+
+/datum/action/cooldown/spell/tat_mentor/body_change/cast(atom/cast_on)
+	. = ..()
+	if(!get_core() || !ishuman(cast_on))
+		return FALSE
+	return perform_tat_mentor_mirror_transform(owner, cast_on)
+
+/proc/perform_tat_mentor_mirror_transform(mob/living/carbon/human/editor, mob/living/carbon/human/H)
+	if(!editor || !H)
+		return FALSE
+	if(QDELETED(editor) || QDELETED(H))
+		return FALSE
+
+	var/should_update = FALSE
+	var/list/choices = list("Accessory", "Breast Quantity", "Breast Size", "Ears", "Ear Color One", "Ear Color Two", "Eye Color", "Facial Hairstyle", "Facial Hair Color", "Face Detail", "Hairstyle", "Hair Primary Color", "Hair Secondary Gradient", "Hair Secondary Natural Color", "Hair Third Gradient", "Hair Third Dye Color", "Horns", "Horn Color", "Penis", "Penis Size", "Tail", "Tail Color One", "Tail Color Two", "Testicles", "Testicle Size", "Vagina", "Wings", "Wing Color")
+	if(HAS_TRAIT(editor, TRAIT_EDIT_DESCRIPTORS) || HAS_TRAIT(H, TRAIT_EDIT_DESCRIPTORS))
+		choices += "Descriptors"
+
+	var/chosen = input(editor, "Change what on [H]?", "Shape Flesh") as null|anything in choices
+	if(!chosen)
+		return FALSE
+
+	switch(chosen)
+		if("Hairstyle")
+			var/datum/customizer_choice/bodypart_feature/hair/head/humanoid/hair_choice = CUSTOMIZER_CHOICE(/datum/customizer_choice/bodypart_feature/hair/head/humanoid)
+			var/list/valid_hairstyles = list()
+			for(var/hair_type in hair_choice.sprite_accessories)
+				var/datum/sprite_accessory/hair/head/hair = new hair_type()
+				valid_hairstyles[hair.name] = hair_type
+				qdel(hair)
+
+			var/new_style = input(editor, "Choose [H]'s hairstyle", "Hair Styling") as null|anything in valid_hairstyles
+			if(new_style)
+				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
+				if(head && head.bodypart_features)
+					var/datum/bodypart_feature/hair/head/current_hair = null
+					for(var/datum/bodypart_feature/hair/head/hair_feature in head.bodypart_features)
+						current_hair = hair_feature
+						break
+					if(current_hair)
+						var/datum/customizer_entry/hair/hair_entry = new()
+						hair_entry.hair_color = current_hair.hair_color
+						if(istype(current_hair, /datum/bodypart_feature/hair/head))
+							hair_entry.natural_gradient = current_hair.natural_gradient
+							hair_entry.natural_color = current_hair.natural_color
+							hair_entry.dye_gradient = current_hair.hair_dye_gradient
+							hair_entry.dye_color = current_hair.hair_dye_color
+						var/datum/bodypart_feature/hair/head/new_hair = new()
+						new_hair.set_accessory_type(valid_hairstyles[new_style], hair_entry.hair_color, H)
+						hair_choice.customize_feature(new_hair, H, null, hair_entry)
+						head.remove_bodypart_feature(current_hair)
+						head.add_bodypart_feature(new_hair)
+						H.update_hair()
+						should_update = TRUE
+
+		if("Hair Primary Color")
+			var/new_hair_color = color_pick_sanitized(editor, "Choose [H]'s hair color", "Primary Hair Color", H.hair_color)
+			if(new_hair_color)
+				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
+				if(head && head.bodypart_features)
+					var/datum/customizer_choice/bodypart_feature/hair/head/humanoid/hair_choice = CUSTOMIZER_CHOICE(/datum/customizer_choice/bodypart_feature/hair/head/humanoid)
+					var/datum/customizer_entry/hair/hair_entry = new()
+					hair_entry.hair_color = sanitize_hexcolor(new_hair_color, 6, TRUE)
+					var/datum/bodypart_feature/hair/head/current_hair = null
+					for(var/datum/bodypart_feature/hair/head/hair_feature in head.bodypart_features)
+						current_hair = hair_feature
+						break
+					if(current_hair)
+						var/datum/bodypart_feature/hair/head/new_hair = new()
+						new_hair.set_accessory_type(current_hair.accessory_type, null, H)
+						hair_choice.customize_feature(new_hair, H, null, hair_entry)
+						H.hair_color = hair_entry.hair_color
+						H.dna.update_ui_block(DNA_HAIR_COLOR_BLOCK)
+						head.remove_bodypart_feature(current_hair)
+						head.add_bodypart_feature(new_hair)
+						H.dna.species.handle_body(H)
+						H.update_body()
+						H.update_hair()
+						H.update_body_parts()
+						should_update = TRUE
+
+		if("Facial Hair Color")
+			var/new_facial_hair_color = color_pick_sanitized(editor, "Choose [H]'s facial hair color", "Facial Hair Color", H.facial_hair_color)
+			if(new_facial_hair_color)
+				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
+				if(head && head.bodypart_features)
+					var/datum/customizer_choice/bodypart_feature/hair/facial/humanoid/facial_choice = CUSTOMIZER_CHOICE(/datum/customizer_choice/bodypart_feature/hair/facial/humanoid)
+					var/datum/customizer_entry/hair/facial/facial_entry = new()
+					var/datum/bodypart_feature/hair/facial/current_facial = null
+					for(var/datum/bodypart_feature/hair/facial/facial_feature in head.bodypart_features)
+						current_facial = facial_feature
+						break
+					if(current_facial)
+						facial_entry.hair_color = sanitize_hexcolor(new_facial_hair_color, 6, TRUE)
+						facial_entry.accessory_type = current_facial.accessory_type
+						var/datum/bodypart_feature/hair/facial/new_facial = new()
+						new_facial.set_accessory_type(current_facial.accessory_type, null, H)
+						facial_choice.customize_feature(new_facial, H, null, facial_entry)
+						H.facial_hair_color = facial_entry.hair_color
+						H.dna.update_ui_block(DNA_FACIAL_HAIR_COLOR_BLOCK)
+						head.remove_bodypart_feature(current_facial)
+						head.add_bodypart_feature(new_facial)
+						should_update = TRUE
+
+		if("Eye Color")
+			var/new_eye_color = color_pick_sanitized(editor, "Choose [H]'s eye color", "Eye Color", H.eye_color)
+			if(new_eye_color)
+				new_eye_color = sanitize_hexcolor(new_eye_color, 6, TRUE)
+				var/obj/item/organ/eyes/eyes = H.getorganslot(ORGAN_SLOT_EYES)
+				if(eyes)
+					eyes.Remove(H)
+					eyes.eye_color = new_eye_color
+					eyes.Insert(H, TRUE, FALSE)
+				H.eye_color = new_eye_color
+				H.dna.features["eye_color"] = new_eye_color
+				H.dna.update_ui_block(DNA_EYE_COLOR_BLOCK)
+				H.update_body_parts()
+				should_update = TRUE
+
+		if("Hair Secondary Gradient")
+			var/datum/customizer_choice/bodypart_feature/hair/head/humanoid/hair_choice = CUSTOMIZER_CHOICE(/datum/customizer_choice/bodypart_feature/hair/head/humanoid)
+			var/list/valid_gradients = list()
+			for(var/gradient_type in GLOB.hair_gradients)
+				valid_gradients[gradient_type] = gradient_type
+			var/new_style = input(editor, "Choose [H]'s natural gradient", "Secondary Natural Hair Gradient") as null|anything in valid_gradients
+			if(new_style)
+				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
+				if(head && head.bodypart_features)
+					var/datum/bodypart_feature/hair/head/current_hair = null
+					for(var/datum/bodypart_feature/hair/head/hair_feature in head.bodypart_features)
+						current_hair = hair_feature
+						break
+					if(current_hair)
+						var/datum/customizer_entry/hair/hair_entry = new()
+						hair_entry.hair_color = current_hair.hair_color
+						hair_entry.natural_gradient = valid_gradients[new_style]
+						hair_entry.natural_color = current_hair.natural_color
+						hair_entry.dye_gradient = current_hair.hair_dye_gradient
+						hair_entry.dye_color = current_hair.hair_dye_color
+						hair_entry.accessory_type = current_hair.accessory_type
+						var/datum/bodypart_feature/hair/head/new_hair = new()
+						new_hair.set_accessory_type(current_hair.accessory_type, null, H)
+						hair_choice.customize_feature(new_hair, H, null, hair_entry)
+						head.remove_bodypart_feature(current_hair)
+						head.add_bodypart_feature(new_hair)
+						should_update = TRUE
+
+		if("Hair Secondary Natural Color")
+			var/new_gradient_color = color_pick_sanitized(editor, "Choose [H]'s natural gradient color", "Secondary Natural Hair Gradient Color", H.hair_color)
+			if(new_gradient_color)
+				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
+				if(head && head.bodypart_features)
+					var/datum/customizer_choice/bodypart_feature/hair/head/humanoid/hair_choice = CUSTOMIZER_CHOICE(/datum/customizer_choice/bodypart_feature/hair/head/humanoid)
+					var/datum/customizer_entry/hair/hair_entry = new()
+					var/datum/bodypart_feature/hair/head/current_hair = null
+					for(var/datum/bodypart_feature/hair/head/hair_feature in head.bodypart_features)
+						current_hair = hair_feature
+						break
+					if(current_hair)
+						hair_entry.hair_color = current_hair.hair_color
+						hair_entry.natural_gradient = current_hair.natural_gradient
+						hair_entry.natural_color = sanitize_hexcolor(new_gradient_color, 6, TRUE)
+						hair_entry.dye_gradient = current_hair.hair_dye_gradient
+						hair_entry.dye_color = current_hair.hair_dye_color
+						hair_entry.accessory_type = current_hair.accessory_type
+						var/datum/bodypart_feature/hair/head/new_hair = new()
+						new_hair.set_accessory_type(current_hair.accessory_type, null, H)
+						hair_choice.customize_feature(new_hair, H, null, hair_entry)
+						head.remove_bodypart_feature(current_hair)
+						head.add_bodypart_feature(new_hair)
+						should_update = TRUE
+
+		if("Hair Third Gradient")
+			var/datum/customizer_choice/bodypart_feature/hair/head/humanoid/hair_choice = CUSTOMIZER_CHOICE(/datum/customizer_choice/bodypart_feature/hair/head/humanoid)
+			var/list/valid_gradients = list()
+			for(var/gradient_type in GLOB.hair_gradients)
+				valid_gradients[gradient_type] = gradient_type
+			var/new_style = input(editor, "Choose [H]'s dye gradient", "Hair Third Dye Gradient") as null|anything in valid_gradients
+			if(new_style)
+				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
+				if(head && head.bodypart_features)
+					var/datum/bodypart_feature/hair/head/current_hair = null
+					for(var/datum/bodypart_feature/hair/head/hair_feature in head.bodypart_features)
+						current_hair = hair_feature
+						break
+					if(current_hair)
+						var/datum/customizer_entry/hair/hair_entry = new()
+						hair_entry.hair_color = current_hair.hair_color
+						hair_entry.natural_gradient = current_hair.natural_gradient
+						hair_entry.natural_color = current_hair.natural_color
+						hair_entry.dye_gradient = valid_gradients[new_style]
+						hair_entry.dye_color = current_hair.hair_dye_color
+						hair_entry.accessory_type = current_hair.accessory_type
+						var/datum/bodypart_feature/hair/head/new_hair = new()
+						new_hair.set_accessory_type(current_hair.accessory_type, null, H)
+						hair_choice.customize_feature(new_hair, H, null, hair_entry)
+						head.remove_bodypart_feature(current_hair)
+						head.add_bodypart_feature(new_hair)
+						should_update = TRUE
+
+		if("Hair Third Dye Color")
+			var/new_gradient_color = color_pick_sanitized(editor, "Choose [H]'s third gradient hair color", "Third Hair Gradient Color", H.hair_color)
+			if(new_gradient_color)
+				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
+				if(head && head.bodypart_features)
+					var/datum/customizer_choice/bodypart_feature/hair/head/humanoid/hair_choice = CUSTOMIZER_CHOICE(/datum/customizer_choice/bodypart_feature/hair/head/humanoid)
+					var/datum/customizer_entry/hair/hair_entry = new()
+					var/datum/bodypart_feature/hair/head/current_hair = null
+					for(var/datum/bodypart_feature/hair/head/hair_feature in head.bodypart_features)
+						current_hair = hair_feature
+						break
+					if(current_hair)
+						hair_entry.hair_color = current_hair.hair_color
+						hair_entry.natural_gradient = current_hair.natural_gradient
+						hair_entry.natural_color = current_hair.natural_color
+						hair_entry.dye_gradient = current_hair.hair_dye_gradient
+						hair_entry.dye_color = sanitize_hexcolor(new_gradient_color, 6, TRUE)
+						hair_entry.accessory_type = current_hair.accessory_type
+						var/datum/bodypart_feature/hair/head/new_hair = new()
+						new_hair.set_accessory_type(current_hair.accessory_type, null, H)
+						hair_choice.customize_feature(new_hair, H, null, hair_entry)
+						head.remove_bodypart_feature(current_hair)
+						head.add_bodypart_feature(new_hair)
+						should_update = TRUE
+
+		if("Facial Hairstyle")
+			var/datum/customizer_choice/bodypart_feature/hair/facial/humanoid/facial_choice = CUSTOMIZER_CHOICE(/datum/customizer_choice/bodypart_feature/hair/facial/humanoid)
+			var/list/valid_facial_hairstyles = list()
+			for(var/facial_type in facial_choice.sprite_accessories)
+				var/datum/sprite_accessory/hair/facial/facial = new facial_type()
+				valid_facial_hairstyles[facial.name] = facial_type
+				qdel(facial)
+			var/new_style = input(editor, "Choose [H]'s facial hairstyle", "Hair Styling") as null|anything in valid_facial_hairstyles
+			if(new_style)
+				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
+				if(head && head.bodypart_features)
+					var/datum/bodypart_feature/hair/facial/current_facial = null
+					for(var/datum/bodypart_feature/hair/facial/facial_feature in head.bodypart_features)
+						current_facial = facial_feature
+						break
+					if(current_facial)
+						var/datum/customizer_entry/hair/facial/facial_entry = new()
+						facial_entry.hair_color = current_facial.hair_color
+						var/datum/bodypart_feature/hair/facial/new_facial = new()
+						new_facial.set_accessory_type(valid_facial_hairstyles[new_style], facial_entry.hair_color, H)
+						facial_choice.customize_feature(new_facial, H, null, facial_entry)
+						head.remove_bodypart_feature(current_facial)
+						head.add_bodypart_feature(new_facial)
+						H.update_hair()
+						should_update = TRUE
+
+		if("Accessory")
+			var/datum/customizer_choice/bodypart_feature/accessory/accessory_choice = CUSTOMIZER_CHOICE(/datum/customizer_choice/bodypart_feature/accessory)
+			var/list/valid_accessories = list("none")
+			for(var/accessory_type in accessory_choice.sprite_accessories)
+				var/datum/sprite_accessory/accessory/acc = new accessory_type()
+				valid_accessories[acc.name] = accessory_type
+				qdel(acc)
+			var/new_style = input(editor, "Choose [H]'s accessory", "Accessory Styling") as null|anything in valid_accessories
+			if(new_style)
+				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
+				if(head && head.bodypart_features)
+					for(var/datum/bodypart_feature/accessory/old_acc in head.bodypart_features)
+						head.remove_bodypart_feature(old_acc)
+						break
+					if(new_style != "none")
+						var/datum/bodypart_feature/accessory/accessory_feature = new()
+						accessory_feature.set_accessory_type(valid_accessories[new_style], H.hair_color, H)
+						head.add_bodypart_feature(accessory_feature)
+					should_update = TRUE
+
+		if("Face Detail")
+			var/datum/customizer_choice/bodypart_feature/face_detail/face_choice = CUSTOMIZER_CHOICE(/datum/customizer_choice/bodypart_feature/face_detail)
+			var/list/valid_details = list("none")
+			for(var/detail_type in face_choice.sprite_accessories)
+				var/datum/sprite_accessory/face_detail/detail = new detail_type()
+				valid_details[detail.name] = detail_type
+				qdel(detail)
+			var/new_detail = input(editor, "Choose [H]'s face detail", "Face Detail") as null|anything in valid_details
+			if(new_detail)
+				var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
+				if(head && head.bodypart_features)
+					for(var/datum/bodypart_feature/face_detail/old_detail in head.bodypart_features)
+						head.remove_bodypart_feature(old_detail)
+						break
+					if(new_detail != "none")
+						var/datum/bodypart_feature/face_detail/detail_feature = new()
+						detail_feature.set_accessory_type(valid_details[new_detail], H.hair_color, H)
+						head.add_bodypart_feature(detail_feature)
+					should_update = TRUE
+
+		if("Penis")
+			var/list/valid_penis_organs = list("none")
+			for(var/penis_type in subtypesof(/obj/item/organ/penis))
+				var/obj/item/organ/penis/temp_penis = new penis_type
+				valid_penis_organs[temp_penis.name] = penis_type
+				qdel(temp_penis)
+			var/new_style = input(editor, "Choose [H]'s penis type", "Penis Customization") as null|anything in valid_penis_organs
+			if(new_style)
+				if(new_style == "none")
+					var/obj/item/organ/penis/penis = H.getorganslot(ORGAN_SLOT_PENIS)
+					if(penis)
+						penis.Remove(H)
+						qdel(penis)
+						H.update_body()
+						should_update = TRUE
+				else
+					var/selected_type = valid_penis_organs[new_style]
+					var/obj/item/organ/penis/old_penis = H.getorganslot(ORGAN_SLOT_PENIS)
+					var/old_size = DEFAULT_PENIS_SIZE
+					var/old_colors = null
+					var/old_functional = TRUE
+					var/old_manual_override = FALSE
+					var/old_erect_state = ERECT_STATE_NONE
+					if(old_penis)
+						old_size = old_penis.penis_size
+						old_colors = old_penis.accessory_colors
+						old_functional = old_penis.functional
+						old_manual_override = old_penis.manual_erection_override
+						old_erect_state = old_penis.erect_state
+						old_penis.Remove(H)
+						qdel(old_penis)
+					var/obj/item/organ/penis/new_penis = new selected_type
+					new_penis.penis_size = old_size
+					new_penis.functional = old_functional
+					new_penis.Insert(H, TRUE, FALSE)
+					var/datum/sprite_accessory/penis/penis_accessory = SPRITE_ACCESSORY(new_penis.accessory_type)
+					new_penis.accessory_colors = tat_mentor_mirror_pick_accessory_colors(editor, H, penis_accessory, old_colors)
+					if(old_manual_override)
+						new_penis.set_manual_erect_state(old_erect_state)
+					else
+						new_penis.on_arousal_changed()
+					if(new_penis.sex_organ)
+						var/datum/erp_sex_organ/penis/SP = new_penis.sex_organ
+						SP.refresh_from_organ(new_penis)
+					else
+						new_penis.refresh_sex_organ()
+					H.update_body()
+					should_update = TRUE
+
+		if("Testicles")
+			var/list/valid_testicle_types = list("none")
+			for(var/testicle_path in subtypesof(/datum/sprite_accessory/testicles))
+				var/datum/sprite_accessory/testicles/testicles = new testicle_path()
+				valid_testicle_types[testicles.name] = testicle_path
+				qdel(testicles)
+			var/new_style = input(editor, "Choose [H]'s testicles type", "Testicles Customization") as null|anything in valid_testicle_types
+			if(new_style)
+				if(new_style == "none")
+					var/obj/item/organ/testicles/testicles = H.getorganslot(ORGAN_SLOT_TESTICLES)
+					if(testicles)
+						testicles.Remove(H)
+						qdel(testicles)
+						H.update_body()
+						should_update = TRUE
+				else
+					var/obj/item/organ/testicles/testicles = H.getorganslot(ORGAN_SLOT_TESTICLES)
+					if(!testicles)
+						testicles = new()
+						testicles.Insert(H, TRUE, FALSE)
+					testicles.accessory_type = valid_testicle_types[new_style]
+					var/datum/sprite_accessory/testicles/testicles_type = SPRITE_ACCESSORY(testicles.accessory_type)
+					testicles.accessory_colors = tat_mentor_mirror_pick_accessory_colors(editor, H, testicles_type, testicles.accessory_colors)
+					H.update_body()
+					should_update = TRUE
+
+		if("Breast Quantity")
+			var/list/valid_breast_types = list("none")
+			for(var/breast_path in subtypesof(/datum/sprite_accessory/breasts))
+				var/datum/sprite_accessory/breasts/breasts = new breast_path()
+				valid_breast_types[breasts.name] = breast_path
+				qdel(breasts)
+			var/new_style = input(editor, "Choose [H]'s breast type", "Breast Customization") as null|anything in valid_breast_types
+			if(new_style)
+				if(new_style == "none")
+					var/obj/item/organ/breasts/breasts = H.getorganslot(ORGAN_SLOT_BREASTS)
+					if(breasts)
+						breasts.Remove(H)
+						qdel(breasts)
+						H.update_body()
+						should_update = TRUE
+				else
+					var/obj/item/organ/breasts/breasts = H.getorganslot(ORGAN_SLOT_BREASTS)
+					if(!breasts)
+						breasts = new()
+						breasts.Insert(H, TRUE, FALSE)
+					breasts.accessory_type = valid_breast_types[new_style]
+					var/datum/sprite_accessory/breasts/breasts_type = SPRITE_ACCESSORY(breasts.accessory_type)
+					breasts.accessory_colors = tat_mentor_mirror_pick_accessory_colors(editor, H, breasts_type, breasts.accessory_colors)
+					H.update_body()
+					should_update = TRUE
+
+		if("Vagina")
+			var/list/valid_vagina_types = list("none", "human", "hairy", "spade", "furred", "gaping", "cloaca")
+			var/new_style = input(editor, "Choose [H]'s vagina type", "Vagina Customization") as null|anything in valid_vagina_types
+			if(new_style)
+				if(new_style == "none")
+					var/obj/item/organ/vagina/vagina = H.getorganslot(ORGAN_SLOT_VAGINA)
+					if(vagina)
+						vagina.Remove(H)
+						qdel(vagina)
+						H.update_body()
+						should_update = TRUE
+				else
+					var/obj/item/organ/vagina/vagina = H.getorganslot(ORGAN_SLOT_VAGINA)
+					if(!vagina)
+						vagina = new()
+						vagina.Insert(H, TRUE, FALSE)
+					vagina.accessory_type = valid_vagina_types[new_style]
+					var/new_color = color_pick_sanitized(editor, "Choose [H]'s vagina color", "Vagina Color", vagina.color || H.dna.features["mcolor"])
+					if(new_color)
+						vagina.color = sanitize_hexcolor(new_color, 6, TRUE)
+					else
+						var/datum/sprite_accessory/vagina/vag_type = SPRITE_ACCESSORY(vagina.accessory_type)
+						vagina.color = tat_mentor_mirror_pick_accessory_colors(editor, H, vag_type, vagina.color)
+					H.update_body()
+					should_update = TRUE
+
+		if("Breast Size")
+			var/list/breast_sizes = list("Flat", "Slight", "Small", "Moderate", "Large", "Generous", "Heavy", "Massive", "Heaping", "Obscene")
+			var/new_size = input(editor, "Choose [H]'s breast size", "Breast Size") as null|anything in breast_sizes
+			if(new_size)
+				var/obj/item/organ/breasts/breasts = H.getorganslot(ORGAN_SLOT_BREASTS)
+				if(breasts)
+					var/size_num
+					switch(new_size)
+						if("Flat")
+							size_num = 0
+						if("Slight")
+							size_num = 1
+						if("Small")
+							size_num = 2
+						if("Moderate")
+							size_num = 3
+						if("Large")
+							size_num = 4
+						if("Generous")
+							size_num = 5
+						if("Heavy")
+							size_num = 6
+						if("Massive")
+							size_num = 7
+						if("Heaping")
+							size_num = 8
+						if("Obscene")
+							size_num = 9
+					breasts.breast_size = size_num
+					H.update_body()
+					should_update = TRUE
+
+		if("Penis Size")
+			var/list/penis_sizes = list("small", "average", "large")
+			var/new_size = input(editor, "Choose [H]'s penis size", "Penis Size") as null|anything in penis_sizes
+			if(new_size)
+				var/obj/item/organ/penis/penis = H.getorganslot(ORGAN_SLOT_PENIS)
+				if(penis)
+					var/size_num
+					switch(new_size)
+						if("small")
+							size_num = 1
+						if("average")
+							size_num = 2
+						if("large")
+							size_num = 3
+					penis.penis_size = size_num
+					H.update_body()
+					should_update = TRUE
+
+		if("Testicle Size")
+			var/list/testicle_sizes = list("small", "average", "large")
+			var/new_size = input(editor, "Choose [H]'s testicle size", "Testicle Size") as null|anything in testicle_sizes
+			if(new_size)
+				var/obj/item/organ/testicles/testicles = H.getorganslot(ORGAN_SLOT_TESTICLES)
+				if(testicles)
+					var/size_num
+					switch(new_size)
+						if("small")
+							size_num = 1
+						if("average")
+							size_num = 2
+						if("large")
+							size_num = 3
+					testicles.ball_size = size_num
+					H.update_body()
+					should_update = TRUE
+
+		if("Tail")
+			var/list/valid_tails = list("none")
+			for(var/tail_path in subtypesof(/datum/sprite_accessory/tail))
+				var/datum/sprite_accessory/tail/tail = new tail_path()
+				valid_tails[tail.name] = tail_path
+				qdel(tail)
+			var/new_style = input(editor, "Choose [H]'s tail", "Tail Customization") as null|anything in valid_tails
+			if(new_style)
+				if(new_style == "none")
+					var/obj/item/organ/tail/tail = H.getorganslot(ORGAN_SLOT_TAIL)
+					if(tail)
+						tail.Remove(H)
+						qdel(tail)
+						H.update_body()
+						should_update = TRUE
+				else
+					var/obj/item/organ/tail/tail = H.getorganslot(ORGAN_SLOT_TAIL)
+					if(!tail)
+						tail = new /obj/item/organ/tail/anthro()
+						tail.Insert(H, TRUE, FALSE)
+					tail.accessory_type = valid_tails[new_style]
+					var/datum/sprite_accessory/tail/tail_type = SPRITE_ACCESSORY(tail.accessory_type)
+					tail.accessory_colors = tat_mentor_mirror_pick_accessory_colors(editor, H, tail_type, tail.accessory_colors)
+					H.update_body()
+					should_update = TRUE
+
+		if("Tail Color One")
+			var/obj/item/organ/tail/tail = H.getorganslot(ORGAN_SLOT_TAIL)
+			if(tail)
+				var/new_color = color_pick_sanitized(editor, "Choose [H]'s primary tail color", "Tail Color One", "#FFFFFF")
+				if(new_color)
+					tail.Remove(H)
+					var/list/colors = list()
+					if(tail.accessory_colors)
+						colors = color_string_to_list(tail.accessory_colors)
+					if(!length(colors))
+						colors = list("#FFFFFF", "#FFFFFF")
+					colors[1] = sanitize_hexcolor(new_color, 6, TRUE)
+					tail.accessory_colors = color_list_to_string(colors)
+					tail.Insert(H, TRUE, FALSE)
+					H.dna.features["tail_color"] = colors[1]
+					H.update_body()
+					should_update = TRUE
+			else
+				to_chat(editor, span_warning("[H] doesn't have a tail."))
+
+		if("Tail Color Two")
+			var/obj/item/organ/tail/tail = H.getorganslot(ORGAN_SLOT_TAIL)
+			if(tail)
+				var/new_color = color_pick_sanitized(editor, "Choose [H]'s secondary tail color", "Tail Color Two", "#FFFFFF")
+				if(new_color)
+					tail.Remove(H)
+					var/list/colors = list()
+					if(tail.accessory_colors)
+						colors = color_string_to_list(tail.accessory_colors)
+					if(!length(colors))
+						colors = list("#FFFFFF", "#FFFFFF")
+					colors[2] = sanitize_hexcolor(new_color, 6, TRUE)
+					tail.accessory_colors = color_list_to_string(colors)
+					tail.Insert(H, TRUE, FALSE)
+					H.dna.features["tail_color2"] = colors[2]
+					H.update_body()
+					should_update = TRUE
+			else
+				to_chat(editor, span_warning("[H] doesn't have a tail."))
+
+		if("Ears")
+			var/list/valid_ears = list("none")
+			for(var/ears_path in subtypesof(/datum/sprite_accessory/ears))
+				var/datum/sprite_accessory/ears/ears = new ears_path()
+				valid_ears[ears.name] = ears_path
+				qdel(ears)
+			var/new_style = input(editor, "Choose [H]'s ears", "Ears Customization") as null|anything in valid_ears
+			if(new_style)
+				var/obj/item/organ/ears/ears = H.getorganslot(ORGAN_SLOT_EARS)
+				if(!ears)
+					ears = new /obj/item/organ/ears()
+					ears.Insert(H, TRUE, FALSE)
+				if(new_style == "none")
+					ears.Remove(H)
+					ears.accessory_type = initial(ears.accessory_type)
+					ears.accessory_colors = initial(ears.accessory_colors)
+					ears.Insert(H, TRUE, FALSE)
+					H.update_body()
+					should_update = TRUE
+				else
+					ears.accessory_type = valid_ears[new_style]
+					var/datum/sprite_accessory/ears/ears_type = SPRITE_ACCESSORY(ears.accessory_type)
+					ears.accessory_colors = tat_mentor_mirror_pick_accessory_colors(editor, H, ears_type, ears.accessory_colors)
+					H.update_body()
+					should_update = TRUE
+
+		if("Ear Color One")
+			var/obj/item/organ/ears/ears = H.getorganslot(ORGAN_SLOT_EARS)
+			if(ears)
+				var/new_color = color_pick_sanitized(editor, "Choose [H]'s primary ear color", "Ear Color One", "#FFFFFF")
+				if(new_color)
+					ears.Remove(H)
+					var/list/colors = list()
+					if(ears.accessory_colors)
+						colors = color_string_to_list(ears.accessory_colors)
+					if(!length(colors))
+						colors = list("#FFFFFF", "#FFFFFF")
+					colors[1] = sanitize_hexcolor(new_color, 6, TRUE)
+					ears.accessory_colors = color_list_to_string(colors)
+					ears.Insert(H, TRUE, FALSE)
+					H.dna.features["ears_color"] = colors[1]
+					H.update_body()
+					should_update = TRUE
+			else
+				to_chat(editor, span_warning("[H] doesn't have ears."))
+
+		if("Ear Color Two")
+			var/obj/item/organ/ears/ears = H.getorganslot(ORGAN_SLOT_EARS)
+			if(ears)
+				var/new_color = color_pick_sanitized(editor, "Choose [H]'s secondary ear color", "Ear Color Two", "#FFFFFF")
+				if(new_color)
+					ears.Remove(H)
+					var/list/colors = list()
+					if(ears.accessory_colors)
+						colors = color_string_to_list(ears.accessory_colors)
+					if(!length(colors))
+						colors = list("#FFFFFF", "#FFFFFF")
+					colors[2] = sanitize_hexcolor(new_color, 6, TRUE)
+					ears.accessory_colors = color_list_to_string(colors)
+					ears.Insert(H, TRUE, FALSE)
+					H.dna.features["ears_color2"] = colors[2]
+					H.update_body()
+					should_update = TRUE
+			else
+				to_chat(editor, span_warning("[H] doesn't have ears."))
+
+		if("Horns")
+			var/list/valid_horns = list("none")
+			for(var/horns_path in subtypesof(/datum/sprite_accessory/horns))
+				var/datum/sprite_accessory/horns/horns = new horns_path()
+				valid_horns[horns.name] = horns_path
+				qdel(horns)
+			var/new_style = input(editor, "Choose [H]'s horns", "Horns Customization") as null|anything in valid_horns
+			if(new_style)
+				if(new_style == "none")
+					var/obj/item/organ/horns/horns = H.getorganslot(ORGAN_SLOT_HORNS)
+					if(horns)
+						horns.Remove(H)
+						qdel(horns)
+						H.update_body()
+						should_update = TRUE
+				else
+					var/obj/item/organ/horns/horns = H.getorganslot(ORGAN_SLOT_HORNS)
+					if(!horns)
+						horns = new /obj/item/organ/horns()
+						horns.Insert(H, TRUE, FALSE)
+					horns.accessory_type = valid_horns[new_style]
+					var/datum/sprite_accessory/horns/horns_type = SPRITE_ACCESSORY(horns.accessory_type)
+					horns.accessory_colors = tat_mentor_mirror_pick_accessory_colors(editor, H, horns_type, horns.accessory_colors)
+					H.update_body()
+					should_update = TRUE
+
+		if("Horn Color")
+			var/obj/item/organ/horns/horns = H.getorganslot(ORGAN_SLOT_HORNS)
+			if(horns)
+				var/new_color = color_pick_sanitized(editor, "Choose [H]'s primary horn color", "Horn Color", "#FFFFFF")
+				if(new_color)
+					horns.Remove(H)
+					var/list/colors = list()
+					if(horns.accessory_colors)
+						colors = color_string_to_list(horns.accessory_colors)
+					if(!length(colors))
+						colors = list("#FFFFFF", "#FFFFFF")
+					colors[1] = sanitize_hexcolor(new_color, 6, TRUE)
+					horns.accessory_colors = color_list_to_string(colors)
+					horns.Insert(H, TRUE, FALSE)
+					H.dna.features["horns_color"] = colors[1]
+					H.update_body()
+					should_update = TRUE
+			else
+				to_chat(editor, span_warning("[H] doesn't have horns."))
+
+		if("Wings")
+			var/list/valid_wings = list("none")
+			for(var/wings_path in subtypesof(/datum/sprite_accessory/wings))
+				var/datum/sprite_accessory/wings/wings = new wings_path()
+				valid_wings[wings.name] = wings_path
+				qdel(wings)
+			var/new_style = input(editor, "Choose [H]'s wings", "Wings Customization") as null|anything in valid_wings
+			if(new_style)
+				if(new_style == "none")
+					var/obj/item/organ/wings/wings = H.getorganslot(ORGAN_SLOT_WINGS)
+					if(wings)
+						wings.Remove(H)
+						qdel(wings)
+						H.update_body()
+						should_update = TRUE
+				else
+					var/obj/item/organ/wings/wings = H.getorganslot(ORGAN_SLOT_WINGS)
+					if(!wings)
+						wings = new /obj/item/organ/wings()
+						wings.Insert(H, TRUE, FALSE)
+					wings.accessory_type = valid_wings[new_style]
+					var/datum/sprite_accessory/wings/wings_type = SPRITE_ACCESSORY(wings.accessory_type)
+					wings.accessory_colors = tat_mentor_mirror_pick_accessory_colors(editor, H, wings_type, wings.accessory_colors)
+					H.update_body()
+					should_update = TRUE
+
+		if("Wing Color")
+			var/obj/item/organ/wings/wings = H.getorganslot(ORGAN_SLOT_WINGS)
+			if(wings)
+				var/new_color = color_pick_sanitized(editor, "Choose [H]'s primary wing color", "Wing Color One", "#FFFFFF")
+				if(new_color)
+					wings.Remove(H)
+					var/list/colors = list()
+					if(wings.accessory_colors)
+						colors = color_string_to_list(wings.accessory_colors)
+					if(!length(colors))
+						colors = list("#FFFFFF", "#FFFFFF")
+					colors[1] = sanitize_hexcolor(new_color, 6, TRUE)
+					wings.accessory_colors = color_list_to_string(colors)
+					wings.Insert(H, TRUE, FALSE)
+					H.dna.features["wings_color"] = colors[1]
+					H.update_body()
+					should_update = TRUE
+			else
+				to_chat(editor, span_warning("[H] doesn't have wings."))
+
+		if("Descriptors")
+			var/list/species_choices = H.dna.species.descriptor_choices
+			if(!length(species_choices))
+				to_chat(editor, span_warning("[H]'s species has no standard descriptors to modify."))
+				return FALSE
+			var/list/choice_map = list()
+			for(var/path in species_choices)
+				var/datum/descriptor_choice/C = DESCRIPTOR_CHOICE(path)
+				choice_map[C.name] = path
+			var/choice_name = input(editor, "Which feature do you want to describe on [H]?", "Standard Descriptors") as null|anything in choice_map
+			if(!choice_name)
+				return FALSE
+			var/choice_type = choice_map[choice_name]
+			var/datum/descriptor_choice/chosen_datum = DESCRIPTOR_CHOICE(choice_type)
+			var/list/picklist = list()
+			for(var/desc_type in chosen_datum.descriptors)
+				var/datum/mob_descriptor/descriptor = MOB_DESCRIPTOR(desc_type)
+				if(descriptor)
+					picklist[descriptor.name] = desc_type
+			var/picked_name = input(editor, "Choose a new description for [choice_name]:", "Describe Target") as null|anything in picklist
+			if(picked_name)
+				for(var/old_name in picklist)
+					H.remove_mob_descriptor(picklist[old_name])
+				H.add_mob_descriptor(picklist[picked_name])
+				should_update = TRUE
+
+	if(should_update)
+		H.update_hair()
+		H.update_body()
+		H.update_body_parts()
+		erp_mark_actor_organs_dirty(H)
+		to_chat(editor, span_notice("You reshape [H]'s body."))
+		if(editor != H)
+			to_chat(H, span_notice("Your body reshapes."))
+
+	return should_update
+
+/proc/tat_mentor_mirror_pick_accessory_colors(mob/living/carbon/human/editor, mob/living/carbon/human/H, datum/sprite_accessory/A, current_colors)
+	if(!editor || !H || !A)
+		return current_colors
+
+	var/list/src_color = color_key_source_list_from_carbon(H)
+	for(var/k in src_color)
+		if(istext(src_color[k]))
+			src_color[k] = sanitize_hexcolor(src_color[k], 6, TRUE)
+
+	var/list/colors = color_string_to_list(A.validate_color_keys_for_owner(H, current_colors))
+	if(!colors)
+		colors = list()
+	while(length(colors) < A.color_keys)
+		colors += "#FFFFFF"
+
+	for(var/i in 1 to A.color_keys)
+		var/label = "Color #[i]"
+		if(A.color_key_names && length(A.color_key_names) >= i)
+			label = "[A.color_key_names[i]]"
+
+		var/list/modes = list("Skin", "Mutant 1", "Mutant 2", "Mutant 3", "Custom")
+		var/mode = input(editor, "Set [H]'s [label] (current: [colors[i]])", "Colors") as null|anything in modes
+		if(!mode)
+			continue
+
+		switch(mode)
+			if("Skin")
+				colors[i] = src_color[KEY_SKIN_COLOR]
+			if("Mutant 1")
+				colors[i] = src_color[KEY_MUT_COLOR_ONE]
+			if("Mutant 2")
+				colors[i] = src_color[KEY_MUT_COLOR_TWO]
+			if("Mutant 3")
+				colors[i] = src_color[KEY_MUT_COLOR_THREE]
+			if("Custom")
+				var/c = color_pick_sanitized(editor, "Pick custom color for [H]'s [label]", "Colors", colors[i])
+				if(c)
+					colors[i] = sanitize_hexcolor(c, 6, TRUE)
+
+	return color_list_to_string(colors)
+
+GLOBAL_LIST_INIT(tat_mentor_erp_training_map, list(
+	/datum/skill/labor/farming = list("action" = /datum/erp_action/other/hands/milking_breasts, "passive" = "mentor"),
+	/datum/skill/labor/mining = list("action" = /datum/erp_action/other/mouth/rimming, "passive" = "mentor"),
+	/datum/skill/labor/fishing = list("action" = /datum/erp_action/other/hands/finger_oral, "passive" = "mentor"),
+	/datum/skill/labor/butchering = list("action" = /datum/erp_action/other/body/grinding, "passive" = "mentor"),
+	/datum/skill/labor/lumberjacking = list("action" = /datum/erp_action/other/hands/spanking, "passive" = "mentor"),
+
+	/datum/skill/magic/holy = list("action" = /datum/erp_action/other/mouth/cunnilingus, "passive" = "mentor"),
+	/datum/skill/magic/arcane = list("action" = /datum/erp_action/other/mouth/breast_feed, "passive" = "mentor"),
+
+	/datum/skill/misc/climbing = list("action" = /datum/erp_action/other/body/rubbing, "passive" = "actor"),
+	/datum/skill/misc/reading = list("action" = /datum/erp_action/other/vagina/force_face, "passive" = "actor"),
+	/datum/skill/misc/stealing = list("action" = /datum/erp_action/other/vagina/face, "passive" = "actor"),
+	/datum/skill/misc/sneaking = list("action" = /datum/erp_action/other/hands/force_crotch, "passive" = "actor"),
+	/datum/skill/misc/lockpicking = list("action" = /datum/erp_action/other/hands/tease_vagina, "passive" = "mentor"),
+	/datum/skill/misc/riding = list("action" = /datum/erp_action/other/anus/force_face, "passive" = "mentor"),
+	/datum/skill/misc/medicine = list("action" = /datum/erp_action/other/mouth/finger_lick, "passive" = "actor"),
+	/datum/skill/misc/tracking = list("action" = /datum/erp_action/other/mouth/foot_lick, "passive" = "mentor"),
+
+	/datum/skill/craft/crafting = list("action" = /datum/erp_action/other/breasts/breast_feed, "passive" = "actor"),
+	/datum/skill/craft/weaponsmithing = list("action" = /datum/erp_action/other/hands/toy_anal, "passive" = "actor"),
+	/datum/skill/craft/armorsmithing = list("action" = /datum/erp_action/other/hands/toy_oral, "passive" = "actor"),
+	/datum/skill/craft/blacksmithing = list("action" = /datum/erp_action/other/anus/butt, "passive" = "mentor"),
+	/datum/skill/craft/smelting = list("action" = /datum/erp_action/other/penis/rubbing, "passive" = "actor"),
+	/datum/skill/craft/carpentry = list("action" = /datum/erp_action/other/vagina/rubbing, "passive" = "actor"),
+	/datum/skill/craft/masonry = list("action" = /datum/erp_action/other/anus/rubbing, "passive" = "actor"),
+	/datum/skill/craft/traps = list("action" = /datum/erp_action/other/anus/face, "passive" = "actor"),
+	/datum/skill/craft/engineering = list("action" = /datum/erp_action/other/hands/toy_oral, "passive" = "mentor"),
+	/datum/skill/craft/cooking = list("action" = /datum/erp_action/other/mouth/kiss, "passive" = "mentor"),
+	/datum/skill/craft/sewing = list("action" = /datum/erp_action/other/hands/rubbing, "passive" = "mentor"),
+	/datum/skill/craft/tanning = list("action" = /datum/erp_action/other/hands/spanking, "passive" = "actor"),
+	/datum/skill/craft/ceramics = list("action" = /datum/erp_action/other/hands/breasts_play, "passive" = "mentor"),
+	/datum/skill/craft/alchemy = list("action" = /datum/erp_action/other/hands/milking_penis, "passive" = "mentor"),
+
+	/datum/skill/combat/knives = list("action" = /datum/erp_action/other/penis/masturbation, "passive" = "actor"),
+	/datum/skill/combat/swords = list("action" = /datum/erp_action/other/hands/toy_anal, "passive" = "mentor"),
+	/datum/skill/combat/polearms = list("action" = /datum/erp_action/other/hands/toy_vaginal, "passive" = "mentor"),
+	/datum/skill/combat/maces = list("action" = /datum/erp_action/other/legs/footjob, "passive" = "mentor"),
+	/datum/skill/combat/axes = list("action" = /datum/erp_action/other/mouth/foot_lick, "passive" = "mentor"),
+	/datum/skill/combat/whipsflails = list("action" = /datum/erp_action/other/hands/tease_testicles, "passive" = "mentor"),
+	/datum/skill/combat/wrestling = list("action" = /datum/erp_action/other/hands/finger_anal, "passive" = "mentor"),
+	/datum/skill/combat/unarmed = list("action" = /datum/erp_action/other/hands/finger_vaginal, "passive" = "mentor"),
+	/datum/skill/combat/shields = list("action" = /datum/erp_action/other/breasts/teasing, "passive" = "actor"),
+	/datum/skill/combat/staves = list("action" = /datum/erp_action/other/legs/teasing, "passive" = "actor")
+))
+
+GLOBAL_LIST_INIT(tat_mentor_erp_combat_skills, list(
+	/datum/skill/combat/knives,
+	/datum/skill/combat/swords,
+	/datum/skill/combat/polearms,
+	/datum/skill/combat/maces,
+	/datum/skill/combat/axes,
+	/datum/skill/combat/whipsflails,
+	/datum/skill/combat/wrestling,
+	/datum/skill/combat/unarmed,
+	/datum/skill/combat/shields,
+	/datum/skill/combat/staves
+))
+
+/proc/tat_mentor_erp_get_training_entry(datum/erp_action/A, expected_passive)
+	if(!A || !expected_passive)
+		return null
+
+	var/action_type = A.type
+
+	for(var/skill_type as anything in GLOB.tat_mentor_erp_training_map)
+		var/list/entry = GLOB.tat_mentor_erp_training_map[skill_type]
+		if(!islist(entry))
+			continue
+
+		if(entry["action"] != action_type)
+			continue
+
+		if(entry["passive"] != expected_passive)
+			continue
+
+		return list("skill" = skill_type, "passive" = entry["passive"])
+
+	return null
+
+/datum/erp_scene_effects/proc/apply_tat_mentor_training(list/active_links)
+	if(!controller)
+		return
+
+	var/list/mentors = list()
+
+	var/datum/component/tat_mentor/SC = controller.owner?.physical?.GetComponent(/datum/component/tat_mentor)
+	if(SC && SC.can_share_training() && SC.owner)
+		mentors += SC.owner
+
+	SC = controller.active_partner?.physical?.GetComponent(/datum/component/tat_mentor)
+	if(SC && SC.can_share_training() && SC.owner)
+		if(!(SC.owner in mentors))
+			mentors += SC.owner
+
+	if(!length(mentors))
+		return
+
+	for(var/mob/living/mentor_mob as anything in mentors)
+		if(!mentor_mob)
+			continue
+
+		for(var/datum/erp_sex_link/L in active_links)
+			if(!L || QDELETED(L) || !L.is_valid())
+				continue
+
+			var/datum/erp_actor/active = L.actor_active
+			var/datum/erp_actor/passive = L.actor_passive
+			if(!active || !passive)
+				continue
+
+			var/mob/living/m_active = active.get_effect_mob()
+			var/mob/living/m_passive = passive.get_effect_mob()
+			if(!m_active || !m_passive)
+				continue
+
+			var/expected_passive = null
+			var/mob/living/receiver = null
+
+			if(m_active == mentor_mob)
+				expected_passive = "actor"
+				receiver = m_passive
+			else if(m_passive == mentor_mob)
+				expected_passive = "mentor"
+				receiver = m_active
+			else
+				continue
+
+			if(!receiver?.mind)
+				continue
+
+			var/list/entry = tat_mentor_erp_get_training_entry(L.action, expected_passive)
+			if(!entry)
+				continue
+
+			var/skill_type = entry["skill"]
+			if(!skill_type)
+				continue
+
+			receiver.mind.add_sleep_experience(skill_type, 2, FALSE)

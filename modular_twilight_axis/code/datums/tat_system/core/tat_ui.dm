@@ -566,7 +566,7 @@
 /datum/tat_build/proc/build_ui_trait_entries()
 	var/list/result = list()
 	for(var/trait_id in GLOB.tat_available_traits)
-		if(trait_id == TAT_TRAIT_CONTRACTOR_ENTITY && get_owner_ckey() != "mrix")
+		if(trait_id == TAT_TRAIT_MENTOR && get_owner_ckey() != "mrix")
 			continue
 		if(trait_id == TAT_TRAIT_WEAPON_TRAINING && !((directions?.get_role_choice()) in list(TAT_ROLE_CHOICE_TOWNER, TAT_ROLE_CHOICE_TRADER)))
 			continue
