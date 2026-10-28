@@ -1569,9 +1569,6 @@
 		/datum/skill/craft/ceramics = list(
 			/obj/effect/proc_holder/spell/invoked/digclay,
 		),
-		/datum/skill/craft/sewing = list(
-			/obj/effect/proc_holder/spell/invoked/fittedclothing,
-		),
 		/datum/skill/labor/mining = list(
 			/datum/component/ore_sight,
 		),
