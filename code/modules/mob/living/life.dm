@@ -56,14 +56,14 @@
 					if(!istype(wound, /datum/wound/slash/incision))
 						wound.heal_wound(0.4)*/
 			if(HAS_TRAIT(src, TRAIT_PSYDONITE_4))
-				adjustBruteLoss(-5)
-				adjustFireLoss(-5)
-			else if(HAS_TRAIT(src, TRAIT_PSYDONITE_3))
-				adjustBruteLoss(-2)
-				adjustFireLoss(-2)
-			else if(HAS_TRAIT(src, TRAIT_PSYDONITE_2))
 				adjustBruteLoss(-1)
-				adjustFireLoss(-1) //TA EDIT END
+				adjustFireLoss(-1)
+			else if(HAS_TRAIT(src, TRAIT_PSYDONITE_3))
+				adjustBruteLoss(-0.6)
+				adjustFireLoss(-0.6)
+			else if(HAS_TRAIT(src, TRAIT_PSYDONITE_2))
+				adjustBruteLoss(-0.3)
+				adjustFireLoss(-0.3) //TA EDIT END
 	if(HAS_TRAIT(src, TRAIT_WOUNDREGEN))
 		for(var/datum/wound/wound as anything in get_wounds())
 			wound.heal_wound(10)
